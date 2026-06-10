@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Footer from "../components/Footer";
 import ProductDetails from "../sub-section/ProductDetail"
-import ProductAccordion from "../sub-section/ProductMISC"
+import ProductSpecs from "../sub-section/ProductSpecs"
 import bannerImg from "../images/shop/Banner.png"
 import HowToUse from "../sub-section/HowToUse"
 import Testimonials from "../sub-section/Testimonials";
@@ -13,7 +13,7 @@ export default function ShopPage() {
   return (
   <>
      <ProductDetails />
-     <ProductAccordion />
+    <ProductSpecs />
      <div style={{ width: "100%", lineHeight: 0 }}>
   <img
     src={bannerImg}
