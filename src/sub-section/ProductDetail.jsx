@@ -139,24 +139,29 @@ const ProductDetail = () => {
           </div>
 
           <button
-            style={{
-              backgroundColor: "#3b5bdb",
-              color: "#fff",
-              border: "none",
-              borderRadius: "999px",
-              padding: "clamp(12px, 1.5vh, 18px) clamp(32px, 3vw, 52px)",
-              fontSize: "clamp(14px, 1vw, 17px)",
-              fontWeight: 600,
-              cursor: "pointer",
-              width: "fit-content",
-              letterSpacing: "0.01em",
-              transition: "background-color 0.15s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#2f4ac4")}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#3b5bdb")}
-          >
-            Buy now
-          </button>
+  onClick={() => {
+    // Vite uses import.meta.env instead of process.env
+    const url = import.meta.env.VITE_PAYMENT_URL || "https://rzp.io/rzp/skyeone";
+    window.open(url, "_blank", "noopener,noreferrer");
+  }}
+  style={{
+    backgroundColor: "#3b5bdb",
+    color: "#fff",
+    border: "none",
+    borderRadius: "999px",
+    padding: "clamp(12px, 1.5vh, 18px) clamp(32px, 3vw, 52px)",
+    fontSize: "clamp(14px, 1vw, 17px)",
+    fontWeight: 600,
+    cursor: "pointer",
+    width: "fit-content",
+    letterSpacing: "0.01em",
+    transition: "background-color 0.15s",
+  }}
+  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#2f4ac4")}
+  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#3b5bdb")}
+>
+  Buy now
+</button>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "clamp(10px, 1.2vh, 16px)", paddingTop: "4px" }}>
             {features.map((f, i) => (
