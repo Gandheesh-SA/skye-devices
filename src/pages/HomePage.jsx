@@ -1,5 +1,6 @@
 import React from "react";
 import Hero from "../sub-section/Hero";
+
 import Modes from "../sub-section/DeviceMode";
 import Press from "../sub-section/Press";
 import Founders from "../sub-section/Founder";
@@ -8,6 +9,7 @@ import Testimonials from "../sub-section/Testimonials";
 import Gift from "../sub-section/Gift";
 import Footer from "../components/Footer";
 import Corporates from "../sub-section/Corporate";
+import Breathing from "../sub-section/Breathing";
 import Use from "../sub-section/Use";
 import Mode from "../sub-section/Modes"
 import Science from "../sub-section/Science"
