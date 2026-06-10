@@ -10,7 +10,7 @@ const modes = [
     label: "Mode 1",
     name: "Morning Focus",
     duration: "5 min session",
-    pattern: "4s inhale · 4s hold · 4s exhale · 4s hold",
+    pattern: "4s Inhale · 4s Hold · 4s Exhale · 4s Hold",
     description:
       "A classic box breathing exercise designed to improve mindfulness, focus, and mental clarity. Ideal for starting your day feeling calm, clear, and centered.",
     bestUsed: "Soon after waking up",
@@ -21,7 +21,7 @@ const modes = [
     label: "Mode 2",
     name: "Calm & Reset",
     duration: "5 min session",
-    pattern: "4s inhale · 4s hold · 8s exhale · 2s hold",
+    pattern: "4s Inhale · 4s Hold · 8s Exhale · 2s Hold",
     description:
       "A breathing rhythm with a slower exhale to help activate your body's natural relaxation response. Designed to ease stress, quiet anxiety, and bring a sense of calm within minutes.",
     bestUsed: "During stressful or anxious moments",
@@ -32,7 +32,7 @@ const modes = [
     label: "Mode 3",
     name: "Sleep Basic",
     duration: "7 min session",
-    pattern: "4s inhale · 2s hold · 6s exhale · 2s hold",
+    pattern: "4s Inhale · 2s Hold · 6s Exhale · 2s Hold",
     description:
       "A gentle nighttime breathing exercise designed to help your body slow down and transition into rest. Perfect for unwinding after a busy day and preparing your mind for sleep.",
     bestUsed: "Before bedtime to relax and fall asleep faster",
@@ -43,7 +43,7 @@ const modes = [
     label: "Mode 4",
     name: "Sleep Advanced",
     duration: "12 min session",
-    pattern: "4s inhale · 2s hold · 6s exhale · 2s hold",
+    pattern: "4s Inhale · 2s Hold · 6s Exhale · 2s Hold",
     description:
       "An extended wind-down session for nights when falling asleep feels difficult. The longer duration helps calm racing thoughts, relax the nervous system, and ease you into deeper rest.",
     bestUsed: "When your mind feels restless before sleep",
