@@ -1,143 +1,223 @@
 import React from "react";
 import featuresImg from "../images/Featuress.png";
-import { NavLink, Link } from "react-router-dom";
-
-const steps = [
-  { n: "1.", bold: "Skye vibrates. Breathe in.", sub: "Feel the pulse in your hand." },
-  { n: "2.", bold: "Skye stops. Hold.", sub: "Pause for a moment." },
-  { n: "3.", bold: "Skye vibrates again. Breathe out.", sub: "Let your body relax." },
-  { n: "4.", bold: "Skye stops. Hold.", sub: "Feel calmer with each breath." },
-];
+import { NavLink } from "react-router-dom";
 
 const Feature = () => {
+  const A = "#f59e0b";
+
   return (
-    <section style={{ backgroundColor: "#fff" }}>
+    <section style={{ backgroundColor: "#fff", width: "100%" }}>
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-          alignItems: "center",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))",
+          alignItems: "stretch",
+          minHeight: "clamp(320px, 45vw, 520px)",
         }}
       >
-
-        {/* Image with overlaid text */}
-        <div style={{ position: "relative", lineHeight: 0 }}>
+        {/* Left: Image */}
+        <div style={{ position: "relative", lineHeight: 0, minHeight: "clamp(240px, 38vw, 520px)" }}>
           <img
             src={featuresImg}
-            alt="Skye gently vibrates in the palm of your hand"
-            style={{ width: "100%", display: "block", objectFit: "cover" }}
+            alt="Skye gently vibrates"
+            style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
           />
-
-          {/* Headline */}
-          <h2
-            style={{
-              position: "absolute",
-              top: "8%",
-              left: "50%",
-              transform: "translateX(-50%)",
-              width: "80%",
-              textAlign: "center",
-              fontSize: "clamp(16px, 2.2vw, 34px)",
-              fontWeight: 800,
-              color: "#111",
-              lineHeight: 1.2,
-              margin: 0,
-            }}
-          >
-            Skye gently vibrates in the
-            <br />
-            palm of your hand.
-          </h2>
-
-          {/* Annotation left — Modern Scandinavian */}
-          <div
-            style={{
-              position: "absolute",
-              left: "5%",
-              top: "54%",
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-            }}
-          >
-            <p
-              style={{
-                fontSize: "clamp(8px, 0.75vw, 13px)",
-                color: "#111",
-                lineHeight: 1.4,
-                margin: 0,
-                textAlign: "center",
-              }}
-            >
+          <div style={{ position: "absolute", top: "7%", left: "50%", transform: "translateX(-50%)", width: "80%", textAlign: "center" }}>
+            <h2 style={{ fontSize: "clamp(13px, 1.6vw, 22px)", fontWeight: 800, color: "#111", lineHeight: 1.25, margin: 0 }}>
+              Different Breathing<br />Exercises for Different<br />Needs.
+            </h2>
+          </div>
+          <div style={{ position: "absolute", left: "5%", top: "54%", display: "flex", alignItems: "center", gap: "5px" }}>
+            <p style={{ fontSize: "clamp(6px, 0.6vw, 10px)", color: "#111", lineHeight: 1.4, margin: 0, textAlign: "center" }}>
               Modern Scandinavian-<br />inspired design
             </p>
-            <div style={{ width: "clamp(16px, 2.5vw, 44px)", height: "1px", backgroundColor: "#555", flexShrink: 0 }} />
+            <div style={{ width: "clamp(10px, 1.5vw, 28px)", height: "1px", backgroundColor: "#555", flexShrink: 0 }} />
           </div>
-
-          {/* Annotation right — Tactile guidance */}
-          <div
-            style={{
-              position: "absolute",
-              right: "5%",
-              top: "60%",
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-            }}
-          >
-            <div style={{ width: "clamp(16px, 2.5vw, 44px)", height: "1px", backgroundColor: "#555", flexShrink: 0 }} />
-            <p
-              style={{
-                fontSize: "clamp(8px, 0.75vw, 13px)",
-                color: "#111",
-                lineHeight: 1.4,
-                margin: 0,
-                textAlign: "left",
-              }}
-            >
+          <div style={{ position: "absolute", right: "5%", top: "60%", display: "flex", alignItems: "center", gap: "5px" }}>
+            <div style={{ width: "clamp(10px, 1.5vw, 28px)", height: "1px", backgroundColor: "#555", flexShrink: 0 }} />
+            <p style={{ fontSize: "clamp(6px, 0.6vw, 10px)", color: "#111", lineHeight: 1.4, margin: 0, textAlign: "left" }}>
               Tactile guidance<br />to guide your<br />breath
             </p>
           </div>
         </div>
 
-        {/* Right content */}
+        {/* Right: Dark panel */}
         <div
           style={{
+            backgroundColor: "#1a1a1a",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            justifyContent: "center",
             textAlign: "center",
-            gap: "clamp(20px, 2.8vh, 32px)",
-            padding: "clamp(32px, 5vw, 72px) clamp(28px, 5vw, 72px)",
+            padding: "clamp(20px, 3.5vw, 44px) clamp(14px, 3vw, 48px)",
+            gap: "clamp(10px, 1.8vw, 20px)",
           }}
         >
-          <div style={{ display: "flex", flexDirection: "column", gap: "clamp(16px, 2.2vh, 26px)", width: "100%" }}>
-            {steps.map((item) => (
-              <div key={item.n}>
-                <p style={{ fontSize: "clamp(14px, 1.1vw, 17px)", fontWeight: 700, color: "#111", margin: 0, lineHeight: 1.4 }}>
-                  {item.n} {item.bold}
-                </p>
-                <p style={{ fontSize: "clamp(13px, 1vw, 16px)", color: "#444", margin: "5px 0 0 0", lineHeight: 1.6 }}>
-                  {item.sub}
-                </p>
-              </div>
-            ))}
+          {/* Heading */}
+          <div>
+            <h2
+              style={{
+                margin: 0,
+                color: A,
+                fontSize: "clamp(1.3rem, 2.8vw, 2.2rem)",
+                fontWeight: 800,
+              }}
+            >
+              How it works
+            </h2>
+            <p
+              style={{
+                marginTop: "6px",
+                color: "#d1d5db",
+                fontSize: "clamp(0.75rem, 1.2vw, 0.95rem)",
+                margin: "6px 0 0",
+              }}
+            >
+              Choose an exercise you need
+            </p>
           </div>
 
-          <div className="mt-6 flex justify-center sm:justify-start"> 
-  <NavLink
-    to="/shop" // Don't forget your destination path!
-    className="flex items-center justify-center bg-[#3b5bdb] hover:bg-[#2f4ac4] transition-colors text-white py-4 w-[260px] rounded-full text-base font-semibold shadow-md"
-  >
-    Get Skye now
-  </NavLink>
-</div>
+          {/* Flow Section */}
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              maxWidth: "620px",
+              display: "flex",
+              justifyContent: "center",
+              padding: "16px clamp(16px, 4vw, 48px)",
+            }}
+          >
+            {/* LEFT BRACKET */}
+            <div style={{ position: "absolute", left: "3%", top: "4%", bottom: "4%", width: "28px" }}>
+              <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "2px", background: A }} />
+              <div style={{ position: "absolute", left: 0, top: 0, width: "28px", height: "2px", background: A }} />
+              <div style={{ position: "absolute", left: 0, bottom: 0, width: "28px", height: "2px", background: A }} />
+            </div>
 
-          <p style={{ fontSize: "clamp(13px, 1vw, 16px)", color: "#333", margin: 0 }}>
+            {/* RIGHT BRACKET */}
+            <div style={{ position: "absolute", right: "3%", top: "4%", bottom: "4%", width: "28px" }}>
+              <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "2px", background: A }} />
+              <div style={{ position: "absolute", right: 0, top: 0, width: "28px", height: "2px", background: A }} />
+              <div style={{ position: "absolute", right: 0, bottom: 0, width: "28px", height: "2px", background: A }} />
+            </div>
+{/* TOP LEFT EXTENSION */}
+<div
+  style={{
+    position: "absolute",
+    top: "4%",
+    left: "calc(3% + 28px)",
+    width: "22%",
+    height: "2px",
+    background: A,
+  }}
+/>
+
+{/* TOP RIGHT EXTENSION */}
+<div
+  style={{
+    position: "absolute",
+    top: "4%",
+    right: "calc(3% + 28px)",
+    width: "18%",
+    height: "2px",
+    background: A,
+  }}
+/>
+
+{/* BOTTOM LEFT EXTENSION */}
+<div
+  style={{
+    position: "absolute",
+    bottom: "4%",
+    left: "calc(3% + 28px)",
+    width: "22%",
+    height: "2px",
+    background: A,
+  }}
+/>
+
+{/* BOTTOM RIGHT EXTENSION */}
+<div
+  style={{
+    position: "absolute",
+    bottom: "4%",
+    right: "calc(3% + 28px)",
+    width: "18%",
+    height: "2px",
+    background: A,
+  }}
+/>
+
+
+
+
+            
+
+            {/* STEPS */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "clamp(6px, 1.2vw, 12px)",
+                maxWidth: "460px",
+                width: "100%",
+              }}
+            >
+              <div style={{ color: "#fff", fontWeight: 700, fontSize: "clamp(0.85rem, 1.6vw, 1.5rem)", lineHeight: 1.35 }}>
+                Skye starts vibrating.<br />Breathe in.
+              </div>
+              <div style={{ color: A, fontSize: "clamp(1rem, 1.8vw, 1.5rem)", lineHeight: 1 }}>↓</div>
+              <div style={{ color: "#fff", fontWeight: 700, fontSize: "clamp(0.85rem, 1.6vw, 1.5rem)", lineHeight: 1.35 }}>
+                Skye stops. Hold.
+              </div>
+              <div style={{ color: A, fontSize: "clamp(1rem, 1.8vw, 1.5rem)", lineHeight: 1 }}>↓</div>
+              <div style={{ color: "#fff", fontWeight: 700, fontSize: "clamp(0.85rem, 1.6vw, 1.5rem)", lineHeight: 1.35 }}>
+                Skye vibrates again.<br />Breathe out.
+              </div>
+              <div style={{ color: A, fontSize: "clamp(1rem, 1.8vw, 1.5rem)", lineHeight: 1 }}>↓</div>
+              <div style={{ color: "#fff", fontWeight: 700, fontSize: "clamp(0.85rem, 1.6vw, 1.5rem)", lineHeight: 1.35 }}>
+                Skye stops.<br />Hold again.
+              </div>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <NavLink
+            to="/shop"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              minWidth: "clamp(130px, 15vw, 220px)",
+              padding: "9px 24px",
+              borderRadius: "999px",
+              background: "#3153FF",
+              color: "#fff",
+              textDecoration: "none",
+              fontWeight: 700,
+              fontSize: "clamp(0.78rem, 1.2vw, 0.95rem)",
+              boxShadow: "0 6px 18px rgba(49,83,255,.35)",
+              transition: "all .25s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.background = "#2648e8";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.background = "#3153FF";
+            }}
+          >
+            Get Skye
+          </NavLink>
+
+          <p style={{ margin: 0, color: "#d1d5db", fontSize: "clamp(0.7rem, 1vw, 0.85rem)" }}>
             Delivery in 7–10 business days
           </p>
         </div>
-
       </div>
     </section>
   );

@@ -18,15 +18,16 @@ const HomePage = () => {
   return (
     <>
       <Hero />
-      <Press />
+      
       <section id="how_it_works">
+         <Science />
     <Feature />
-    <Science />
       <Mode />
       <Use />
       <Breathing />
       </section>
       <Founders />
+      <Press />
       <Corporates />
        <Testimonials /> 
       <Gift />

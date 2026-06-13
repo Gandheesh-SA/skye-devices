@@ -27,12 +27,11 @@ export default function CorporatePage() {
           <div className="text-center mt-[clamp(60px,8vh,100px)] max-w-[720px] mx-auto">
 
             <h2 className="text-[clamp(24px,2.2vw,34px)] font-semibold text-gray-900 leading-snug">
-              Skye helps your workforce perform better, instantly.
+              Help your workforce feel calmer, more focused, and better rested.
             </h2>
 
             <p className="mt-4 text-gray-600 text-[clamp(15px,1vw,17px)] leading-relaxed">
-              Better time management, sharper focus, and lower stress.
-              Skye keeps your employees at their best.
+              Using simple guided breathing routines, Skye helps employees feel calmer, more focused, and better rested, so they can show up at their best throughout the workday.
             </p>
 
           </div>

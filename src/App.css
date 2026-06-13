@@ -40,3 +40,9 @@
 .read-the-docs {
   color: #888;
 }
+
+@media (max-width: 640px) {
+  .science-part1 {
+    flex-direction: column;
+  }
+}
