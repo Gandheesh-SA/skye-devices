@@ -174,7 +174,9 @@ const ProductDetail = () => {
   onClick={() => {
 
     const url = import.meta.env.VITE_PAYMENT_URL;
+    console.log("Payment URL:", import.meta.env.VITE_PAYMENT_URL);
     window.open(url, "_blank", "noopener,noreferrer");
+
   }}
   style={{
     backgroundColor: "#3b5bdb",
