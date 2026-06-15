@@ -66,7 +66,7 @@ export default function BreathingModes() {
           <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed max-w-xl mx-auto">
             Simple guided breathing exercises designed with{" "}
             <a
-              href="#"
+              href="/research"
               className="text-blue-600 font-medium hover:text-blue-700 underline underline-offset-4 decoration-2 decoration-blue-200 hover:decoration-blue-500 transition-colors"
             >
               research-backed

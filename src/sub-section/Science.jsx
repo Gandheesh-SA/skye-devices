@@ -1,8 +1,10 @@
 import React from "react";
 import Science1 from "../images/Science1.png";
 import Science2 from "../images/Science2.png";
+import { useNavigate } from "react-router-dom";
 
 export default function ScienceSection() {
+    const navigate = useNavigate();
   const [isMobile, setIsMobile] = React.useState(
     typeof window !== "undefined" ? window.innerWidth < 640 : false
   );
@@ -115,6 +117,8 @@ export default function ScienceSection() {
                 e.currentTarget.style.background = "transparent";
                 e.currentTarget.style.color = "white";
               }}
+
+              onClick={() => navigate("/research")}
             >
               More Research
             </button>

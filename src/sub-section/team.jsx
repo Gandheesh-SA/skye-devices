@@ -1,7 +1,9 @@
 import React from "react";
 import corporates from "../images/Corporates.png"
-
+import { useNavigate } from "react-router-dom";
 const TeamBanner = () => {
+
+      const navigate = useNavigate();
   return (
     <section style={{ backgroundColor: "#fff", padding: "clamp(16px, 3vw, 40px) clamp(24px, 6vw, 80px) clamp(32px, 5vw, 72px)" }}>
       <div
@@ -69,6 +71,7 @@ const TeamBanner = () => {
             }}
             onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.88")}
             onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+            onClick={() => navigate("/about")}
           >
             Learn more
           </button>

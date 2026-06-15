@@ -1,7 +1,11 @@
 import React from "react";
 import scienceImage from "../images/shop/Science.png";
+import { useNavigate } from "react-router-dom";
 
 const ScienceBehindSkye = () => {
+
+  const navigate = useNavigate();
+
   return (
     <section style={{ backgroundColor: "#fff", padding: "clamp(32px, 5vw, 72px) clamp(24px, 6vw, 80px)" }}>
       <div
@@ -70,6 +74,7 @@ const ScienceBehindSkye = () => {
           </p>
 
           <div style={{ display: "flex", justifyContent: "center" }}>
+            
             <button
               style={{
                 backgroundColor: "#111",
@@ -85,6 +90,7 @@ const ScienceBehindSkye = () => {
               }}
               onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#333")}
               onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#111")}
+              onClick={() => navigate("/research")}
             >
               More Research
             </button>

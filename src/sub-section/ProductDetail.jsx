@@ -9,7 +9,7 @@ import MainImage5 from "../images/shop/MainImage5.png";
 const images = [MainImage, MainImage1, MainImage2, MainImage3, MainImage4, MainImage5];
 
 const features = [
-  { text: "Delivery time: 7-10 working days.", link: { label: "Learn more.", href: "#" } },
+  { text: "Delivery time: 7-10 working days.", link: { label: "Learn more.", href: "/shipping" } },
   { text: "1-year warranty and free shipping" },
   { text: "Up to 14 days of battery life" },
   { text: "100% charge in 2 hours using USB-c" },

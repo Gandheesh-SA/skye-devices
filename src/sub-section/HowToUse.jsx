@@ -76,11 +76,22 @@ const HowToUse = () => {
             <p style={{ margin: 0, fontSize: "clamp(14px, 1.1vw, 17px)", fontWeight: 700, color: "#111" }}>
               Featured in The Hindu
             </p>
-            <img
-              src={hinduLogo}
-              alt="The Hindu"
-              style={{ width: "clamp(120px, 14vw, 200px)", objectFit: "contain", display: "block" }}
-            />
+      <a
+  href="https://www.thehindu.com/life-and-style/this-simple-timer-device-is-changing-the-way-people-manage-focus-and-time/article70028603.ece"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <img
+    src={hinduLogo}
+    alt="The Hindu"
+    style={{
+      width: "clamp(120px, 14vw, 200px)",
+      objectFit: "contain",
+      display: "block",
+      cursor: "pointer",
+    }}
+  />
+</a>
           </div>
         </div>
       </div>
