@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import linkedinLogo from "../images/Social.png";
 import { HashLink } from 'react-router-hash-link';
-
+import indianFlag from "../images/IndianFlag.jpg"
+import instaLogo from "../images/InstaLogo.png"
 export default function Footer() {
   return (
     <footer className="bg-[#1f1f1f] text-gray-300">
@@ -10,39 +11,56 @@ export default function Footer() {
       <div className="border-b border-gray-700">
         <div className="max-w-[1600px] mx-auto px-[clamp(20px,6vw,140px)] py-[clamp(80px,12vh,160px)]">
           <h1 className="text-[clamp(32px,6vw,90px)] font-extrabold tracking-wide leading-tight text-white uppercase">
-            Your Time.
+            LESS STRESS.
             <br />
-            Your Focus.
+            MORE Focus.
             <br />
-            In Your Control.
+            BETTER SLEEP.
           </h1>
         </div>
       </div>
 
-      {/* ===== LINKEDIN STRIP ===== */}
-      <div className="border-b border-gray-700">
-        <div className="max-w-[1600px] mx-auto px-[clamp(20px,6vw,140px)] py-[clamp(30px,5vh,70px)] flex flex-col md:flex-row justify-between items-center gap-6">
+     {/* ===== SOCIAL STRIP ===== */}
+<div className="border-b border-gray-700">
+  <div className="max-w-[1600px] mx-auto px-[clamp(20px,6vw,140px)] py-[clamp(30px,5vh,70px)] flex flex-col md:flex-row justify-between items-center gap-6">
 
-          <p className="text-gray-400 text-[clamp(14px,1vw,18px)] text-center md:text-left">
-            Follow us on LinkedIn for updates and specials
-          </p>
+    <p className="text-gray-400 text-[clamp(14px,1vw,18px)] text-center md:text-left">
+      Follow us for updates and specials
+    </p>
 
-          <a
-            href="https://www.linkedin.com/company/skye-devices"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 text-blue-400 hover:text-blue-500 transition text-[clamp(14px,1vw,18px)]"
-          >
-            <img
-              src={linkedinLogo}
-              alt="LinkedIn"
-              className="w-[clamp(18px,1.2vw,24px)] h-auto"
-            />
-            <span className="underline">Skye Devices</span>
-          </a>
+    {/* Right Side Icons Container */}
+    <div className="flex items-center gap-6">
+      {/* LINKEDIN */}
+      <a
+        href="https://www.linkedin.com/company/skye-devices"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-3 text-blue-400 hover:text-blue-500 transition text-[clamp(14px,1vw,18px)]"
+      >
+        <img
+          src={linkedinLogo}
+          alt="LinkedIn"
+          className="w-[clamp(18px,1.2vw,24px)] h-auto"
+        />
+      </a>
 
-        </div>
-      </div>
+      {/* INSTAGRAM */}
+      <a
+        href="https://www.instagram.com/skye.devices?igsh=MXR3aHRubDYyd2V5bQ==" 
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-3 text-pink-500 hover:text-pink-600 transition text-[clamp(14px,1vw,18px)]"
+      >
+        <img
+          src={instaLogo} 
+          alt="Instagram"
+          className="w-[clamp(18px,1.2vw,24px)] h-auto"
+        />
+      </a>
+    </div>
+
+  </div>
+</div>
 
       {/* ===== LINKS SECTION ===== */}
       <div className="max-w-[1600px] mx-auto px-[clamp(20px,6vw,140px)] py-[clamp(60px,10vh,140px)] grid grid-cols-1 md:grid-cols-3 gap-[clamp(40px,6vw,120px)] text-[clamp(14px,1vw,18px)]">
@@ -80,12 +98,22 @@ export default function Footer() {
 
       </div>
 
-      {/* ===== COPYRIGHT ===== */}
-      <div className="border-t border-gray-700">
-        <div className="max-w-[1600px] mx-auto px-[clamp(20px,6vw,140px)] py-10 text-gray-400 text-sm">
-          © 2025 Skye Devices Private Limited. All rights reserved.
-        </div>
-      </div>
+<div className="border-t border-gray-700">
+  <div className="max-w-[1600px] mx-auto px-[clamp(20px,6vw,140px)] py-10 text-gray-400 text-sm flex justify-between items-center">
+    {/* Left Side: Copyright */}
+    <span>© 2025 Skye Devices Private Limited. All rights reserved.</span>
+
+    {/* Right Side: Indian Logo */}
+    <div className="flex items-center gap-2">
+      <span className="text-[10px] uppercase tracking-widest">Made in</span>
+      <img 
+        src={indianFlag} 
+        alt="India Logo" 
+        className="h-6 w-auto"
+      />
+    </div>
+  </div>
+</div>
 
     </footer>
   );

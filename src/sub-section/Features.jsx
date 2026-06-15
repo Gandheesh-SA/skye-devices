@@ -22,23 +22,7 @@ const Feature = () => {
             alt="Skye gently vibrates"
             style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
           />
-          <div style={{ position: "absolute", top: "7%", left: "50%", transform: "translateX(-50%)", width: "80%", textAlign: "center" }}>
-            <h2 style={{ fontSize: "clamp(13px, 1.6vw, 22px)", fontWeight: 800, color: "#111", lineHeight: 1.25, margin: 0 }}>
-              Different Breathing<br />Exercises for Different<br />Needs.
-            </h2>
-          </div>
-          <div style={{ position: "absolute", left: "5%", top: "54%", display: "flex", alignItems: "center", gap: "5px" }}>
-            <p style={{ fontSize: "clamp(6px, 0.6vw, 10px)", color: "#111", lineHeight: 1.4, margin: 0, textAlign: "center" }}>
-              Modern Scandinavian-<br />inspired design
-            </p>
-            <div style={{ width: "clamp(10px, 1.5vw, 28px)", height: "1px", backgroundColor: "#555", flexShrink: 0 }} />
-          </div>
-          <div style={{ position: "absolute", right: "5%", top: "60%", display: "flex", alignItems: "center", gap: "5px" }}>
-            <div style={{ width: "clamp(10px, 1.5vw, 28px)", height: "1px", backgroundColor: "#555", flexShrink: 0 }} />
-            <p style={{ fontSize: "clamp(6px, 0.6vw, 10px)", color: "#111", lineHeight: 1.4, margin: 0, textAlign: "left" }}>
-              Tactile guidance<br />to guide your<br />breath
-            </p>
-          </div>
+      
         </div>
 
         {/* Right: Dark panel */}

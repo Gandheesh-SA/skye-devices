@@ -32,14 +32,11 @@ const Hero = () => {
                 </p>
               </div>
               <h1 className="text-[clamp(28px,3.4vw,72px)] font-bold leading-[1.08]">
-                A haptic guide for slow
-                <br />
-                breathing exercises
+                Wake Up Focused. <br />
+Fall Asleep with Ease.
               </h1>
               <p className="text-[clamp(13px,1.2vw,22px)] text-white/75 leading-relaxed">
-                A handheld, screen-free device that guides you through calming
-                breathing exercises for focused mornings, less stressful days,
-                and better sleep.
+                Skye guides you through slow, intentional breathing exercises using touch. A practice proven to help reduce stress, improve focus, and support better sleep.
               </p>
                        <div className="mt-6 flex justify-center sm:justify-start"> 
                 <NavLink
@@ -79,14 +76,11 @@ const Hero = () => {
               </p>
             </div>
             <h1 className="text-[2.1rem] font-bold leading-tight">
-              A haptic guide for slow
-              <br />
-              breathing exercises
+              Wake Up Focused. <br />
+Fall Asleep with Ease.
             </h1>
             <p className="text-[0.95rem] text-white/70 leading-relaxed max-w-[88%]">
-              A handheld, screen-free device that guides you through calming
-              breathing exercises for focused mornings, less stressful days,
-              and better sleep.
+              Skye guides you through slow, intentional breathing exercises using touch. A practice proven to help reduce stress, improve focus, and support better sleep.
             </p>
             <div className="mt-6 flex justify-center sm:justify-start"> 
   <NavLink
@@ -100,6 +94,82 @@ const Hero = () => {
         </div>
 
       </div>
+
+
+<div className="bg-gray-950 text-gray-200 border-b border-gray-800 py-4 md:py-5 overflow-hidden whitespace-nowrap tracking-wide select-none">
+  {/* Speed boosted to 12s for a faster, high-energy glide */}
+  <div className="inline-block animate-[marquee_12s_linear_infinite] hover:[animation-play-state:paused]">
+    
+    {/* Segment 1 */}
+    <span className="inline-flex items-center text-[clamp(15px,1.4vw,20px)] font-bold mx-12 md:mx-20 uppercase tracking-wider">
+      <span className="flex h-2.5 w-2.5 relative mr-3">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+      </span>
+      Sale is Live
+      <span className="mx-3.5 text-gray-700 font-light">|</span>
+      <span className="text-emerald-400 font-extrabold font-mono text-[clamp(16px,1.5vw,22px)]">₹1,000 OFF</span>
+      <span className="mx-3.5 text-gray-700 font-light">|</span>
+      <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-0.5 rounded text-[clamp(12px,1.1vw,15px)] font-black tracking-widest">
+        THIS JUNE
+      </span>
+    </span>
+
+    {/* Segment 2 */}
+    <span className="inline-flex items-center text-[clamp(15px,1.4vw,20px)] font-bold mx-12 md:mx-20 uppercase tracking-wider">
+      <span className="flex h-2.5 w-2.5 relative mr-3">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+      </span>
+      Sale is Live
+      <span className="mx-3.5 text-gray-700 font-light">|</span>
+      <span className="text-emerald-400 font-extrabold font-mono text-[clamp(16px,1.5vw,22px)]">₹1,000 OFF</span>
+      <span className="mx-3.5 text-gray-700 font-light">|</span>
+      <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-0.5 rounded text-[clamp(12px,1.1vw,15px)] font-black tracking-widest">
+        THIS JUNE
+      </span>
+    </span>
+
+    {/* Segment 3 */}
+    <span className="inline-flex items-center text-[clamp(15px,1.4vw,20px)] font-bold mx-12 md:mx-20 uppercase tracking-wider">
+      <span className="flex h-2.5 w-2.5 relative mr-3">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+      </span>
+      Sale is Live
+      <span className="mx-3.5 text-gray-700 font-light">|</span>
+      <span className="text-emerald-400 font-extrabold font-mono text-[clamp(16px,1.5vw,22px)]">₹1,000 OFF</span>
+      <span className="mx-3.5 text-gray-700 font-light">|</span>
+      <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-0.5 rounded text-[clamp(12px,1.1vw,15px)] font-black tracking-widest">
+        THIS JUNE
+      </span>
+    </span>
+
+    {/* Segment 4 (Added extra content block to keep infinite line completely packed) */}
+    <span className="inline-flex items-center text-[clamp(15px,1.4vw,20px)] font-bold mx-12 md:mx-20 uppercase tracking-wider">
+      <span className="flex h-2.5 w-2.5 relative mr-3">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+      </span>
+      Sale is Live
+      <span className="mx-3.5 text-gray-700 font-light">|</span>
+      <span className="text-emerald-400 font-extrabold font-mono text-[clamp(16px,1.5vw,22px)]">₹1,000 OFF</span>
+      <span className="mx-3.5 text-gray-700 font-light">|</span>
+      <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-0.5 rounded text-[clamp(12px,1.1vw,15px)] font-black tracking-widest">
+        THIS JUNE
+      </span>
+    </span>
+
+  </div>
+
+  {/* Adjusted to -50% to accommodate the larger text content layout perfectly */}
+  <style>{`
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+  `}</style>
+</div>
     </section>
   );
 };

@@ -18,19 +18,19 @@ const HomePage = () => {
   return (
     <>
       <Hero />
-      
+       <Press />
+              <Testimonials /> 
       <section id="how_it_works">
          <Science />
     <Feature />
+
       <Mode />
       <Use />
       <Breathing />
       </section>
       <Founders />
-      <Press />
       <Corporates />
-       <Testimonials /> 
-      <Gift />
+    
       <Footer />
     </>
   );
