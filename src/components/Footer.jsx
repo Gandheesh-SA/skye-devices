@@ -83,7 +83,7 @@ export default function Footer() {
             <li><Link to="/refund" className="hover:text-white transition">Cancellation & Refund</Link></li>
             <li><Link to="/warranty" className="hover:text-white transition">Warranty Policy</Link></li>
             <li><HashLink smooth to="#how_it_works" className="hover:text-white transition">How Skye works</HashLink></li>
-            <li><Link to="/track-order" className="hover:text-white transition">Track your order</Link></li>
+           
           </ul>
         </div>
 
