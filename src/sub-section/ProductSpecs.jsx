@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const sections = [
   {
@@ -68,10 +69,10 @@ const sections = [
           Skye is covered by a limited warranty against defects in materials and workmanship for one year from the date of original purchase. NOTE: This warranty applies only to products purchased directly from www.skyedevices.com
         </p>
         <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-          <a href="#" style={{ fontSize: "clamp(13px, 1vw, 15px)", color: "#222", textDecoration: "underline" }}>
+          <a href="/refund" style={{ fontSize: "clamp(13px, 1vw, 15px)", color: "#222", textDecoration: "underline" }}>
             Cancellation & Refund Policy
           </a>
-          <a href="#" style={{ fontSize: "clamp(13px, 1vw, 15px)", color: "#222", textDecoration: "underline" }}>
+          <a href="/warranty" style={{ fontSize: "clamp(13px, 1vw, 15px)", color: "#222", textDecoration: "underline" }}>
             Warranty Policy
           </a>
         </div>

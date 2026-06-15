@@ -32,10 +32,10 @@ function App() {
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/terms_and_conditions" element={<TermsPage />} />
-          <Route path="privacy_policy" element={<PrivacyPolicy />} />
-          <Route path="shipping" element={<Shipping />} />
-          <Route path="refund" element={<Refund />} />
-          <Route path="warranty" element={<Warranty />} />
+          <Route path="/privacy_policy" element={<PrivacyPolicy />} />
+          <Route path="/shipping" element={<Shipping />} />
+          <Route path="/refund" element={<Refund />} />
+          <Route path="/warranty" element={<Warranty />} />
         </Routes>
       </main>
     </Router>
