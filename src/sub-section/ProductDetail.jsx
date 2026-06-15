@@ -121,27 +121,59 @@ const ProductDetail = () => {
             Hold it in your hand. Breathe along. Slow down. The first thing you do in the morning, the last thing before sleep, and anytime in between.
           </p>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-            <p
-              style={{
-                fontSize: "clamp(22px, 2.2vw, 34px)",
-                fontWeight: 700,
-                color: "#111",
-                margin: 0,
-                lineHeight: 1.2,
-              }}
-            >
-              Rs. 4100.00
-            </p>
-            <p style={{ fontSize: "clamp(13px, 0.9vw, 15px)", color: "#555", margin: 0 }}>
-              (Price including 18% GST)
-            </p>
-          </div>
+       <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+  {/* Original Price */}
+  <p
+    style={{
+      fontSize: "clamp(15px, 1.2vw, 18px)",
+      fontWeight: 500,
+      color: "#777",
+      margin: 0,
+      lineHeight: 1.2,
+      textDecoration: "line-through",
+    }}
+  >
+    Rs. 4100.00
+  </p>
+
+  {/* Sale Price + Badge Row */}
+  <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+    <p
+      style={{
+        fontSize: "clamp(22px, 2.2vw, 34px)",
+        fontWeight: 700,
+        color: "#111",
+        margin: 0,
+        lineHeight: 1.2,
+      }}
+    >
+      Rs. 3100.00
+    </p>
+    <span
+      style={{
+        fontSize: "clamp(11px, 0.8vw, 13px)",
+        fontWeight: 600,
+        backgroundColor: "#e53935", 
+        color: "#fff",
+        padding: "2px 8px",
+        borderRadius: "4px",
+        textTransform: "uppercase",
+        letterSpacing: "0.5px"
+      }}
+    >
+      Sale Live
+    </span>
+  </div>
+
+  <p style={{ fontSize: "clamp(13px, 0.9vw, 15px)", color: "#555", margin: 0 }}>
+    (Price including 18% GST)
+  </p>
+</div>
 
           <button
   onClick={() => {
-    // Vite uses import.meta.env instead of process.env
-    const url = import.meta.env.VITE_PAYMENT_URL || "https://rzp.io/rzp/skyeone";
+
+    const url = import.meta.env.VITE_PAYMENT_URL;
     window.open(url, "_blank", "noopener,noreferrer");
   }}
   style={{

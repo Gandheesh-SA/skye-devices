@@ -41,7 +41,7 @@ export default function ScienceSection() {
         >
           <img
             src={Science1}
-            alt="The science behind Skye"
+           
             style={{
               width: "100%",
               height: "100%",
@@ -49,20 +49,7 @@ export default function ScienceSection() {
               display: "block",
             }}
           />
-          <div
-            style={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              width: "100%",
-              padding: "1rem 1.25rem",
-              background: "linear-gradient(to top, rgba(0,0,0,0.65), transparent)",
-            }}
-          >
-            <p style={{ color: "white", fontWeight: 700, fontSize: "clamp(1rem, 2vw, 1.25rem)", margin: 0 }}>
-              The science behind Skye
-            </p>
-          </div>
+         
         </div>
 
         {/* Left: Text content */}
@@ -172,7 +159,7 @@ export default function ScienceSection() {
               margin: "0 0 0.75rem",
             }}
           >
-            Experience life-changing results in 30 days
+           What makes Skye different
           </h2>
           <p
             style={{
@@ -183,9 +170,8 @@ export default function ScienceSection() {
               margin: 0,
             }}
           >
-            Everyone's experience is different, but these are the kinds of
-            changes people often notice. We're not magicians, but we think these
-            results are pretty magical.
+            No screens. No headphones. No distractions. 
+Just hold Skye and breathe. The alternating vibrations and pauses guide every inhale, hold, and exhale, allowing you to close your eyes and focus entirely on your breath.
           </p>
         </div>
       </div>

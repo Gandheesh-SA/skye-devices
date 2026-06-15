@@ -19,16 +19,16 @@ const HomePage = () => {
     <>
       <Hero />
        <Press />
+           <Feature />
               <Testimonials /> 
       <section id="how_it_works">
          <Science />
-    <Feature />
 
       <Mode />
       <Use />
       <Breathing />
       </section>
-      <Founders />
+
       <Corporates />
     
       <Footer />

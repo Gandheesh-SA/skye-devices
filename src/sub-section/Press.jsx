@@ -1,7 +1,7 @@
 import React from "react";
 import hinduLogo from "../images/HinduLogo.png";
 import articleImage from "../images/HinduArticle.png";
-import MainImage from "../images/shop/MainImage.png";
+import News from "../images/Newspaper2.png";
 import News1 from "../images/News1.png"
 import foundersImage from "../images/Founder.png";
 
@@ -94,9 +94,13 @@ export default function InTheNews() {
               className="my-8 w-full rounded-xl object-cover"
             />
 
-            <div className="mt-8 border-l-4 border-neutral-900 pl-4 italic text-neutral-700">
-              “Attention is one of our most valuable resources.”
-            </div>
+            <a
+              href="/shop"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex items-center rounded-full bg-neutral-900 px-6 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
+            >
+              Shop Now→
+            </a>
           </div>
 
           {/* Center Feature */}
@@ -112,7 +116,7 @@ export default function InTheNews() {
             </h3>
 
             <img
-              src={MainImage}
+              src={News}
               alt="Skye Meditation Timer"
               className="my-8 w-full rounded-xl object-cover"
             />
@@ -140,11 +144,19 @@ export default function InTheNews() {
             </p>
 
             <h3 className="font-serif text-3xl font-semibold leading-tight">
-              Meet the Founders behind the Revolutionary Technology
+              Meet the Founders behind the Technology
             </h3>
 
             <p className="mt-5 leading-7 text-neutral-600">
-              In 2025, electronics engineering graduates Akash, Barath, and Veera co-founded Skye. Bonded by a shared struggle with focus, the trio launched the venture out of frustration with modern tech’s tendency to monopolize attention and drive product addiction.
+               Co-founders{" "}
+            <span className="text-yellow-400">Akash</span>,{" "}
+            <span className="text-yellow-400">Barath</span> and{" "}
+            <span className="text-yellow-400">Veera</span>{" "}
+            started Skye back in February, 2025. From studying electronics engineering
+            to a shared frustration with how modern tech monopolises attention,
+            influence choices, and make us addicted to their products, the three
+            had a lot in common to bond over, including struggling to stay focused
+            and finding time to slow down.
             </p>
 
            <img
@@ -152,7 +164,16 @@ export default function InTheNews() {
               alt="Skye Meditation Timer"
               className="my-8 w-full rounded-xl object-cover"
             />
+            <a
+              href="/about"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex items-center rounded-full bg-neutral-900 px-6 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
+            >
+              Read Our Story→
+            </a>
           </div>
+
+         
         </div>
 
         {/* Footer Strip */}
