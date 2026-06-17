@@ -2,7 +2,7 @@ import React from "react";
 import hinduLogo from "../images/HinduLogo.png";
 import articleImage from "../images/HinduArticle.png";
 import News from "../images/Newspaper2.png";
-import News1 from "../images/News1.png"
+import News1 from "../images/News1.jpeg"
 import foundersImage from "../images/Founder.png";
 
 export default function InTheNews() {
@@ -81,12 +81,15 @@ export default function InTheNews() {
             </p>
 
             <h3 className="font-serif text-3xl font-semibold leading-tight">
-              Skye Devices Launched In India
+              Your Personal Breathing Coach
             </h3>
 
             <p className="mt-5 leading-7 text-neutral-600">
-              A small, tactile timer designed to pull focus back without the lure of screens. Built in aluminium, it fits in your hand or pocket and can be set to intervals of five, 15, 30 or 60 minutes. At the chosen interval, it vibrates gently, reminding you of the time that has passed. Nothing more, nothing less.
-            </p>
+Skye guides you through slow, intentional breathing exercises using touch, a practice proven to help reduce stress, improve focus, and support better sleep. <br />
+
+Just hold Skye and breathe. Alternating vibrations and pauses guide every inhale, hold, and exhale, allowing you to close your eyes and focus entirely on your breath. <br />
+
+Every inhale, hold, and exhale duration calibrated based on established breathing techniques to maximise the benefits of the practice, whether that’s relaxation, focus, or better sleep.            </p>
 
              <img
               src={News1}
@@ -116,7 +119,7 @@ export default function InTheNews() {
             </h3>
 
             <img
-              src={News}
+              src={articleImage}
               alt="Skye Meditation Timer"
               className="my-8 w-full rounded-xl object-cover"
             />
@@ -144,19 +147,19 @@ export default function InTheNews() {
             </p>
 
             <h3 className="font-serif text-3xl font-semibold leading-tight">
-              Meet the Founders behind the Technology
+             Three friends, one story.
             </h3>
 
             <p className="mt-5 leading-7 text-neutral-600">
-               Co-founders{" "}
-            <span className="text-yellow-400">Akash</span>,{" "}
-            <span className="text-yellow-400">Barath</span> and{" "}
-            <span className="text-yellow-400">Veera</span>{" "}
-            started Skye back in February, 2025. From studying electronics engineering
-            to a shared frustration with how modern tech monopolises attention,
-            influence choices, and make us addicted to their products, the three
-            had a lot in common to bond over, including struggling to stay focused
-            and finding time to slow down.
+              Our co-founders{" "}
+            <a href="https://www.linkedin.com/in/akash-jain-9641a9175"><span className="text-yellow-400">Akash</span></a>,{" "}
+            <a href ="https://www.linkedin.com/in/barathmsindia" ><span className="text-yellow-400">Barath</span></a> and{" "}
+            <a href="https://www.linkedin.com/in/veeramani-viswanathan"><span className="text-yellow-400">Veera</span></a>{" "}
+             had a lot in common. They studied electronics engineering, worked in corporate environments, and, like many of their friends, struggled with stress, poor sleep, and the feeling that life was always moving a little too fast.
+
+They kept hearing the same advice. Research, doctors, and friends all pointed to breathing exercises and meditation as simple ways to feel calmer, focus better, and sleep more soundly.
+
+The challenge wasn’t understanding the benefits. It was sticking with the practice. Guided videos on YouTube felt distracting, meditation apps meant more screen time, and turning breathing exercises or meditation into a daily habit was harder than expected.
             </p>
 
            <img
