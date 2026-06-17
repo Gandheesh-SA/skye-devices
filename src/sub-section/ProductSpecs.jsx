@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom"; // Updated to use Link for SPA navigation
 
 const sections = [
   {
@@ -69,12 +69,12 @@ const sections = [
           Skye is covered by a limited warranty against defects in materials and workmanship for one year from the date of original purchase. NOTE: This warranty applies only to products purchased directly from www.skyedevices.com
         </p>
         <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-          <a href="/refund" style={{ fontSize: "clamp(13px, 1vw, 15px)", color: "#222", textDecoration: "underline" }}>
+          <Link to="/refund" style={{ fontSize: "clamp(13px, 1vw, 15px)", color: "#222", textDecoration: "underline" }}>
             Cancellation & Refund Policy
-          </a>
-          <a href="/warranty" style={{ fontSize: "clamp(13px, 1vw, 15px)", color: "#222", textDecoration: "underline" }}>
+          </Link>
+          <Link to="/warranty" style={{ fontSize: "clamp(13px, 1vw, 15px)", color: "#222", textDecoration: "underline" }}>
             Warranty Policy
-          </a>
+          </Link>
         </div>
       </div>
     ),
@@ -82,7 +82,8 @@ const sections = [
 ];
 
 const AccordionItem = ({ title, content }) => {
-  const [open, setOpen] = useState(true);
+  // CHANGED: Set initial state to false so panels are closed by default
+  const [open, setOpen] = useState(false);
 
   return (
     <div style={{ borderTop: "1px solid #ddd" }}>

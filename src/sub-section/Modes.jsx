@@ -19,7 +19,7 @@ const modes = [
   {
     id: 2,
     label: "Mode 2",
-    name: "Calm & Reset",
+    name: "Workday Reset",
     duration: "5 min session",
     pattern: "4s Inhale · 4s Hold · 8s Exhale · 2s Hold",
     description:
@@ -30,7 +30,7 @@ const modes = [
   {
     id: 3,
     label: "Mode 3",
-    name: "Sleep Basic",
+    name: "Daily Sleep Onset",
     duration: "7 min session",
     pattern: "4s Inhale · 2s Hold · 6s Exhale · 2s Hold",
     description:
@@ -41,7 +41,7 @@ const modes = [
   {
     id: 4,
     label: "Mode 4",
-    name: "Sleep Advanced",
+    name: "Deep Sleep Support",
     duration: "12 min session",
     pattern: "4s Inhale · 2s Hold · 6s Exhale · 2s Hold",
     description:
