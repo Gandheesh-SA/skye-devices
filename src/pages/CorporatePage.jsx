@@ -62,8 +62,8 @@ export default function CorporatePage() {
 
   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
     {[
-      "https://youtu.be/aWfpcAVDWN0?si=MaFA88P0i3E8n_Om",
-      "https://youtu.be/4Lb5L-VEm34?si=NI87Icc65KyUZ3m8",
+      "https://www.youtube.com/embed/aWfpcAVDWN0?si=JqipIjWrOcVStOp5",
+      "https://www.youtube.com/embed/4Lb5L-VEm34?si=liBQDnZOM216rzf4",
      
     ].map((video, index) => (
       <div
