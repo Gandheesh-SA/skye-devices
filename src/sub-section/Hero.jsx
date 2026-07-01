@@ -111,7 +111,7 @@ Fall Asleep with Ease.
       <span className="text-emerald-400 font-extrabold font-mono text-[clamp(16px,1.5vw,22px)]">₹1,000 OFF</span>
       <span className="mx-3.5 text-gray-700 font-light">|</span>
       <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-0.5 rounded text-[clamp(12px,1.1vw,15px)] font-black tracking-widest">
-        THIS JUNE
+        THIS JULY
       </span>
     </span>
 
@@ -126,7 +126,7 @@ Fall Asleep with Ease.
       <span className="text-emerald-400 font-extrabold font-mono text-[clamp(16px,1.5vw,22px)]">₹1,000 OFF</span>
       <span className="mx-3.5 text-gray-700 font-light">|</span>
       <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-0.5 rounded text-[clamp(12px,1.1vw,15px)] font-black tracking-widest">
-        THIS JUNE
+        THIS JULY
       </span>
     </span>
 
@@ -141,7 +141,8 @@ Fall Asleep with Ease.
       <span className="text-emerald-400 font-extrabold font-mono text-[clamp(16px,1.5vw,22px)]">₹1,000 OFF</span>
       <span className="mx-3.5 text-gray-700 font-light">|</span>
       <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-0.5 rounded text-[clamp(12px,1.1vw,15px)] font-black tracking-widest">
-        THIS JUNE
+        THIS JULY
+        
       </span>
     </span>
 
@@ -156,7 +157,7 @@ Fall Asleep with Ease.
       <span className="text-emerald-400 font-extrabold font-mono text-[clamp(16px,1.5vw,22px)]">₹1,000 OFF</span>
       <span className="mx-3.5 text-gray-700 font-light">|</span>
       <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-0.5 rounded text-[clamp(12px,1.1vw,15px)] font-black tracking-widest">
-        THIS JUNE
+        THIS JULY
       </span>
     </span>
 

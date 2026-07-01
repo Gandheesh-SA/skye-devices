@@ -168,6 +168,84 @@ const ProductDetail = () => {
   <p style={{ fontSize: "clamp(13px, 0.9vw, 15px)", color: "#555", margin: 0 }}>
     (Price including 18% GST)
   </p>
+  <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "20px" }}>
+    
+    {/* Batch 1 */}
+    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+      <span style={{
+        fontSize: "clamp(11px, 0.8vw, 12px)",
+        fontWeight: 700,
+        letterSpacing: "1px",
+        color: "#999",
+        textTransform: "uppercase"
+      }}>
+        Batch 1
+      </span>
+      <span style={{
+        fontSize: "clamp(10px, 0.7vw, 11px)",
+        fontWeight: 600,
+        color: "#757575",
+        backgroundColor: "#f5f5f5",
+        padding: "3px 8px",
+        borderRadius: "20px",
+        textTransform: "uppercase",
+        border: "1px solid #e0e0e0"
+      }}>
+        Sold Out
+      </span>
+    </div>
+
+    {/* Batch 2 */}
+    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+      <span style={{
+        fontSize: "clamp(11px, 0.8vw, 12px)",
+        fontWeight: 700,
+        letterSpacing: "1px",
+        color: "#999",
+        textTransform: "uppercase"
+      }}>
+        Batch 2
+      </span>
+      <span style={{
+        fontSize: "clamp(10px, 0.7vw, 11px)",
+        fontWeight: 600,
+        color: "#757575",
+        backgroundColor: "#f5f5f5",
+        padding: "3px 8px",
+        borderRadius: "20px",
+        textTransform: "uppercase",
+        border: "1px solid #e0e0e0"
+      }}>
+        Sold Out
+      </span>
+    </div>
+
+    {/* Batch 3 */}
+    <div style={{ display: "flex", alignItems: "center", gap: "12px", marginTop: "4px" }}>
+      <span style={{
+        fontSize: "clamp(12px, 0.85vw, 14px)",
+        fontWeight: 800,
+        letterSpacing: "1px",
+        color: "#111",
+        textTransform: "uppercase"
+      }}>
+        Batch 3
+      </span>
+      <span style={{
+        fontSize: "clamp(11px, 0.8vw, 12px)",
+        fontWeight: 600,
+        color: "#0066cc",
+        backgroundColor: "#e6f0fa",
+        padding: "4px 10px",
+        borderRadius: "6px",
+        textTransform: "uppercase",
+        letterSpacing: "0.5px"
+      }}>
+        Ships September 2026
+      </span>
+    </div>
+
+  </div>
 </div>
 
           <button
