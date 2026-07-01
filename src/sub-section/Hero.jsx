@@ -102,38 +102,50 @@ Fall Asleep with Ease.
     
     {/* Segment 1 */}
     <span className="inline-flex items-center text-[clamp(14px,1.3vw,18px)] font-bold mx-12 md:mx-16 uppercase tracking-wider">
-      <span className="text-gray-500 font-medium">Batch 1: Sold Out</span>
+      <span className="text-gray-500 font-medium">Batch 1: Sold Out (Jan 2026)</span>
       <span className="mx-4 text-gray-800 font-light">|</span>
-      <span className="text-gray-500 font-medium">Batch 2: Sold Out</span>
+      <span className="text-gray-500 font-medium">Batch 2: Sold Out (Jun 2026)</span>
       <span className="mx-4 text-gray-800 font-light">|</span>
-      <span className="text-blue-400 font-black">Batch 3: Ships September 2026</span>
+      <span className="flex items-center gap-2">
+        <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full inline-block animate-pulse"></span>
+        <span className="text-emerald-400 font-black">Batch 3: Ships September 2026</span>
+      </span>
     </span>
 
     {/* Segment 2 */}
     <span className="inline-flex items-center text-[clamp(14px,1.3vw,18px)] font-bold mx-12 md:mx-16 uppercase tracking-wider">
-      <span className="text-gray-500 font-medium">Batch 1: Sold Out</span>
+      <span className="text-gray-500 font-medium">Batch 1: Sold Out (Jan 2026)</span>
       <span className="mx-4 text-gray-800 font-light">|</span>
-      <span className="text-gray-500 font-medium">Batch 2: Sold Out</span>
+      <span className="text-gray-500 font-medium">Batch 2: Sold Out (Jun 2026)</span>
       <span className="mx-4 text-gray-800 font-light">|</span>
-      <span className="text-blue-400 font-black">Batch 3: Ships September 2026</span>
+      <span className="flex items-center gap-2">
+        <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full inline-block animate-pulse"></span>
+        <span className="text-emerald-400 font-black">Batch 3: Ships September 2026</span>
+      </span>
     </span>
 
     {/* Segment 3 */}
     <span className="inline-flex items-center text-[clamp(14px,1.3vw,18px)] font-bold mx-12 md:mx-16 uppercase tracking-wider">
-      <span className="text-gray-500 font-medium">Batch 1: Sold Out</span>
+      <span className="text-gray-500 font-medium">Batch 1: Sold Out (Jan 2026)</span>
       <span className="mx-4 text-gray-800 font-light">|</span>
-      <span className="text-gray-500 font-medium">Batch 2: Sold Out</span>
+      <span className="text-gray-500 font-medium">Batch 2: Sold Out (Jun 2026)</span>
       <span className="mx-4 text-gray-800 font-light">|</span>
-      <span className="text-blue-400 font-black">Batch 3: Ships September 2026</span>
+      <span className="flex items-center gap-2">
+        <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full inline-block animate-pulse"></span>
+        <span className="text-emerald-400 font-black">Batch 3: Ships September 2026</span>
+      </span>
     </span>
 
     {/* Segment 4 */}
     <span className="inline-flex items-center text-[clamp(14px,1.3vw,18px)] font-bold mx-12 md:mx-16 uppercase tracking-wider">
-      <span className="text-gray-500 font-medium">Batch 1: Sold Out</span>
+      <span className="text-gray-500 font-medium">Batch 1: Sold Out (Jan 2026)</span>
       <span className="mx-4 text-gray-800 font-light">|</span>
-      <span className="text-gray-500 font-medium">Batch 2: Sold Out</span>
+      <span className="text-gray-500 font-medium">Batch 2: Sold Out (Jun 2026)</span>
       <span className="mx-4 text-gray-800 font-light">|</span>
-      <span className="text-blue-400 font-black">Batch 3: Ships September 2026</span>
+      <span className="flex items-center gap-2">
+        <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full inline-block animate-pulse"></span>
+        <span className="text-emerald-400 font-black">Batch 3: Ships September 2026</span>
+      </span>
     </span>
 
   </div>
