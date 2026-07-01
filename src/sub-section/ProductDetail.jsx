@@ -245,7 +245,7 @@ const ProductDetail = () => {
   onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#2f4ac4")}
   onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#3b5bdb")}
 >
-  Buy now
+  Order Now
 </button>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "clamp(10px, 1.2vh, 16px)", paddingTop: "4px" }}>
