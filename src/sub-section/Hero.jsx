@@ -101,64 +101,39 @@ Fall Asleep with Ease.
   <div className="inline-block animate-[marquee_12s_linear_infinite] hover:[animation-play-state:paused]">
     
     {/* Segment 1 */}
-    <span className="inline-flex items-center text-[clamp(15px,1.4vw,20px)] font-bold mx-12 md:mx-20 uppercase tracking-wider">
-      <span className="flex h-2.5 w-2.5 relative mr-3">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-      </span>
-      Sale is Live
-      <span className="mx-3.5 text-gray-700 font-light">|</span>
-      <span className="text-emerald-400 font-extrabold font-mono text-[clamp(16px,1.5vw,22px)]">₹1,000 OFF</span>
-      <span className="mx-3.5 text-gray-700 font-light">|</span>
-      <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-0.5 rounded text-[clamp(12px,1.1vw,15px)] font-black tracking-widest">
-        THIS JULY
-      </span>
+    <span className="inline-flex items-center text-[clamp(14px,1.3vw,18px)] font-bold mx-12 md:mx-16 uppercase tracking-wider">
+      <span className="text-gray-500 font-medium">Batch 1: Sold Out</span>
+      <span className="mx-4 text-gray-800 font-light">|</span>
+      <span className="text-gray-500 font-medium">Batch 2: Sold Out</span>
+      <span className="mx-4 text-gray-800 font-light">|</span>
+      <span className="text-blue-400 font-black">Batch 3: Ships September 2026</span>
     </span>
 
     {/* Segment 2 */}
-    <span className="inline-flex items-center text-[clamp(15px,1.4vw,20px)] font-bold mx-12 md:mx-20 uppercase tracking-wider">
-      <span className="flex h-2.5 w-2.5 relative mr-3">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-      </span>
-      Sale is Live
-      <span className="mx-3.5 text-gray-700 font-light">|</span>
-      <span className="text-emerald-400 font-extrabold font-mono text-[clamp(16px,1.5vw,22px)]">₹1,000 OFF</span>
-      <span className="mx-3.5 text-gray-700 font-light">|</span>
-      <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-0.5 rounded text-[clamp(12px,1.1vw,15px)] font-black tracking-widest">
-        THIS JULY
-      </span>
+    <span className="inline-flex items-center text-[clamp(14px,1.3vw,18px)] font-bold mx-12 md:mx-16 uppercase tracking-wider">
+      <span className="text-gray-500 font-medium">Batch 1: Sold Out</span>
+      <span className="mx-4 text-gray-800 font-light">|</span>
+      <span className="text-gray-500 font-medium">Batch 2: Sold Out</span>
+      <span className="mx-4 text-gray-800 font-light">|</span>
+      <span className="text-blue-400 font-black">Batch 3: Ships September 2026</span>
     </span>
 
     {/* Segment 3 */}
-    <span className="inline-flex items-center text-[clamp(15px,1.4vw,20px)] font-bold mx-12 md:mx-20 uppercase tracking-wider">
-      <span className="flex h-2.5 w-2.5 relative mr-3">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-      </span>
-      Sale is Live
-      <span className="mx-3.5 text-gray-700 font-light">|</span>
-      <span className="text-emerald-400 font-extrabold font-mono text-[clamp(16px,1.5vw,22px)]">₹1,000 OFF</span>
-      <span className="mx-3.5 text-gray-700 font-light">|</span>
-      <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-0.5 rounded text-[clamp(12px,1.1vw,15px)] font-black tracking-widest">
-        THIS JULY
-        
-      </span>
+    <span className="inline-flex items-center text-[clamp(14px,1.3vw,18px)] font-bold mx-12 md:mx-16 uppercase tracking-wider">
+      <span className="text-gray-500 font-medium">Batch 1: Sold Out</span>
+      <span className="mx-4 text-gray-800 font-light">|</span>
+      <span className="text-gray-500 font-medium">Batch 2: Sold Out</span>
+      <span className="mx-4 text-gray-800 font-light">|</span>
+      <span className="text-blue-400 font-black">Batch 3: Ships September 2026</span>
     </span>
 
-    {/* Segment 4 (Added extra content block to keep infinite line completely packed) */}
-    <span className="inline-flex items-center text-[clamp(15px,1.4vw,20px)] font-bold mx-12 md:mx-20 uppercase tracking-wider">
-      <span className="flex h-2.5 w-2.5 relative mr-3">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-      </span>
-      Sale is Live
-      <span className="mx-3.5 text-gray-700 font-light">|</span>
-      <span className="text-emerald-400 font-extrabold font-mono text-[clamp(16px,1.5vw,22px)]">₹1,000 OFF</span>
-      <span className="mx-3.5 text-gray-700 font-light">|</span>
-      <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-0.5 rounded text-[clamp(12px,1.1vw,15px)] font-black tracking-widest">
-        THIS JULY
-      </span>
+    {/* Segment 4 */}
+    <span className="inline-flex items-center text-[clamp(14px,1.3vw,18px)] font-bold mx-12 md:mx-16 uppercase tracking-wider">
+      <span className="text-gray-500 font-medium">Batch 1: Sold Out</span>
+      <span className="mx-4 text-gray-800 font-light">|</span>
+      <span className="text-gray-500 font-medium">Batch 2: Sold Out</span>
+      <span className="mx-4 text-gray-800 font-light">|</span>
+      <span className="text-blue-400 font-black">Batch 3: Ships September 2026</span>
     </span>
 
   </div>
