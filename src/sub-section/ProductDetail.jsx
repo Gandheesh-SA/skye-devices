@@ -121,159 +121,191 @@ const ProductDetail = () => {
             Hold it in your hand. Breathe along. Slow down. The first thing you do in the morning, the last thing before sleep, and anytime in between.
           </p>
 
-<div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-  {/* Primary Price */}
-  <p
-    style={{
-      fontSize: "clamp(22px, 2.2vw, 34px)",
+<div style={{ display: "flex", flexDirection: "column", gap: "4px", fontFamily: "system-ui, -apple-system, sans-serif" }}>
+  {/* Price Block */}
+  <div style={{ display: "flex", alignItems: "baseline", gap: "10px", flexWrap: "wrap" }}>
+    {/* Highlighted Sale Price */}
+    <p
+      style={{
+        fontSize: "clamp(24px, 2.5vw, 36px)",
+        fontWeight: 800,
+        color: "#2563eb", /* Premium Highlight Blue */
+        margin: 0,
+        lineHeight: 1.2,
+      }}
+    >
+      Rs. 3,600.00
+    </p>
+    
+    {/* Original Price */}
+    <p
+      style={{
+        fontSize: "clamp(16px, 1.4vw, 20px)",
+        fontWeight: 500,
+        color: "#9ca3af",
+        textDecoration: "line-through",
+        margin: 0,
+        lineHeight: 1.2,
+      }}
+    >
+      Rs. 4,100.00
+    </p>
+
+    {/* Discount Badge */}
+    <span style={{
+      fontSize: "clamp(10px, 0.75vw, 12px)",
       fontWeight: 700,
-      color: "#111",
-      margin: 0,
-      lineHeight: 1.2,
-    }}
-  >
-    Rs. 4100.00
-  </p>
+      color: "#dc2626", /* Slightly darker red for sharper contrast */
+      backgroundColor: "#fee2e2",
+      padding: "2px 8px",
+      borderRadius: "4px",
+      textTransform: "uppercase",
+      alignSelf: "center"
+    }}>
+      12% OFF
+    </span>
+  </div>
 
   {/* GST Info */}
-  <p style={{ fontSize: "clamp(13px, 0.9vw, 15px)", color: "#555", margin: 0 }}>
+  <p style={{ fontSize: "clamp(13px, 0.9vw, 14px)", color: "#6b7280", margin: "2px 0 0 0" }}>
     (Price including 18% GST)
   </p>
 
- <div style={{ 
-  display: "flex", 
-  flexDirection: "column", 
-  gap: "8px", 
-  marginTop: "20px",
-  width: "100%",
-  maxWidth: "400px"
-}}>
-  
-  {/* Batch 1 */}
+
+  {/* Batches Section */}
   <div style={{ 
     display: "flex", 
-    alignItems: "center", 
-    justifyContent: "space-between",
-    padding: "10px 14px",
-    backgroundColor: "#f9fafb",
-    border: "1px solid #e5e7eb",
-    borderRadius: "8px"
+    flexDirection: "column", 
+    gap: "8px", 
+    marginTop: "20px",
+    width: "100%",
+    maxWidth: "400px"
   }}>
-    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-      <span style={{
-        fontSize: "clamp(12px, 0.8vw, 13px)",
-        fontWeight: 700,
+    
+    {/* Batch 1 */}
+    <div style={{ 
+      display: "flex", 
+      alignItems: "center", 
+      justifyContent: "space-between",
+      padding: "10px 14px",
+      backgroundColor: "#f9fafb",
+      border: "1px solid #e5e7eb",
+      borderRadius: "8px"
+    }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <span style={{
+          fontSize: "clamp(12px, 0.8vw, 13px)",
+          fontWeight: 700,
+          color: "#9ca3af",
+          textTransform: "uppercase",
+          letterSpacing: "0.5px"
+        }}>
+          Batch 1
+        </span>
+        <span style={{
+          fontSize: "clamp(10px, 0.7vw, 11px)",
+          fontWeight: 600,
+          color: "#6b7280",
+          backgroundColor: "#e5e7eb",
+          padding: "2px 6px",
+          borderRadius: "4px",
+          textTransform: "uppercase"
+        }}>
+          Sold Out
+        </span>
+      </div>
+      <span style={{ 
+        fontSize: "clamp(11px, 0.75vw, 12px)", 
         color: "#9ca3af",
-        textTransform: "uppercase",
-        letterSpacing: "0.5px"
+        fontWeight: 500
       }}>
-        Batch 1
-      </span>
-      <span style={{
-        fontSize: "clamp(10px, 0.7vw, 11px)",
-        fontWeight: 600,
-        color: "#6b7280",
-        backgroundColor: "#e5e7eb",
-        padding: "2px 6px",
-        borderRadius: "4px",
-        textTransform: "uppercase"
-      }}>
-        Sold Out
+        Jan, 2026
       </span>
     </div>
-    <span style={{ 
-      fontSize: "clamp(11px, 0.75vw, 12px)", 
-      color: "#9ca3af",
-      fontWeight: 500
-    }}>
-      Jan, 2026
-    </span>
-  </div>
 
-  {/* Batch 2 */}
-  <div style={{ 
-    display: "flex", 
-    alignItems: "center", 
-    justifyContent: "space-between",
-    padding: "10px 14px",
-    backgroundColor: "#f9fafb",
-    border: "1px solid #e5e7eb",
-    borderRadius: "8px"
-  }}>
-    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-      <span style={{
-        fontSize: "clamp(12px, 0.8vw, 13px)",
-        fontWeight: 700,
+    {/* Batch 2 */}
+    <div style={{ 
+      display: "flex", 
+      alignItems: "center", 
+      justifyContent: "space-between",
+      padding: "10px 14px",
+      backgroundColor: "#f9fafb",
+      border: "1px solid #e5e7eb",
+      borderRadius: "8px"
+    }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <span style={{
+          fontSize: "clamp(12px, 0.8vw, 13px)",
+          fontWeight: 700,
+          color: "#9ca3af",
+          textTransform: "uppercase",
+          letterSpacing: "0.5px"
+        }}>
+          Batch 2
+        </span>
+        <span style={{
+          fontSize: "clamp(10px, 0.7vw, 11px)",
+          fontWeight: 600,
+          color: "#6b7280",
+          backgroundColor: "#e5e7eb",
+          padding: "2px 6px",
+          borderRadius: "4px",
+          textTransform: "uppercase"
+        }}>
+          Sold Out
+        </span>
+      </div>
+      <span style={{ 
+        fontSize: "clamp(11px, 0.75vw, 12px)", 
         color: "#9ca3af",
-        textTransform: "uppercase",
-        letterSpacing: "0.5px"
+        fontWeight: 500
       }}>
-        Batch 2
-      </span>
-      <span style={{
-        fontSize: "clamp(10px, 0.7vw, 11px)",
-        fontWeight: 600,
-        color: "#6b7280",
-        backgroundColor: "#e5e7eb",
-        padding: "2px 6px",
-        borderRadius: "4px",
-        textTransform: "uppercase"
-      }}>
-        Sold Out
+        Jun, 2026
       </span>
     </div>
-    <span style={{ 
-      fontSize: "clamp(11px, 0.75vw, 12px)", 
-      color: "#9ca3af",
-      fontWeight: 500
-    }}>
-      Jun, 2026
-    </span>
-  </div>
 
-  {/* Batch 3 (Active) */}
-  <div style={{ 
-    display: "flex", 
-    alignItems: "center", 
-    justifyContent: "space-between",
-    padding: "12px 14px",
-    backgroundColor: "#111827",
-    border: "1px solid #111827",
-    borderRadius: "8px",
-    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)"
-  }}>
-    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-      {/* Tiny active pulse indicator */}
+    {/* Batch 3 (Active) */}
+    <div style={{ 
+      display: "flex", 
+      alignItems: "center", 
+      justifyContent: "space-between",
+      padding: "12px 14px",
+      backgroundColor: "#111827",
+      border: "1px solid #111827",
+      borderRadius: "8px",
+      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)"
+    }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        {/* Tiny active pulse indicator */}
+        <span style={{
+          width: "6px",
+          height: "6px",
+          backgroundColor: "#10b981",
+          borderRadius: "50%",
+          display: "inline-block"
+        }}></span>
+        <span style={{
+          fontSize: "clamp(12px, 0.85vw, 14px)",
+          fontWeight: 700,
+          color: "#ffffff",
+          textTransform: "uppercase",
+          letterSpacing: "0.5px"
+        }}>
+          Batch 3
+        </span>
+      </div>
       <span style={{
-        width: "6px",
-        height: "6px",
-        backgroundColor: "#10b981",
-        borderRadius: "50%",
-        display: "inline-block"
-      }}></span>
-      <span style={{
-        fontSize: "clamp(12px, 0.85vw, 14px)",
+        fontSize: "clamp(11px, 0.8vw, 12px)",
         fontWeight: 700,
-        color: "#ffffff",
+        color: "#10b981", 
         textTransform: "uppercase",
         letterSpacing: "0.5px"
       }}>
-        Batch 3
+        Ships September 2026
       </span>
     </div>
-    <span style={{
-      fontSize: "clamp(11px, 0.8vw, 12px)",
-      fontWeight: 700,
-      color: "#10b981", 
-      textTransform: "uppercase",
-      letterSpacing: "0.5px"
-    }}>
-      Ships September 2026
-    </span>
+
   </div>
-
-</div>
-
 </div>
 
           <button
