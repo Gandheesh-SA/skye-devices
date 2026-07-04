@@ -121,54 +121,74 @@ const ProductDetail = () => {
             Hold it in your hand. Breathe along. Slow down. The first thing you do in the morning, the last thing before sleep, and anytime in between.
           </p>
 
-<div style={{ display: "flex", flexDirection: "column", gap: "4px", fontFamily: "system-ui, -apple-system, sans-serif" }}>
+<div style={{ display: "flex", flexDirection: "column", gap: "8px", fontFamily: "system-ui, -apple-system, sans-serif" }}>
+  
+  {/* Early Bird Banner Tag */}
+  <div style={{ alignSelf: "flex-start" }}>
+    <span style={{
+      fontSize: "clamp(11px, 0.8vw, 13px)",
+      fontWeight: 700,
+      color: "#b45309", /* Dark Amber Text */
+      backgroundColor: "#fef3c7", /* Light Amber Background */
+      border: "1px solid #fde68a",
+      padding: "4px 10px",
+      borderRadius: "4px",
+      textTransform: "uppercase",
+      letterSpacing: "0.05em",
+      display: "inline-flex",
+      alignItems: "center"
+    }}>
+      Limited Early Bird Pricing
+    </span>
+  </div>
+
   {/* Price Block */}
-  <div style={{ display: "flex", alignItems: "baseline", gap: "10px", flexWrap: "wrap" }}>
-    {/* Highlighted Sale Price */}
+  <div style={{ display: "flex", alignItems: "baseline", gap: "12px", flexWrap: "wrap", marginTop: "4px" }}>
+    {/* Main Price */}
     <p
       style={{
-        fontSize: "clamp(24px, 2.5vw, 36px)",
+        fontSize: "clamp(26px, 2.8vw, 38px)",
         fontWeight: 800,
         color: "#2563eb", /* Premium Highlight Blue */
         margin: 0,
         lineHeight: 1.2,
       }}
     >
-      Rs. 3,600.00
+      Rs. 3600
     </p>
-    
-    {/* Original Price */}
+
+    {/* Original Price (Red Strikethrough) */}
     <p
       style={{
-        fontSize: "clamp(16px, 1.4vw, 20px)",
-        fontWeight: 500,
-        color: "#9ca3af",
+        fontSize: "clamp(18px, 1.5vw, 22px)",
+        fontWeight: 600,
+        color: "#dc2626", /* High-contrast Red */
         textDecoration: "line-through",
         margin: 0,
         lineHeight: 1.2,
       }}
     >
-      Rs. 4,100.00
+      Rs. 4100
     </p>
-
-    {/* Discount Badge */}
+    
+    {/* Flat Discount Banner / Badge */}
     <span style={{
-      fontSize: "clamp(10px, 0.75vw, 12px)",
+      fontSize: "clamp(12px, 0.85vw, 14px)",
       fontWeight: 700,
-      color: "#dc2626", /* Slightly darker red for sharper contrast */
-      backgroundColor: "#fee2e2",
-      padding: "2px 8px",
+      color: "#15803d", /* Deep Green Text */
+      backgroundColor: "#dcfce7", /* Light Green Background */
+      padding: "4px 10px",
       borderRadius: "4px",
       textTransform: "uppercase",
       alignSelf: "center"
     }}>
-      12% OFF
+      Flat 500 off
     </span>
   </div>
 
   {/* GST Info */}
   <p style={{ fontSize: "clamp(13px, 0.9vw, 14px)", color: "#6b7280", margin: "2px 0 0 0" }}>
-    (Price including 18% GST)
+    Price including 18% GST
   </p>
 
 

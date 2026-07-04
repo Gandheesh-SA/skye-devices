@@ -95,68 +95,51 @@ Fall Asleep with Ease.
 
       </div>
 
-
 <div className="bg-gray-950 text-gray-200 border-b border-gray-800 py-4 md:py-5 overflow-hidden whitespace-nowrap tracking-wide select-none">
   {/* Speed boosted to 12s for a faster, high-energy glide */}
   <div className="inline-block animate-[marquee_20s_linear_infinite] hover:[animation-play-state:paused]">
     
     {/* Segment 1 */}
     <span className="inline-flex items-center text-[clamp(14px,1.3vw,18px)] font-bold mx-12 md:mx-16 uppercase tracking-wider">
-      <span className="flex items-center gap-2 bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded border border-indigo-500/20 mr-4 animate-pulse">
-        ★ Sale is Live for July
+      <span className="flex items-center gap-2 bg-amber-500/10 text-amber-400 px-3 py-1 rounded border border-amber-500/20 mr-6 animate-pulse">
+        ★ BATCH 3 EARLY BIRD SALE IS LIVE
       </span>
-      <span className="text-gray-500 font-medium">Batch 1: Sold Out (Jan 2026)</span>
-      <span className="mx-4 text-gray-800 font-light">|</span>
-      <span className="text-gray-500 font-medium">Batch 2: Sold Out (Jun 2026)</span>
-      <span className="mx-4 text-gray-800 font-light">|</span>
       <span className="flex items-center gap-2">
         <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full inline-block animate-pulse"></span>
-        <span className="text-emerald-400 font-black">Batch 3: Ships September 2026</span>
+        <span className="text-emerald-400 font-black">LIMITED AVAILABILITY</span>
       </span>
     </span>
 
     {/* Segment 2 */}
     <span className="inline-flex items-center text-[clamp(14px,1.3vw,18px)] font-bold mx-12 md:mx-16 uppercase tracking-wider">
-      <span className="flex items-center gap-2 bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded border border-indigo-500/20 mr-4 animate-pulse">
-        ★ Sale is Live for July
+      <span className="flex items-center gap-2 bg-amber-500/10 text-amber-400 px-3 py-1 rounded border border-amber-500/20 mr-6 animate-pulse">
+        ★ BATCH 3 EARLY BIRD SALE IS LIVE
       </span>
-      <span className="text-gray-500 font-medium">Batch 1: Sold Out (Jan 2026)</span>
-      <span className="mx-4 text-gray-800 font-light">|</span>
-      <span className="text-gray-500 font-medium">Batch 2: Sold Out (Jun 2026)</span>
-      <span className="mx-4 text-gray-800 font-light">|</span>
       <span className="flex items-center gap-2">
         <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full inline-block animate-pulse"></span>
-        <span className="text-emerald-400 font-black">Batch 3: Ships September 2026</span>
+        <span className="text-emerald-400 font-black">LIMITED AVAILABILITY</span>
       </span>
     </span>
 
     {/* Segment 3 */}
     <span className="inline-flex items-center text-[clamp(14px,1.3vw,18px)] font-bold mx-12 md:mx-16 uppercase tracking-wider">
-      <span className="flex items-center gap-2 bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded border border-indigo-500/20 mr-4 animate-pulse">
-        ★ Sale is Live for July
+      <span className="flex items-center gap-2 bg-amber-500/10 text-amber-400 px-3 py-1 rounded border border-amber-500/20 mr-6 animate-pulse">
+        ★ BATCH 3 EARLY BIRD SALE IS LIVE
       </span>
-      <span className="text-gray-500 font-medium">Batch 1: Sold Out (Jan 2026)</span>
-      <span className="mx-4 text-gray-800 font-light">|</span>
-      <span className="text-gray-500 font-medium">Batch 2: Sold Out (Jun 2026)</span>
-      <span className="mx-4 text-gray-800 font-light">|</span>
       <span className="flex items-center gap-2">
         <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full inline-block animate-pulse"></span>
-        <span className="text-emerald-400 font-black">Batch 3: Ships September 2026</span>
+        <span className="text-emerald-400 font-black">LIMITED AVAILABILITY</span>
       </span>
     </span>
 
     {/* Segment 4 */}
     <span className="inline-flex items-center text-[clamp(14px,1.3vw,18px)] font-bold mx-12 md:mx-16 uppercase tracking-wider">
-      <span className="flex items-center gap-2 bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded border border-indigo-500/20 mr-4 animate-pulse">
-        ★ Sale is Live for July
+      <span className="flex items-center gap-2 bg-amber-500/10 text-amber-400 px-3 py-1 rounded border border-amber-500/20 mr-6 animate-pulse">
+        ★ BATCH 3 EARLY BIRD SALE IS LIVE
       </span>
-      <span className="text-gray-500 font-medium">Batch 1: Sold Out (Jan 2026)</span>
-      <span className="mx-4 text-gray-800 font-light">|</span>
-      <span className="text-gray-500 font-medium">Batch 2: Sold Out (Jun 2026)</span>
-      <span className="mx-4 text-gray-800 font-light">|</span>
       <span className="flex items-center gap-2">
         <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full inline-block animate-pulse"></span>
-        <span className="text-emerald-400 font-black">Batch 3: Ships September 2026</span>
+        <span className="text-emerald-400 font-black">LIMITED AVAILABILITY</span>
       </span>
     </span>
 
