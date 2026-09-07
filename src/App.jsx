@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import ScrollToTop from './components/ScrollToTop';
@@ -14,16 +14,19 @@ import PrivacyPolicy from "./pages/PP"
 import Shipping from "./pages/Shipping"
 import Refund from "./pages/Refund"
 import Warranty from "./pages/Warranty"
+import AdminPage from "./pages/AdminPage"
+import CheckoutPage from "./pages/CheckoutPage"
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith("/admin");
+
   return (
-    <Router>
-      
-  <ScrollToTop />
-      <Navbar />
+    <>
+      <ScrollToTop />
+      {!isAdmin && <Navbar />}
 
-      <main className="mt-[clamp(90px,10vh,140px)]">
-        
+      <main className={isAdmin ? "" : "mt-[clamp(90px,10vh,140px)]"}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
@@ -36,8 +39,18 @@ function App() {
           <Route path="/shipping" element={<Shipping />} />
           <Route path="/refund" element={<Refund />} />
           <Route path="/warranty" element={<Warranty />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
         </Routes>
       </main>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }

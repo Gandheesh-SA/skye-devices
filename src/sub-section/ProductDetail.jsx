@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import MainImage from "../images/shop/MainImage.png";
 import MainImage1 from "../images/shop/MainImage1.png";
 import MainImage2 from "../images/shop/MainImage2.png";
@@ -23,7 +24,62 @@ const linkStyle = {
 };
 
 const ProductDetail = () => {
+  const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
+  const [couponCode, setCouponCode] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [couponError, setCouponError] = useState("");
+  const [isValidating, setIsValidating] = useState(false);
+
+  const basePrice = 4100;
+  const currentPrice = appliedCoupon ? basePrice - appliedCoupon.discountAmount : basePrice;
+
+
+  const handleApplyCoupon = async (e) => {
+    e?.preventDefault();
+    const cleanCode = couponCode.trim().toUpperCase();
+    if (!cleanCode) {
+      setCouponError("Please enter a coupon code");
+      return;
+    }
+
+    setIsValidating(true);
+    setCouponError("");
+
+    try {
+      const apiBase = import.meta.env.VITE_API_BASE_URL || "";
+      const res = await fetch(`${apiBase}/api/validate-code`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: cleanCode }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.valid) {
+        setAppliedCoupon({
+          code: data.code || cleanCode,
+          discountAmount: data.discountAmount || 500,
+          affiliateName: data.affiliateName || "",
+        });
+        setCouponError("");
+      } else {
+        setCouponError(data.message || "Invalid or expired coupon code");
+      }
+    } catch (err) {
+      console.error("Coupon validation error:", err);
+      setCouponError("Unable to validate coupon. Please try again.");
+    } finally {
+      setIsValidating(false);
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponCode("");
+    setCouponError("");
+  };
+
+
 
   return (
     <section style={{ backgroundColor: "#fff", padding: "clamp(24px, 5vw, 64px) clamp(24px, 6vw, 80px)" }}>
@@ -121,239 +177,306 @@ const ProductDetail = () => {
             Hold it in your hand. Breathe along. Slow down. The first thing you do in the morning, the last thing before sleep, and anytime in between.
           </p>
 
-<div style={{ display: "flex", flexDirection: "column", gap: "8px", fontFamily: "system-ui, -apple-system, sans-serif" }}>
-  
-  {/* Early Bird Banner Tag */}
-  <div style={{ alignSelf: "flex-start" }}>
-    <span style={{
-      fontSize: "clamp(11px, 0.8vw, 13px)",
-      fontWeight: 700,
-      color: "#b45309", /* Dark Amber Text */
-      backgroundColor: "#fef3c7", /* Light Amber Background */
-      border: "1px solid #fde68a",
-      padding: "4px 10px",
-      borderRadius: "4px",
-      textTransform: "uppercase",
-      letterSpacing: "0.05em",
-      display: "inline-flex",
-      alignItems: "center"
-    }}>
-      Limited Early Bird Pricing
-    </span>
-  </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontFamily: "system-ui, -apple-system, sans-serif" }}>
+            
+            {/* Price Block */}
+            <div style={{ display: "flex", alignItems: "baseline", gap: "12px", flexWrap: "wrap", marginTop: "4px" }}>
+              {/* Main Price */}
+              <p
+                style={{
+                  fontSize: "clamp(26px, 2.8vw, 38px)",
+                  fontWeight: 800,
+                  color: "#2563eb",
+                  margin: 0,
+                  lineHeight: 1.2,
+                }}
+              >
+                Rs. {currentPrice}
+              </p>
 
-  {/* Price Block */}
-  <div style={{ display: "flex", alignItems: "baseline", gap: "12px", flexWrap: "wrap", marginTop: "4px" }}>
-    {/* Main Price */}
-    <p
-      style={{
-        fontSize: "clamp(26px, 2.8vw, 38px)",
-        fontWeight: 800,
-        color: "#2563eb", /* Premium Highlight Blue */
-        margin: 0,
-        lineHeight: 1.2,
-      }}
-    >
-      Rs. 3600
-    </p>
+              {/* Original Price (When coupon is applied) */}
+              {appliedCoupon && (
+                <>
+                  <p
+                    style={{
+                      fontSize: "clamp(18px, 1.5vw, 22px)",
+                      fontWeight: 600,
+                      color: "#9ca3af",
+                      textDecoration: "line-through",
+                      margin: 0,
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    Rs. {basePrice}
+                  </p>
+                  
+                  <span style={{
+                    fontSize: "clamp(12px, 0.85vw, 14px)",
+                    fontWeight: 700,
+                    color: "#15803d",
+                    backgroundColor: "#dcfce7",
+                    padding: "4px 10px",
+                    borderRadius: "4px",
+                    textTransform: "uppercase",
+                    alignSelf: "center"
+                  }}>
+                    -Rs. {appliedCoupon.discountAmount} off
+                  </span>
+                </>
+              )}
+            </div>
 
-    {/* Original Price (Red Strikethrough) */}
-    <p
-      style={{
-        fontSize: "clamp(18px, 1.5vw, 22px)",
-        fontWeight: 600,
-        color: "#dc2626", /* High-contrast Red */
-        textDecoration: "line-through",
-        margin: 0,
-        lineHeight: 1.2,
-      }}
-    >
-      Rs. 4100
-    </p>
-    
-    {/* Flat Discount Banner / Badge */}
-    <span style={{
-      fontSize: "clamp(12px, 0.85vw, 14px)",
-      fontWeight: 700,
-      color: "#15803d", /* Deep Green Text */
-      backgroundColor: "#dcfce7", /* Light Green Background */
-      padding: "4px 10px",
-      borderRadius: "4px",
-      textTransform: "uppercase",
-      alignSelf: "center"
-    }}>
-      Flat 500 off
-    </span>
-  </div>
+            {/* GST Info */}
+            <p style={{ fontSize: "clamp(13px, 0.9vw, 14px)", color: "#6b7280", margin: "2px 0 0 0" }}>
+              Price including 18% GST & free shipping
+            </p>
 
-  {/* GST Info */}
-  <p style={{ fontSize: "clamp(13px, 0.9vw, 14px)", color: "#6b7280", margin: "2px 0 0 0" }}>
-    Price including 18% GST
-  </p>
+            {/* Coupon Code Input Section */}
+            <div style={{ marginTop: "12px", maxWidth: "400px", width: "100%" }}>
+              {!appliedCoupon ? (
+                <form onSubmit={handleApplyCoupon} style={{ display: "flex", gap: "8px" }}>
+                  <input
+                    type="text"
+                    placeholder="Enter coupon code"
+                    value={couponCode}
+                    onChange={(e) => {
+                      setCouponCode(e.target.value.toUpperCase());
+                      if (couponError) setCouponError("");
+                    }}
+                    style={{
+                      flex: 1,
+                      padding: "10px 14px",
+                      borderRadius: "8px",
+                      border: couponError ? "1.5px solid #ef4444" : "1.5px solid #d1d5db",
+                      fontSize: "14px",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.5px",
+                      outline: "none",
+                      backgroundColor: "#f9fafb",
+                    }}
+                  />
+                  <button
+                    type="submit"
+                    disabled={isValidating || !couponCode.trim()}
+                    style={{
+                      padding: "10px 18px",
+                      backgroundColor: couponCode.trim() ? "#111827" : "#9ca3af",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "8px",
+                      fontSize: "14px",
+                      fontWeight: 600,
+                      cursor: couponCode.trim() ? "pointer" : "not-allowed",
+                      transition: "background-color 0.15s",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {isValidating ? "Checking..." : "Apply"}
+                  </button>
+                </form>
+              ) : (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "10px 14px",
+                    backgroundColor: "#f0fdf4",
+                    border: "1px solid #bbf7d0",
+                    borderRadius: "8px",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <span style={{ color: "#16a34a", fontWeight: 700, fontSize: "14px" }}>✓</span>
+                    <span style={{ fontSize: "14px", color: "#166534", fontWeight: 600 }}>
+                      Code <strong>{appliedCoupon.code}</strong> applied (-₹{appliedCoupon.discountAmount})
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleRemoveCoupon}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      color: "#dc2626",
+                      fontSize: "13px",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      padding: 0,
+                    }}
+                  >
+                    Remove
+                  </button>
+                </div>
+              )}
 
+              {couponError && (
+                <p style={{ color: "#ef4444", fontSize: "13px", margin: "6px 0 0 2px", fontWeight: 500 }}>
+                  {couponError}
+                </p>
+              )}
+            </div>
 
-  {/* Batches Section */}
-  <div style={{ 
-    display: "flex", 
-    flexDirection: "column", 
-    gap: "8px", 
-    marginTop: "20px",
-    width: "100%",
-    maxWidth: "400px"
-  }}>
-    
-    {/* Batch 1 */}
-    <div style={{ 
-      display: "flex", 
-      alignItems: "center", 
-      justifyContent: "space-between",
-      padding: "10px 14px",
-      backgroundColor: "#f9fafb",
-      border: "1px solid #e5e7eb",
-      borderRadius: "8px"
-    }}>
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        <span style={{
-          fontSize: "clamp(12px, 0.8vw, 13px)",
-          fontWeight: 700,
-          color: "#9ca3af",
-          textTransform: "uppercase",
-          letterSpacing: "0.5px"
-        }}>
-          Batch 1
-        </span>
-        <span style={{
-          fontSize: "clamp(10px, 0.7vw, 11px)",
-          fontWeight: 600,
-          color: "#6b7280",
-          backgroundColor: "#e5e7eb",
-          padding: "2px 6px",
-          borderRadius: "4px",
-          textTransform: "uppercase"
-        }}>
-          Sold Out
-        </span>
-      </div>
-      <span style={{ 
-        fontSize: "clamp(11px, 0.75vw, 12px)", 
-        color: "#9ca3af",
-        fontWeight: 500
-      }}>
-        Jan, 2026
-      </span>
-    </div>
+            {/* Batches Section */}
+            <div style={{ 
+              display: "flex", 
+              flexDirection: "column", 
+              gap: "8px", 
+              marginTop: "20px",
+              width: "100%",
+              maxWidth: "400px"
+            }}>
+              
+              {/* Batch 1 */}
+              <div style={{ 
+                display: "flex", 
+                alignItems: "center", 
+                justifyContent: "space-between",
+                padding: "10px 14px",
+                backgroundColor: "#f9fafb",
+                border: "1px solid #e5e7eb",
+                borderRadius: "8px"
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <span style={{
+                    fontSize: "clamp(12px, 0.8vw, 13px)",
+                    fontWeight: 700,
+                    color: "#9ca3af",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.5px"
+                  }}>
+                    Batch 1
+                  </span>
+                  <span style={{
+                    fontSize: "clamp(10px, 0.7vw, 11px)",
+                    fontWeight: 600,
+                    color: "#6b7280",
+                    backgroundColor: "#e5e7eb",
+                    padding: "2px 6px",
+                    borderRadius: "4px",
+                    textTransform: "uppercase"
+                  }}>
+                    Sold Out
+                  </span>
+                </div>
+                <span style={{ 
+                  fontSize: "clamp(11px, 0.75vw, 12px)", 
+                  color: "#9ca3af",
+                  fontWeight: 500
+                }}>
+                  Jan, 2026
+                </span>
+              </div>
 
-    {/* Batch 2 */}
-    <div style={{ 
-      display: "flex", 
-      alignItems: "center", 
-      justifyContent: "space-between",
-      padding: "10px 14px",
-      backgroundColor: "#f9fafb",
-      border: "1px solid #e5e7eb",
-      borderRadius: "8px"
-    }}>
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        <span style={{
-          fontSize: "clamp(12px, 0.8vw, 13px)",
-          fontWeight: 700,
-          color: "#9ca3af",
-          textTransform: "uppercase",
-          letterSpacing: "0.5px"
-        }}>
-          Batch 2
-        </span>
-        <span style={{
-          fontSize: "clamp(10px, 0.7vw, 11px)",
-          fontWeight: 600,
-          color: "#6b7280",
-          backgroundColor: "#e5e7eb",
-          padding: "2px 6px",
-          borderRadius: "4px",
-          textTransform: "uppercase"
-        }}>
-          Sold Out
-        </span>
-      </div>
-      <span style={{ 
-        fontSize: "clamp(11px, 0.75vw, 12px)", 
-        color: "#9ca3af",
-        fontWeight: 500
-      }}>
-        Jun, 2026
-      </span>
-    </div>
+              {/* Batch 2 */}
+              <div style={{ 
+                display: "flex", 
+                alignItems: "center", 
+                justifyContent: "space-between",
+                padding: "10px 14px",
+                backgroundColor: "#f9fafb",
+                border: "1px solid #e5e7eb",
+                borderRadius: "8px"
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <span style={{
+                    fontSize: "clamp(12px, 0.8vw, 13px)",
+                    fontWeight: 700,
+                    color: "#9ca3af",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.5px"
+                  }}>
+                    Batch 2
+                  </span>
+                  <span style={{
+                    fontSize: "clamp(10px, 0.7vw, 11px)",
+                    fontWeight: 600,
+                    color: "#6b7280",
+                    backgroundColor: "#e5e7eb",
+                    padding: "2px 6px",
+                    borderRadius: "4px",
+                    textTransform: "uppercase"
+                  }}>
+                    Sold Out
+                  </span>
+                </div>
+                <span style={{ 
+                  fontSize: "clamp(11px, 0.75vw, 12px)", 
+                  color: "#9ca3af",
+                  fontWeight: 500
+                }}>
+                  Jun, 2026
+                </span>
+              </div>
 
-    {/* Batch 3 (Active) */}
-    <div style={{ 
-      display: "flex", 
-      alignItems: "center", 
-      justifyContent: "space-between",
-      padding: "12px 14px",
-      backgroundColor: "#111827",
-      border: "1px solid #111827",
-      borderRadius: "8px",
-      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)"
-    }}>
-      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-        {/* Tiny active pulse indicator */}
-        <span style={{
-          width: "6px",
-          height: "6px",
-          backgroundColor: "#10b981",
-          borderRadius: "50%",
-          display: "inline-block"
-        }}></span>
-        <span style={{
-          fontSize: "clamp(12px, 0.85vw, 14px)",
-          fontWeight: 700,
-          color: "#ffffff",
-          textTransform: "uppercase",
-          letterSpacing: "0.5px"
-        }}>
-          Batch 3
-        </span>
-      </div>
-      <span style={{
-        fontSize: "clamp(11px, 0.8vw, 12px)",
-        fontWeight: 700,
-        color: "#10b981", 
-        textTransform: "uppercase",
-        letterSpacing: "0.5px"
-      }}>
-        Ships September 2026
-      </span>
-    </div>
+              {/* Batch 3 (Active) */}
+              <div style={{ 
+                display: "flex", 
+                alignItems: "center", 
+                justifyContent: "space-between",
+                padding: "12px 14px",
+                backgroundColor: "#111827",
+                border: "1px solid #111827",
+                borderRadius: "8px",
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)"
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <span style={{
+                    width: "6px",
+                    height: "6px",
+                    backgroundColor: "#10b981",
+                    borderRadius: "50%",
+                    display: "inline-block"
+                  }}></span>
+                  <span style={{
+                    fontSize: "clamp(12px, 0.85vw, 14px)",
+                    fontWeight: 700,
+                    color: "#ffffff",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.5px"
+                  }}>
+                    Batch 3
+                  </span>
+                </div>
+                <span style={{
+                  fontSize: "clamp(11px, 0.8vw, 12px)",
+                  fontWeight: 700,
+                  color: "#10b981", 
+                  textTransform: "uppercase",
+                  letterSpacing: "0.5px"
+                }}>
+                  Ships September 2026
+                </span>
+              </div>
 
-  </div>
-</div>
+            </div>
+          </div>
 
           <button
-  onClick={() => {
-
-    const url = import.meta.env.VITE_PAYMENT_URL;
-    console.log("Payment URL:", import.meta.env.VITE_PAYMENT_URL);
-    window.open(url, "_blank", "noopener,noreferrer");
-
-  }}
-  style={{
-    backgroundColor: "#3b5bdb",
-    color: "#fff",
-    border: "none",
-    borderRadius: "999px",
-    padding: "clamp(12px, 1.5vh, 18px) clamp(32px, 3vw, 52px)",
-    fontSize: "clamp(14px, 1vw, 17px)",
-    fontWeight: 600,
-    cursor: "pointer",
-    width: "fit-content",
-    letterSpacing: "0.01em",
-    transition: "background-color 0.15s",
-  }}
-  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#2f4ac4")}
-  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#3b5bdb")}
->
-  Order Now
-</button>
+            onClick={() =>
+              navigate("/checkout", {
+                state: { appliedCoupon, currentPrice, basePrice },
+              })
+            }
+            style={{
+              backgroundColor: "#3b5bdb",
+              color: "#fff",
+              border: "none",
+              borderRadius: "999px",
+              padding: "clamp(12px, 1.5vh, 18px) clamp(32px, 3vw, 52px)",
+              fontSize: "clamp(14px, 1vw, 17px)",
+              fontWeight: 600,
+              cursor: "pointer",
+              width: "fit-content",
+              letterSpacing: "0.01em",
+              transition: "background-color 0.15s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#2f4ac4")}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#3b5bdb")}
+          >
+            Order Now – Rs. {currentPrice}
+          </button>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "clamp(10px, 1.2vh, 16px)", paddingTop: "4px" }}>
             {features.map((f, i) => (

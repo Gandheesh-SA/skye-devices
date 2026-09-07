@@ -101,45 +101,45 @@ Fall Asleep with Ease.
     
     {/* Segment 1 */}
     <span className="inline-flex items-center text-[clamp(14px,1.3vw,18px)] font-bold mx-12 md:mx-16 uppercase tracking-wider">
-      <span className="flex items-center gap-2 bg-amber-500/10 text-amber-400 px-3 py-1 rounded border border-amber-500/20 mr-6 animate-pulse">
-        ★ BATCH 3 EARLY BIRD SALE IS LIVE
+      <span className="flex items-center gap-2 bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded border border-indigo-500/20 mr-6">
+        ★ Batch 3 is Live
       </span>
       <span className="flex items-center gap-2">
         <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full inline-block animate-pulse"></span>
-        <span className="text-emerald-400 font-black">LIMITED AVAILABILITY</span>
+        <span className="text-emerald-400 font-black">Ships September 2026</span>
       </span>
     </span>
 
     {/* Segment 2 */}
     <span className="inline-flex items-center text-[clamp(14px,1.3vw,18px)] font-bold mx-12 md:mx-16 uppercase tracking-wider">
-      <span className="flex items-center gap-2 bg-amber-500/10 text-amber-400 px-3 py-1 rounded border border-amber-500/20 mr-6 animate-pulse">
-        ★ BATCH 3 EARLY BIRD SALE IS LIVE
+      <span className="flex items-center gap-2 bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded border border-indigo-500/20 mr-6">
+        ★ Batch 3 is Live
       </span>
       <span className="flex items-center gap-2">
         <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full inline-block animate-pulse"></span>
-        <span className="text-emerald-400 font-black">LIMITED AVAILABILITY</span>
+        <span className="text-emerald-400 font-black">Ships September 2026</span>
       </span>
     </span>
 
     {/* Segment 3 */}
     <span className="inline-flex items-center text-[clamp(14px,1.3vw,18px)] font-bold mx-12 md:mx-16 uppercase tracking-wider">
-      <span className="flex items-center gap-2 bg-amber-500/10 text-amber-400 px-3 py-1 rounded border border-amber-500/20 mr-6 animate-pulse">
-        ★ BATCH 3 EARLY BIRD SALE IS LIVE
+      <span className="flex items-center gap-2 bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded border border-indigo-500/20 mr-6">
+        ★ Batch 3 is Live
       </span>
       <span className="flex items-center gap-2">
         <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full inline-block animate-pulse"></span>
-        <span className="text-emerald-400 font-black">LIMITED AVAILABILITY</span>
+        <span className="text-emerald-400 font-black">Ships September 2026</span>
       </span>
     </span>
 
     {/* Segment 4 */}
     <span className="inline-flex items-center text-[clamp(14px,1.3vw,18px)] font-bold mx-12 md:mx-16 uppercase tracking-wider">
-      <span className="flex items-center gap-2 bg-amber-500/10 text-amber-400 px-3 py-1 rounded border border-amber-500/20 mr-6 animate-pulse">
-        ★ BATCH 3 EARLY BIRD SALE IS LIVE
+      <span className="flex items-center gap-2 bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded border border-indigo-500/20 mr-6">
+        ★ Batch 3 is Live
       </span>
       <span className="flex items-center gap-2">
         <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full inline-block animate-pulse"></span>
-        <span className="text-emerald-400 font-black">LIMITED AVAILABILITY</span>
+        <span className="text-emerald-400 font-black">Ships September 2026</span>
       </span>
     </span>
 
