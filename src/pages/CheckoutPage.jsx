@@ -139,13 +139,18 @@ const CheckoutPage = () => {
 
   // Step 2 — Address
   const [address, setAddress] = useState({
-    line1: "",
-    line2: "",
+    pincode: "",
+    area: "",
     city: "",
     state: "",
-    pincode: "",
     country: "India",
+    line1: "",
+    landmark: "",
   });
+
+  const [pincodeLoading, setPincodeLoading] = useState(false);
+  const [pincodeStatus, setPincodeStatus] = useState(null); // { type: 'success'|'warning', message: '' }
+  const [areaSuggestions, setAreaSuggestions] = useState([]);
 
   // Step 3 — Payment
   const [isProcessingOrder, setIsProcessingOrder] = useState(false);
@@ -169,16 +174,91 @@ const CheckoutPage = () => {
     return Object.keys(e).length === 0;
   };
 
+  // ── Auto-fill address on PIN code entry ──
+  const handlePincodeChange = async (e) => {
+    const val = e.target.value.replace(/\D/g, "").slice(0, 6);
+    setAddress((prev) => ({ ...prev, pincode: val }));
+    if (errors.pincode) setErrors((prev) => ({ ...prev, pincode: "" }));
+    setPincodeStatus(null);
+
+    if (val.length === 6) {
+      setPincodeLoading(true);
+      try {
+        const res = await fetch(`https://api.postalpincode.in/pincode/${val}`);
+        const data = await res.json();
+        if (Array.isArray(data) && data[0]?.Status === "Success" && data[0]?.PostOffice?.length > 0) {
+          const postOffices = data[0].PostOffice;
+          const district = postOffices[0].District || "";
+          const rawState = postOffices[0].State || "";
+          const matchedState =
+            INDIAN_STATES.find(
+              (s) => s.toLowerCase() === rawState.trim().toLowerCase()
+            ) || rawState;
+
+          const uniqueAreas = [
+            ...new Set(postOffices.map((po) => po.Name).filter(Boolean)),
+          ];
+          setAreaSuggestions(uniqueAreas);
+
+          setAddress((prev) => ({
+            ...prev,
+            pincode: val,
+            city: district || prev.city,
+            state: matchedState || prev.state,
+            area: prev.area ? prev.area : (uniqueAreas[0] || ""),
+          }));
+
+          setErrors((prev) => {
+            const next = { ...prev };
+            delete next.city;
+            delete next.state;
+            return next;
+          });
+
+          setPincodeStatus({
+            type: "success",
+            message: `Location detected: ${district ? district + ", " : ""}${matchedState}`,
+          });
+        } else {
+          setAreaSuggestions([]);
+          setPincodeStatus({
+            type: "warning",
+            message: "PIN code not recognized. Please fill Area, City, and State manually.",
+          });
+        }
+      } catch {
+        setAreaSuggestions([]);
+        setPincodeStatus({
+          type: "warning",
+          message: "Could not auto-fetch location. Please fill Area, City, and State manually.",
+        });
+      } finally {
+        setPincodeLoading(false);
+      }
+    } else {
+      setAreaSuggestions([]);
+    }
+  };
+
   // ── Validate step 2 ──
   const validateStep2 = () => {
     const e = {};
-    if (!address.line1.trim()) e.line1 = "Address is required";
-    if (!address.city.trim()) e.city = "City is required";
-    if (!address.state.trim()) e.state = "State is required";
     if (!address.pincode.trim()) e.pincode = "PIN code is required";
-    else if (!/^\d{6}$/.test(address.pincode.trim())) e.pincode = "Enter a valid 6-digit PIN";
+    else if (!/^\d{6}$/.test(address.pincode.trim())) e.pincode = "Enter a valid 6-digit PIN code";
+    if (!address.city.trim()) e.city = "City / District is required";
+    if (!address.state.trim()) e.state = "State is required";
+    if (!address.line1.trim()) e.line1 = "Main address (Flat / House / Building / Street) is required";
     setErrors(e);
     return Object.keys(e).length === 0;
+  };
+
+  const getCombinedAddress = () => {
+    const line1 = address.line1.trim();
+    const line2Parts = [];
+    if (address.area.trim()) line2Parts.push(address.area.trim());
+    if (address.landmark.trim()) line2Parts.push(`Landmark: ${address.landmark.trim()}`);
+    const line2 = line2Parts.join(", ");
+    return { line1, line2 };
   };
 
   const handleNext = () => {
@@ -199,6 +279,8 @@ const CheckoutPage = () => {
     setCheckoutError("");
     setIsProcessingOrder(true);
 
+    const { line1, line2 } = getCombinedAddress();
+
     try {
       const apiBase = import.meta.env.VITE_API_BASE_URL || "";
       const res = await fetch(`${apiBase}/api/orders/create`, {
@@ -211,8 +293,8 @@ const CheckoutPage = () => {
           customerPhone: personal.phone.trim(),
           customerAge: personal.age.trim(),
           customerOccupation: personal.occupation.trim(),
-          addressLine1: address.line1.trim(),
-          addressLine2: address.line2.trim(),
+          addressLine1: line1,
+          addressLine2: line2,
           city: address.city.trim(),
           state: address.state.trim(),
           pincode: address.pincode.trim(),
@@ -257,8 +339,8 @@ const CheckoutPage = () => {
                 customerPhone: personal.phone.trim(),
                 customerAge: personal.age.trim(),
                 customerOccupation: personal.occupation.trim(),
-                addressLine1: address.line1.trim(),
-                addressLine2: address.line2.trim(),
+                addressLine1: line1,
+                addressLine2: line2,
                 city: address.city.trim(),
                 state: address.state.trim(),
                 pincode: address.pincode.trim(),
@@ -541,82 +623,222 @@ const CheckoutPage = () => {
 
           {/* ── STEP 2: Address ── */}
           {step === 2 && (
-            <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-              <h2 style={{ margin: "0 0 4px", fontSize: "clamp(18px, 2vw, 22px)", fontWeight: 800, color: "#111" }}>
-                Shipping Address
-              </h2>
-              <p style={{ margin: 0, fontSize: "14px", color: "#6b7280" }}>
-                Where should we deliver your Skye?
-              </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+              <div>
+                <h2 style={{ margin: "0 0 4px", fontSize: "clamp(18px, 2vw, 22px)", fontWeight: 800, color: "#111" }}>
+                  Shipping Address
+                </h2>
+                <p style={{ margin: 0, fontSize: "14px", color: "#6b7280" }}>
+                  Enter your 6-digit PIN code first to auto-fill your area, city, and state.
+                </p>
+              </div>
 
-              <Field label="Address Line 1" required>
-                <input
-                  type="text"
-                  placeholder="Flat / House no., Building, Street"
-                  value={address.line1}
-                  onChange={(e) => { setAddress({ ...address, line1: e.target.value }); if (errors.line1) setErrors({ ...errors, line1: "" }); }}
-                  style={inputStyle(errors.line1)}
-                />
-                {errors.line1 && <span style={{ color: "#ef4444", fontSize: "12px" }}>{errors.line1}</span>}
-              </Field>
+              {/* ── TOP DIVISION: Postal & Area Details ── */}
+              <div
+                style={{
+                  backgroundColor: "#f8fafc",
+                  border: "1.5px solid #e2e8f0",
+                  borderRadius: "16px",
+                  padding: "20px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "16px",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: 800,
+                      color: "#3b5bdb",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.8px",
+                    }}
+                  >
+                    1. Location &amp; Postal Details
+                  </span>
+                  {pincodeLoading && (
+                    <span style={{ fontSize: "12px", color: "#3b5bdb", fontWeight: 600 }}>
+                      Looking up location…
+                    </span>
+                  )}
+                </div>
 
-              <Field label="Address Line 2">
-                <input
-                  type="text"
-                  placeholder="Area, Colony, Landmark (optional)"
-                  value={address.line2}
-                  onChange={(e) => setAddress({ ...address, line2: e.target.value })}
-                  style={inputStyle(false)}
-                />
-              </Field>
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
-                <Field label="City" required>
-                  <input
-                    type="text"
-                    placeholder="City"
-                    value={address.city}
-                    onChange={(e) => { setAddress({ ...address, city: e.target.value }); if (errors.city) setErrors({ ...errors, city: "" }); }}
-                    style={inputStyle(errors.city)}
-                  />
-                  {errors.city && <span style={{ color: "#ef4444", fontSize: "12px" }}>{errors.city}</span>}
+                {/* PIN Code first */}
+                <Field label="PIN Code" required>
+                  <div style={{ position: "relative" }}>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      placeholder="Enter 6-digit PIN code (e.g. 560001)"
+                      value={address.pincode}
+                      maxLength={6}
+                      onChange={handlePincodeChange}
+                      style={{
+                        ...inputStyle(errors.pincode),
+                        backgroundColor: "#fff",
+                        paddingRight: pincodeLoading ? "40px" : "14px",
+                      }}
+                    />
+                    {pincodeLoading && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          right: "12px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          width: "16px",
+                          height: "16px",
+                          border: "2px solid #cbd5e1",
+                          borderTopColor: "#3b5bdb",
+                          borderRadius: "50%",
+                          animation: "spin 0.8s linear infinite",
+                        }}
+                      />
+                    )}
+                  </div>
+                  {errors.pincode && (
+                    <span style={{ color: "#ef4444", fontSize: "12px" }}>{errors.pincode}</span>
+                  )}
+                  {pincodeStatus && (
+                    <div
+                      style={{
+                        marginTop: "4px",
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        color: pincodeStatus.type === "success" ? "#16a34a" : "#d97706",
+                      }}
+                    >
+                      {pincodeStatus.message}
+                    </div>
+                  )}
                 </Field>
 
-                <Field label="PIN Code" required>
+                {/* Area / Locality with suggestion datalist */}
+                <Field label="Area / Locality">
                   <input
                     type="text"
-                    placeholder="6-digit PIN"
-                    value={address.pincode}
-                    maxLength={6}
-                    onChange={(e) => { setAddress({ ...address, pincode: e.target.value.replace(/\D/, "") }); if (errors.pincode) setErrors({ ...errors, pincode: "" }); }}
-                    style={inputStyle(errors.pincode)}
+                    list="area-suggestions-list"
+                    placeholder="e.g. Indiranagar, Koramangala…"
+                    value={address.area}
+                    onChange={(e) => setAddress({ ...address, area: e.target.value })}
+                    style={{ ...inputStyle(false), backgroundColor: "#fff" }}
                   />
-                  {errors.pincode && <span style={{ color: "#ef4444", fontSize: "12px" }}>{errors.pincode}</span>}
+                  {areaSuggestions.length > 0 && (
+                    <datalist id="area-suggestions-list">
+                      {areaSuggestions.map((item, idx) => (
+                        <option key={idx} value={item} />
+                      ))}
+                    </datalist>
+                  )}
+                  {areaSuggestions.length > 0 && (
+                    <span style={{ fontSize: "11px", color: "#6b7280" }}>
+                      Select a suggested area from the list or type your own.
+                    </span>
+                  )}
+                </Field>
+
+                {/* City & State */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                  <Field label="City / District" required>
+                    <input
+                      type="text"
+                      placeholder="City or District"
+                      value={address.city}
+                      onChange={(e) => {
+                        setAddress({ ...address, city: e.target.value });
+                        if (errors.city) setErrors({ ...errors, city: "" });
+                      }}
+                      style={{ ...inputStyle(errors.city), backgroundColor: "#fff" }}
+                    />
+                    {errors.city && <span style={{ color: "#ef4444", fontSize: "12px" }}>{errors.city}</span>}
+                  </Field>
+
+                  <Field label="State" required>
+                    <select
+                      value={address.state}
+                      onChange={(e) => {
+                        setAddress({ ...address, state: e.target.value });
+                        if (errors.state) setErrors({ ...errors, state: "" });
+                      }}
+                      style={{ ...selectStyle(errors.state), backgroundColor: "#fff" }}
+                    >
+                      <option value="">Select State / UT</option>
+                      {INDIAN_STATES.map((s) => (
+                        <option key={s} value={s}>{s}</option>
+                      ))}
+                    </select>
+                    {errors.state && <span style={{ color: "#ef4444", fontSize: "12px" }}>{errors.state}</span>}
+                  </Field>
+                </div>
+
+                {/* Country */}
+                <Field label="Country">
+                  <input
+                    type="text"
+                    value={address.country}
+                    readOnly
+                    style={{
+                      ...inputStyle(false),
+                      backgroundColor: "#e2e8f0",
+                      color: "#475569",
+                      fontWeight: 600,
+                      cursor: "not-allowed",
+                    }}
+                  />
                 </Field>
               </div>
 
-              <Field label="State" required>
-                <select
-                  value={address.state}
-                  onChange={(e) => { setAddress({ ...address, state: e.target.value }); if (errors.state) setErrors({ ...errors, state: "" }); }}
-                  style={selectStyle(errors.state)}
+              {/* ── BOTTOM DIVISION: Main Address & Landmark ── */}
+              <div
+                style={{
+                  backgroundColor: "#ffffff",
+                  border: "1.5px solid #e2e8f0",
+                  borderRadius: "16px",
+                  padding: "20px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "16px",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "12px",
+                    fontWeight: 800,
+                    color: "#111827",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.8px",
+                  }}
                 >
-                  <option value="">Select State / UT</option>
-                  {INDIAN_STATES.map((s) => (
-                    <option key={s} value={s}>{s}</option>
-                  ))}
-                </select>
-                {errors.state && <span style={{ color: "#ef4444", fontSize: "12px" }}>{errors.state}</span>}
-              </Field>
+                  2. House &amp; Street Address
+                </span>
 
-              <Field label="Country">
-                <input
-                  type="text"
-                  value={address.country}
-                  readOnly
-                  style={{ ...inputStyle(false), backgroundColor: "#f3f4f6", color: "#6b7280", cursor: "not-allowed" }}
-                />
-              </Field>
+                {/* Main Address */}
+                <Field label="Main Address (Flat, House, Building, Street)" required>
+                  <input
+                    type="text"
+                    placeholder="Flat / House no., Floor, Building, Street / Road"
+                    value={address.line1}
+                    onChange={(e) => {
+                      setAddress({ ...address, line1: e.target.value });
+                      if (errors.line1) setErrors({ ...errors, line1: "" });
+                    }}
+                    style={inputStyle(errors.line1)}
+                  />
+                  {errors.line1 && <span style={{ color: "#ef4444", fontSize: "12px" }}>{errors.line1}</span>}
+                </Field>
+
+                {/* Landmark */}
+                <Field label="Landmark (Optional)">
+                  <input
+                    type="text"
+                    placeholder="e.g. Near City Hospital, Opposite Community Park"
+                    value={address.landmark}
+                    onChange={(e) => setAddress({ ...address, landmark: e.target.value })}
+                    style={inputStyle(false)}
+                  />
+                </Field>
+              </div>
 
               <button
                 onClick={handleNext}
@@ -716,7 +938,9 @@ const CheckoutPage = () => {
                   <br />
                   {personal.email}
                   <br />
-                  {address.line1}{address.line2 ? `, ${address.line2}` : ""}
+                  {address.line1}
+                  {address.area && <><br />{address.area}</>}
+                  {address.landmark && <><br />Landmark: {address.landmark}</>}
                   <br />
                   {address.city}, {address.state} – {address.pincode}
                   <br />
@@ -736,7 +960,7 @@ const CheckoutPage = () => {
                     fontWeight: 500,
                   }}
                 >
-                  ⚠️ {checkoutError}
+                  {checkoutError}
                 </div>
               )}
 
@@ -767,7 +991,7 @@ const CheckoutPage = () => {
               </button>
 
               <p style={{ margin: 0, fontSize: "12px", color: "#9ca3af", textAlign: "center" }}>
-                🔒 Secured by Razorpay · 256-bit SSL encryption
+                Secured by Razorpay · 256-bit SSL encryption
               </p>
             </div>
           )}
@@ -894,8 +1118,12 @@ const CheckoutPage = () => {
         </div>
       </div>
 
-      {/* ── Responsive override (single column on mobile) ───────────────────── */}
+      {/* ── Responsive override (single column on mobile) & keyframes ────── */}
       <style>{`
+        @keyframes spin {
+          0% { transform: translateY(-50%) rotate(0deg); }
+          100% { transform: translateY(-50%) rotate(360deg); }
+        }
         @media (max-width: 768px) {
           .checkout-grid {
             grid-template-columns: 1fr !important;
