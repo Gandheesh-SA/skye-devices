@@ -47,7 +47,7 @@ const ProductDetail = () => {
     setCouponError("");
 
     try {
-      const apiBase = import.meta.env.VITE_API_BASE_URL || "";
+      const apiBase = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
       const res = await fetch(`${apiBase}/api/validate-code`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

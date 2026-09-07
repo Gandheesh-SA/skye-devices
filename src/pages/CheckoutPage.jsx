@@ -282,7 +282,7 @@ const CheckoutPage = () => {
     const { line1, line2 } = getCombinedAddress();
 
     try {
-      const apiBase = import.meta.env.VITE_API_BASE_URL || "";
+      const apiBase = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
       const res = await fetch(`${apiBase}/api/orders/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

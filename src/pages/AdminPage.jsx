@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import logo from "../images/Logo.png";
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
 
 const STATUS_OPTIONS = [
   { value: "PAID", label: "Paid", dot: "bg-emerald-500", pill: "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100" },
@@ -176,6 +176,10 @@ const AdminPage = () => {
   const [modalLoading, setModalLoading] = useState(false);
   const [modalError, setModalError] = useState("");
 
+  // Export to Sheets state
+  const [exportLoading, setExportLoading] = useState(false);
+  const [exportResult, setExportResult] = useState(null); // { message, sheetUrl, isError }
+
   const authHeaders = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
@@ -193,13 +197,19 @@ const AdminPage = () => {
       });
       
       let data = {};
-      try {
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
         data = await res.json();
-      } catch (jsonErr) {
-        throw new Error("Cannot connect to backend server. Make sure the backend is running on port 4000.");
+      } else {
+        const text = await res.text();
+        throw new Error(
+          res.status === 404
+            ? "Backend API route not found (404). Please ensure Vercel was redeployed with VITE_API_BASE_URL set."
+            : `Server returned status ${res.status}: ${text.slice(0, 100)}`
+        );
       }
 
-      if (!res.ok) throw new Error(data.error || "Login failed");
+      if (!res.ok) throw new Error(data.error || `Login failed (${res.status})`);
       
       setToken(data.token);
       localStorage.setItem("skye_admin_token", data.token);
@@ -334,6 +344,28 @@ const AdminPage = () => {
     if (orderFilter === "ALL") return true;
     return o.status === orderFilter;
   });
+
+  const handleExportToSheets = async () => {
+    setExportLoading(true);
+    setExportResult(null);
+    try {
+      const res = await fetch(`${API_BASE}/api/admin/export-sheets`, {
+        method: "POST",
+        headers: authHeaders,
+        // Send all orders (not just filtered) so every month tab is complete
+        body: JSON.stringify({ orders }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Export failed");
+      setExportResult({ message: data.message, sheetUrl: data.sheetUrl, isError: false });
+    } catch (err) {
+      setExportResult({ message: err.message, sheetUrl: null, isError: true });
+    } finally {
+      setExportLoading(false);
+      // Auto-dismiss after 8 seconds
+      setTimeout(() => setExportResult(null), 8000);
+    }
+  };
 
   // ─── LOGIN VIEW ─────────────────────────────────────────────────────────────
   if (!token) {
@@ -671,23 +703,81 @@ const AdminPage = () => {
                 <p className="text-xs text-gray-500 mt-1">Live customer transactions and Razorpay payment states</p>
               </div>
 
-              {/* Status Filter */}
-              <div className="flex flex-wrap gap-1.5">
-                {["ALL", "PAID", "CONFIRMED", "SHIPPED", "IN_TRANSIT", "OUT_FOR_DELIVERY", "DELIVERED"].map((st) => (
-                  <button
-                    key={st}
-                    onClick={() => setOrderFilter(st)}
-                    className={`px-2.5 py-1 text-xs font-semibold rounded-lg border transition ${
-                      orderFilter === st
-                        ? "bg-gray-900 text-white border-gray-900"
-                        : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50"
-                    }`}
-                  >
-                    {st.replace(/_/g, " ")}
-                  </button>
-                ))}
+              <div className="flex flex-wrap items-center gap-3">
+                {/* Status Filter */}
+                <div className="flex flex-wrap gap-1.5">
+                  {["ALL", "PAID", "CONFIRMED", "SHIPPED", "IN_TRANSIT", "OUT_FOR_DELIVERY", "DELIVERED"].map((st) => (
+                    <button
+                      key={st}
+                      onClick={() => setOrderFilter(st)}
+                      className={`px-2.5 py-1 text-xs font-semibold rounded-lg border transition ${
+                        orderFilter === st
+                          ? "bg-gray-900 text-white border-gray-900"
+                          : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50"
+                      }`}
+                    >
+                      {st.replace(/_/g, " ")}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Export to Google Sheets button */}
+                <button
+                  onClick={handleExportToSheets}
+                  disabled={exportLoading || orders.length === 0}
+                  className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed rounded-xl shadow-sm transition"
+                >
+                  {exportLoading ? (
+                    <>
+                      <svg className="animate-spin h-3.5 w-3.5 text-white" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                      </svg>
+                      Exporting…
+                    </>
+                  ) : (
+                    <>
+                      <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                      </svg>
+                      Export to Google Sheets
+                    </>
+                  )}
+                </button>
               </div>
             </div>
+
+            {/* Export result toast */}
+            {exportResult && (
+              <div
+                className={`mx-6 mt-4 mb-2 px-4 py-3 rounded-xl text-sm font-medium flex items-center justify-between gap-4 ${
+                  exportResult.isError
+                    ? "bg-red-50 border border-red-200 text-red-800"
+                    : "bg-emerald-50 border border-emerald-200 text-emerald-900"
+                }`}
+              >
+                <span>
+                  {exportResult.isError ? "Export failed: " : ""}
+                  {exportResult.message}
+                </span>
+                <div className="flex items-center gap-3 flex-shrink-0">
+                  {!exportResult.isError && exportResult.sheetUrl && (
+                    <a
+                      href={exportResult.sheetUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs font-bold text-emerald-700 underline hover:text-emerald-900"
+                    >
+                      Open Sheet →
+                    </a>
+                  )}
+                  <button onClick={() => setExportResult(null)} className="text-current opacity-60 hover:opacity-100">
+                    ✕
+                  </button>
+                </div>
+              </div>
+            )}
+
 
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm text-gray-700">

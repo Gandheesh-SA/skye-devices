@@ -4,6 +4,120 @@ const jwt = require('jsonwebtoken');
 const pool = require('../db/index');
 const { adminAuth } = require('../middleware/auth');
 const { sendStatusUpdateEmail } = require('../services/emailService');
+const { google } = require('googleapis');
+
+// ─── Google Sheets Helper ─────────────────────────────────────────────────────
+function getSheetsClient() {
+  const raw = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
+  if (!raw) throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON env var is not set');
+  const credentials = JSON.parse(raw);
+  const auth = new google.auth.GoogleAuth({
+    credentials,
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+  });
+  return google.sheets({ version: 'v4', auth });
+}
+
+// Returns tab title like "September 2026"
+function monthTabTitle(date) {
+  return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+}
+
+// Ensure a sheet tab exists; create it if it doesn't. Returns sheetId.
+async function ensureMonthSheet(sheets, spreadsheetId, tabTitle) {
+  const meta = await sheets.spreadsheets.get({ spreadsheetId });
+  const existing = meta.data.sheets.find(
+    (s) => s.properties.title === tabTitle
+  );
+  if (existing) return existing.properties.sheetId;
+
+  const addRes = await sheets.spreadsheets.batchUpdate({
+    spreadsheetId,
+    requestBody: {
+      requests: [
+        {
+          addSheet: {
+            properties: {
+              title: tabTitle,
+              gridProperties: { rowCount: 10000, columnCount: 20 },
+            },
+          },
+        },
+      ],
+    },
+  });
+  const newSheetId =
+    addRes.data.replies[0].addSheet.properties.sheetId;
+
+  // Write header row
+  const HEADERS = [
+    'Order ID', 'Payment ID', 'Customer Name', 'Email', 'Phone',
+    'Age', 'Occupation', 'Address Line 1', 'Address Line 2',
+    'City', 'State', 'PIN Code', 'Country',
+    'Amount (₹)', 'Base Amount (₹)', 'Discount (₹)',
+    'Coupon Code', 'Affiliate', 'Status', 'Paid At', 'Created At',
+  ];
+  await sheets.spreadsheets.values.update({
+    spreadsheetId,
+    range: `'${tabTitle}'!A1`,
+    valueInputOption: 'RAW',
+    requestBody: { values: [HEADERS] },
+  });
+
+  // Bold + freeze header row
+  await sheets.spreadsheets.batchUpdate({
+    spreadsheetId,
+    requestBody: {
+      requests: [
+        {
+          repeatCell: {
+            range: { sheetId: newSheetId, startRowIndex: 0, endRowIndex: 1 },
+            cell: { userEnteredFormat: { textFormat: { bold: true }, backgroundColor: { red: 0.23, green: 0.35, blue: 0.86 } } },
+            fields: 'userEnteredFormat(textFormat,backgroundColor)',
+          },
+        },
+        {
+          updateSheetProperties: {
+            properties: { sheetId: newSheetId, gridProperties: { frozenRowCount: 1 } },
+            fields: 'gridProperties.frozenRowCount',
+          },
+        },
+      ],
+    },
+  });
+
+  return newSheetId;
+}
+
+function formatOrderRow(o) {
+  const fmt = (paise) =>
+    paise != null ? (Number(paise) / 100).toFixed(2) : '';
+  const fmtDate = (d) =>
+    d ? new Date(d).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) : '';
+  return [
+    o.razorpay_order_id || '',
+    o.razorpay_payment_id || '',
+    o.customer_name || '',
+    o.customer_email || '',
+    o.customer_phone || '',
+    o.customer_age || '',
+    o.customer_occupation || '',
+    o.address_line1 || '',
+    o.address_line2 || '',
+    o.city || '',
+    o.state || '',
+    o.pincode || '',
+    o.country || 'India',
+    fmt(o.final_amount),
+    fmt(o.base_amount),
+    fmt(o.discount_amount),
+    o.affiliate_code_used || '',
+    o.affiliate_name || '',
+    o.status || '',
+    fmtDate(o.paid_at),
+    fmtDate(o.created_at),
+  ];
+}
 
 // ─── POST /api/admin/login ───────────────────────────────────────────────────
 router.post('/login', async (req, res) => {
@@ -351,6 +465,104 @@ router.patch('/orders/:id/status', async (req, res) => {
   } catch (err) {
     console.error('[Admin Update Order Status]', err.message);
     return res.status(500).json({ error: 'Failed to update order status: ' + err.message });
+  }
+});
+
+// ─── POST /api/admin/export-sheets ───────────────────────────────────────────
+// Body: { orders: [...] }  — orders come from the frontend (admin already loaded them)
+// Alternatively, if orders is omitted, we fetch all orders from DB on the backend.
+router.post('/export-sheets', async (req, res) => {
+  const spreadsheetId = process.env.GOOGLE_SHEETS_ID;
+  if (!spreadsheetId) {
+    return res.status(500).json({ error: 'GOOGLE_SHEETS_ID env var is not configured on the server.' });
+  }
+
+  let orders = req.body.orders;
+
+  // If no orders payload sent, fetch all from DB
+  if (!orders || !Array.isArray(orders) || orders.length === 0) {
+    try {
+      const dbRes = await pool.query(`
+        SELECT 
+          o.id, o.razorpay_order_id, o.razorpay_payment_id,
+          o.customer_name, o.customer_email, o.customer_phone,
+          o.customer_age, o.customer_occupation,
+          o.address_line1, o.address_line2, o.city, o.state, o.pincode, o.country,
+          o.final_amount, o.base_amount, o.discount_amount,
+          o.affiliate_code_used, o.status, o.paid_at, o.created_at,
+          a.name AS affiliate_name
+        FROM orders o
+        LEFT JOIN affiliates a ON o.affiliate_id = a.id
+        ORDER BY o.created_at ASC
+      `);
+      orders = dbRes.rows;
+    } catch (dbErr) {
+      return res.status(500).json({ error: 'Failed to fetch orders from database: ' + dbErr.message });
+    }
+  }
+
+  if (orders.length === 0) {
+    return res.json({ added: 0, skipped: 0, message: 'No orders to export.' });
+  }
+
+  try {
+    const sheets = getSheetsClient();
+
+    // Group orders by their paid_at / created_at month
+    const byMonth = {};
+    for (const order of orders) {
+      const date = new Date(order.paid_at || order.created_at);
+      const tabTitle = monthTabTitle(date);
+      if (!byMonth[tabTitle]) byMonth[tabTitle] = [];
+      byMonth[tabTitle].push(order);
+    }
+
+    let totalAdded = 0;
+    let totalSkipped = 0;
+
+    for (const [tabTitle, monthOrders] of Object.entries(byMonth)) {
+      // Ensure the month tab exists (creates it with header if new)
+      await ensureMonthSheet(sheets, spreadsheetId, tabTitle);
+
+      // Read all existing Order IDs in column A (skip header row)
+      const readRes = await sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range: `'${tabTitle}'!A2:A`,
+      });
+      const existingIds = new Set(
+        (readRes.data.values || []).flat().filter(Boolean)
+      );
+
+      // Filter to only new orders
+      const newRows = monthOrders
+        .filter((o) => !existingIds.has(o.razorpay_order_id))
+        .map(formatOrderRow);
+
+      totalSkipped += monthOrders.length - newRows.length;
+
+      if (newRows.length > 0) {
+        await sheets.spreadsheets.values.append({
+          spreadsheetId,
+          range: `'${tabTitle}'!A1`,
+          valueInputOption: 'RAW',
+          insertDataOption: 'INSERT_ROWS',
+          requestBody: { values: newRows },
+        });
+        totalAdded += newRows.length;
+      }
+    }
+
+    const sheetUrl = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/edit`;
+    return res.json({
+      success: true,
+      added: totalAdded,
+      skipped: totalSkipped,
+      sheetUrl,
+      message: `${totalAdded} order${totalAdded !== 1 ? 's' : ''} added to Google Sheets${totalSkipped > 0 ? `, ${totalSkipped} already existed (skipped)` : ''}.`,
+    });
+  } catch (err) {
+    console.error('[Export Sheets]', err.message);
+    return res.status(500).json({ error: 'Failed to export to Google Sheets: ' + err.message });
   }
 });
 
