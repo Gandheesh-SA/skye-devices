@@ -52,7 +52,7 @@ async function ensureMonthSheet(sheets, spreadsheetId, tabTitle) {
   // Write header row
   const HEADERS = [
     'Order ID', 'Payment ID', 'Customer Name', 'Email', 'Phone',
-    'Age', 'Occupation', 'Address Line 1', 'Address Line 2',
+    'DOB', 'Occupation', 'Address Line 1', 'Address Line 2',
     'City', 'State', 'PIN Code', 'Country',
     'Amount (₹)', 'Base Amount (₹)', 'Discount (₹)',
     'Coupon Code', 'Affiliate', 'Status', 'Paid At', 'Created At',

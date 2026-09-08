@@ -133,7 +133,7 @@ const CheckoutPage = () => {
     name: "",
     phone: "",
     email: "",
-    age: "",
+    dob: "",
     occupation: "",
   });
 
@@ -168,8 +168,7 @@ const CheckoutPage = () => {
     else if (!/^\d{10}$/.test(personal.phone.trim())) e.phone = "Enter a valid 10-digit number";
     if (!personal.email.trim()) e.email = "Email is required";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(personal.email.trim())) e.email = "Enter a valid email";
-    if (!personal.age.trim()) e.age = "Age is required";
-    if (!personal.occupation.trim()) e.occupation = "Occupation is required";
+    // DOB and Occupation are optional
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -205,7 +204,7 @@ const CheckoutPage = () => {
             pincode: val,
             city: district || prev.city,
             state: matchedState || prev.state,
-            area: prev.area ? prev.area : (uniqueAreas[0] || ""),
+            area: uniqueAreas[0] || prev.area || "",
           }));
 
           setErrors((prev) => {
@@ -217,20 +216,20 @@ const CheckoutPage = () => {
 
           setPincodeStatus({
             type: "success",
-            message: `Location detected: ${district ? district + ", " : ""}${matchedState}`,
+            message: `Auto-filled: ${district ? district + ", " : ""}${matchedState}. You can edit Area, City, and State below if needed.`,
           });
         } else {
           setAreaSuggestions([]);
           setPincodeStatus({
             type: "warning",
-            message: "PIN code not recognized. Please fill Area, City, and State manually.",
+            message: "PIN code details not found. You can enter Area, City, and State manually.",
           });
         }
       } catch {
         setAreaSuggestions([]);
         setPincodeStatus({
           type: "warning",
-          message: "Could not auto-fetch location. Please fill Area, City, and State manually.",
+          message: "Could not auto-fetch location. You can enter Area, City, and State manually.",
         });
       } finally {
         setPincodeLoading(false);
@@ -291,8 +290,8 @@ const CheckoutPage = () => {
           customerName: personal.name.trim(),
           customerEmail: personal.email.trim(),
           customerPhone: personal.phone.trim(),
-          customerAge: personal.age.trim(),
-          customerOccupation: personal.occupation.trim(),
+          customerAge: personal.dob ? personal.dob.trim() : null,
+          customerOccupation: personal.occupation ? personal.occupation.trim() : null,
           addressLine1: line1,
           addressLine2: line2,
           city: address.city.trim(),
@@ -337,8 +336,8 @@ const CheckoutPage = () => {
                 customerName: personal.name.trim(),
                 customerEmail: personal.email.trim(),
                 customerPhone: personal.phone.trim(),
-                customerAge: personal.age.trim(),
-                customerOccupation: personal.occupation.trim(),
+                customerAge: personal.dob ? personal.dob.trim() : null,
+                customerOccupation: personal.occupation ? personal.occupation.trim() : null,
                 addressLine1: line1,
                 addressLine2: line2,
                 city: address.city.trim(),
@@ -573,28 +572,24 @@ const CheckoutPage = () => {
               </Field>
 
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
-                <Field label="Age" required>
+                <Field label="Date of Birth (Optional)">
                   <input
-                    type="number"
-                    placeholder="Your age"
-                    value={personal.age}
-                    min={1}
-                    max={120}
-                    onChange={(e) => { setPersonal({ ...personal, age: e.target.value }); if (errors.age) setErrors({ ...errors, age: "" }); }}
-                    style={inputStyle(errors.age)}
+                    type="date"
+                    value={personal.dob}
+                    max={new Date().toISOString().split("T")[0]}
+                    onChange={(e) => setPersonal({ ...personal, dob: e.target.value })}
+                    style={inputStyle(false)}
                   />
-                  {errors.age && <span style={{ color: "#ef4444", fontSize: "12px" }}>{errors.age}</span>}
                 </Field>
 
-                <Field label="Occupation" required>
+                <Field label="Occupation (Optional)">
                   <input
                     type="text"
                     placeholder="e.g. Engineer, Doctor…"
                     value={personal.occupation}
-                    onChange={(e) => { setPersonal({ ...personal, occupation: e.target.value }); if (errors.occupation) setErrors({ ...errors, occupation: "" }); }}
-                    style={inputStyle(errors.occupation)}
+                    onChange={(e) => setPersonal({ ...personal, occupation: e.target.value })}
+                    style={inputStyle(false)}
                   />
-                  {errors.occupation && <span style={{ color: "#ef4444", fontSize: "12px" }}>{errors.occupation}</span>}
                 </Field>
               </div>
 
@@ -714,12 +709,12 @@ const CheckoutPage = () => {
                   )}
                 </Field>
 
-                {/* Area / Locality with suggestion datalist */}
+                {/* Area / Locality with suggestion datalist and quick chips */}
                 <Field label="Area / Locality">
                   <input
                     type="text"
                     list="area-suggestions-list"
-                    placeholder="e.g. Indiranagar, Koramangala…"
+                    placeholder="e.g. Indiranagar, Koramangala (or type your custom area)"
                     value={address.area}
                     onChange={(e) => setAddress({ ...address, area: e.target.value })}
                     style={{ ...inputStyle(false), backgroundColor: "#fff" }}
@@ -732,9 +727,31 @@ const CheckoutPage = () => {
                     </datalist>
                   )}
                   {areaSuggestions.length > 0 && (
-                    <span style={{ fontSize: "11px", color: "#6b7280" }}>
-                      Select a suggested area from the list or type your own.
-                    </span>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "4px" }}>
+                      <span style={{ fontSize: "11px", color: "#6b7280", width: "100%" }}>
+                        Suggested areas from PIN (click to select or type your own above):
+                      </span>
+                      {areaSuggestions.slice(0, 8).map((areaName, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => setAddress((prev) => ({ ...prev, area: areaName }))}
+                          style={{
+                            fontSize: "11px",
+                            padding: "3px 8px",
+                            borderRadius: "6px",
+                            backgroundColor: address.area === areaName ? "#3b5bdb" : "#e0e7ff",
+                            color: address.area === areaName ? "#fff" : "#3730a3",
+                            border: "none",
+                            cursor: "pointer",
+                            fontWeight: 600,
+                            transition: "all 0.15s ease",
+                          }}
+                        >
+                          {areaName}
+                        </button>
+                      ))}
+                    </div>
                   )}
                 </Field>
 
