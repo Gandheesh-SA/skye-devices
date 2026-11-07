@@ -82,6 +82,16 @@ const css = `
 .pdp-buy:hover{background:#a50008}
 .pdp-buy:focus-visible{outline:3px solid #222;outline-offset:2px}
 .pdp-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:10px;font-size:13px;margin-top:0}
+.pdp-finish{display:flex;flex-direction:column;gap:10px;margin-top:-4px}
+.pdp-finish-label{font-size:13px;font-weight:600}
+.pdp-finish-options{display:flex;gap:10px;flex-wrap:wrap}
+.pdp-finish-option{min-width:112px;display:flex;align-items:center;gap:9px;padding:10px 14px;border:1.5px solid #c9c9c9;border-radius:8px;color:#333;background:#fff;text-decoration:none;font-size:13px;font-weight:600;transition:border-color .2s,box-shadow .2s,background .2s}
+.pdp-finish-option:hover{border-color:#777}
+.pdp-finish-option.selected{border-color:var(--red);background:#fff5f5;box-shadow:0 0 0 1px var(--red)}
+.pdp-finish-option:focus-visible{outline:3px solid #222;outline-offset:2px}
+.pdp-finish-swatch{width:18px;height:18px;border-radius:50%;border:1px solid rgba(0,0,0,.2);flex:0 0 auto}
+.pdp-finish-swatch.red{background:#c8000a}
+.pdp-finish-swatch.silver{background:linear-gradient(135deg,#f7f7f7,#a8adb3)}
 
 /* section 2: accordions */
 .pdp-acc-sec{min-height:100vh;min-height:100svh;padding:56px 20px 80px;max-width:1000px;margin:0 auto;width:100%}
@@ -220,6 +230,25 @@ export default function Product() {
               <li key={d}>{d}</li>
             ))}
           </ul>
+          <div className="pdp-finish" aria-label="Choose product finish">
+            <p className="pdp-finish-label">Choose colour</p>
+            <div className="pdp-finish-options">
+              {[
+                { id: "red", label: "Red" },
+                { id: "silver", label: "Silver" },
+              ].map((finish) => (
+                <Link
+                  key={finish.id}
+                  to={`/products/${finish.id}`}
+                  className={`pdp-finish-option${productId === finish.id ? " selected" : ""}`}
+                  aria-current={productId === finish.id ? "page" : undefined}
+                >
+                  <span className={`pdp-finish-swatch ${finish.id}`} aria-hidden="true" />
+                  {finish.label}
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
