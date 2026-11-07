@@ -6,24 +6,28 @@ export default function ResearchPage() {
       <section className="bg-white">
         <div className="max-w-[1200px] mx-auto px-[clamp(20px,5vw,120px)] py-[clamp(60px,8vh,140px)]">
           
-          {/* Header Section */}
-          <h1 className="text-[clamp(32px,4vw,46px)] font-semibold text-gray-900 mb-[clamp(24px,4vh,50px)]">
-            Research
-          </h1>
+          <div className="max-w-[1000px] text-gray-800">
+            <h1 className="text-[clamp(28px,3.3vw,46px)] font-extrabold uppercase leading-tight">
+              Supporting <span className="text-[var(--accent)]">Research</span>
+            </h1>
 
-          {/* Intro Text - Balanced leading for mobile */}
-          <div className="max-w-[850px] text-gray-700 text-[clamp(16px,1.05vw,18px)] leading-relaxed sm:leading-[1.85] space-y-6">
-            <p>
-              Slow breathing has long been used in breathing and meditation practices to calm the mind, reduce stress, and prepare the body for rest. Hundreds of studies today show that when breathing slows down, the body naturally shifts toward a calmer, more rested state. The nervous system begins to settle, heart rate variability (HRV) improves, and the body gradually moves away from stress and toward recovery </p>
-
-<p>Yet in today’s fast-moving world, guided breathing is often harder to follow than it sounds. Many people turn to apps or videos for help, but using a screen, especially soon after waking up or before sleep, can feel distracting rather than calming. Counting breaths, tracking timing, or trying to follow instructions can also take attention away from simply breathing.</p>
-
-<p>Skye was designed to make slow breathing easier to follow. Using gentle vibrations, it guides breathing through simple sessions designed for focused mornings, calmer moments during the day, and better sleep at night. Breathe in as it vibrates, hold when it pauses, and breathe out as it vibrates again. No screens, no counting, no distractions, just a calming breathing rhythm guided through touch.</p>
-
-<p>Whether used soon after waking up, before sleep, during stressful moments, or before a quick power nap, Skye is designed to make calming breathing routines easier to follow and easier to return to every day.</p><p>
-
-If you would like to learn more, we have included a few YouTube videos and peer-reviewed research articles below as a starting point to better understand slow breathing and guided breathing exercises. We encourage you to explore further and learn more about the science behind breathing and how it influences stress, focus, relaxation, and sleep.
+            <p className="mt-5 text-[clamp(17px,1.4vw,22px)] leading-relaxed">
+              The Research Library — studies on guided breathing and sleep.
             </p>
+
+            <div className="mt-[clamp(42px,6vh,68px)] space-y-5 text-[clamp(16px,1.25vw,20px)] leading-[1.35]">
+              <p>
+                Guided breathing can help calm the mind, ease stress, and prepare
+                the body for sleep. Skye makes it easier to follow, using gentle
+                vibrations to guide each breath, without screens, counting, or
+                distractions.
+              </p>
+              <p>
+                We’ve included a few YouTube videos and peer-reviewed research
+                articles below to help you explore guided breathing and the science
+                behind it, including how it may influence stress, anxiety, and sleep.
+              </p>
+            </div>
           </div>
 
           {/* Videos Section */}
@@ -112,7 +116,7 @@ If you would like to learn more, we have included a few YouTube videos and peer-
         className="group flex gap-5 rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
       >
         {/* Number Badge */}
-        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-black text-lg font-semibold text-white">
+        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[var(--accent)] text-lg font-semibold text-white">
           {article.id}
         </div>
 

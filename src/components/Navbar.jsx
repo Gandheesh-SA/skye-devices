@@ -1,104 +1,95 @@
-import React, { useState } from "react";
-import logo from "../images/Logo.png";
-import { NavLink, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, NavLink } from "react-router-dom";
 
-const Navbar = () => {
+const links = [
+  { label: "About", to: "/about" },
+  { label: "Research", to: "/research" },
+  { label: "Corporate", to: "/corporate" },
+  { label: "FAQ", to: "/faq" },
+];
 
-  const [menuOpen, setMenuOpen] = useState(false);
+const css = `
+.skye-nav{position:fixed;transition:background .25s,padding .25s;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:20px 24px;color:#fff;font-family:'Inter',system-ui,sans-serif}
+.skye-nav.scrolled{background:rgba(20,20,20,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding-top:12px;padding-bottom:12px}
+.skye-logo{display:flex;flex-direction:column;line-height:1;text-decoration:none;color:#fff}
+.skye-logo b{font-size:26px;font-weight:800;letter-spacing:.02em}
+.skye-logo small{font-size:6px;letter-spacing:.35em;text-align:right;margin-top:2px}
+.skye-links{display:none;align-items:center;gap:28px;list-style:none;margin:0;padding:0}
+.skye-links a{color:#fff;text-decoration:none;font-size:11px;font-weight:600}
+.skye-links a.active{text-decoration:underline;text-underline-offset:4px}
+.skye-shop{background:var(--accent);color:#fff;border-radius:999px;padding:9px 20px;font-weight:700;font-size:11px;text-decoration:none}
+.skye-burger{background:none;border:0;color:#fff;font-size:28px;cursor:pointer;line-height:1}
+.skye-menu{position:absolute;top:100%;left:0;right:0;background:rgba(20,20,20,.95);display:flex;flex-direction:column;gap:18px;padding:24px}
+.skye-menu a{color:#fff;text-decoration:none;font-weight:600;font-size:16px}
+.skye-menu a.skye-shop{align-self:flex-start;font-size:14px}
+.skye-nav.light{background:#fff;color:#1a1a1a;box-shadow:0 1px 0 rgba(0,0,0,.08)}
+.skye-nav.light .skye-logo,.skye-nav.light .skye-links a,.skye-nav.light .skye-burger,.skye-nav.light .skye-menu a{color:#1a1a1a}
+.skye-nav.light .skye-menu{background:#fff;box-shadow:0 8px 16px rgba(0,0,0,.08)}
+.skye-nav.light .skye-links a.skye-shop,.skye-nav.light .skye-menu a.skye-shop{color:#fff}
+@media(min-width:768px){
+  .skye-nav{padding:24px 48px}
+  .skye-links{display:flex}
+  .skye-burger,.skye-menu{display:none}
+}
+@media(min-width:1280px){
+  .skye-nav{padding:28px 80px}
+  .skye-links a,.skye-shop{font-size:13px}
+}
+`;
+
+export default function Navbar({ variant = "dark" }) {
+  const light = variant === "light";
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="w-full bg-white fixed top-0 left-0 z-50">
+    <header className={`skye-nav${light ? " light" : scrolled || open ? " scrolled" : ""}`}>
+      <style>{css}</style>
 
-      {/* CONTAINER */}
-      <div className="max-w-[1800px] mx-auto px-[clamp(20px,5vw,80px)] py-[clamp(14px,2vh,24px)] flex items-center justify-between">
+      <Link to="/" className="skye-logo" aria-label="Skye Devices home">
+        <b>SKYE</b>
+        <small>DEVICES</small>
+      </Link>
 
-        {/* LOGO */}
-        <Link to="/" className="flex items-center">
-          <img
-            src={logo}
-            alt="Skye Devices"
-            className="h-[clamp(70px,7vh,120px)] w-auto object-contain"
-          />
-        </Link>
+      <ul className="skye-links">
+        {links.map((l) => (
+          <li key={l.label}>
+            <NavLink to={l.to}>{l.label}</NavLink>
+          </li>
+        ))}
+        <li>
+          <Link to="/shop" className="skye-shop">Shop</Link>
+        </li>
+      </ul>
 
+      <button
+        className="skye-burger"
+        onClick={() => setOpen((o) => !o)}
+        aria-label="Toggle menu"
+        aria-expanded={open}
+      >
+        {open ? "✕" : "☰"}
+      </button>
 
-        {/* DESKTOP NAV */}
-        <nav className="hidden md:flex items-center gap-[3vw] text-[#3F3F46] text-[clamp(18px,1vw,22px)] font-medium">
-
-          <NavLink to="/" className={({isActive}) => isActive ? "text-black font-semibold" : ""}>
-            Home
-          </NavLink>
-
-          <NavLink to="/about" className={({isActive}) => isActive ? "text-black font-semibold" : ""}>
-            About
-          </NavLink>
-
-          <NavLink to="/research" className={({isActive}) => isActive ? "text-black font-semibold" : ""}>
-            Research
-          </NavLink>
-
-          <NavLink to="/corporate" className={({isActive}) => isActive ? "text-black font-semibold" : ""}>
-            Corporate
-          </NavLink>
-
-          <NavLink to="/faq" className={({isActive}) => isActive ? "text-black font-semibold" : ""}>
-            FAQ
-          </NavLink>
-
-        </nav>
-
-
-        {/* DESKTOP SHOP BUTTON */}
-        <div className="hidden md:block">
-          <NavLink
-            to="/shop"
-            className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-[clamp(16px,1.6vw,28px)] py-[clamp(8px,1vh,14px)] rounded-full text-[clamp(14px,1vw,20px)] font-medium"
-          >
-            Shop
-          </NavLink>
-        </div>
-
-
-        {/* HAMBURGER */}
-        <button
-          className="md:hidden flex flex-col gap-[6px]"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <span className="w-7 h-[2px] bg-black"></span>
-          <span className="w-7 h-[2px] bg-black"></span>
-          <span className="w-7 h-[2px] bg-black"></span>
-        </button>
-
-      </div>
-
-
-      {/* MOBILE MENU */}
-      {menuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200">
-
-          <nav className="flex flex-col items-center gap-6 py-10 text-lg">
-
-            <NavLink to="/" onClick={() => setMenuOpen(false)}>Home</NavLink>
-            <NavLink to="/about" onClick={() => setMenuOpen(false)}>About</NavLink>
-            <NavLink to="/research" onClick={() => setMenuOpen(false)}>Research</NavLink>
-            <NavLink to="/corporate" onClick={() => setMenuOpen(false)}>Corporate</NavLink>
-            <NavLink to="/faq" onClick={() => setMenuOpen(false)}>FAQ</NavLink>
-
-            <NavLink
-              to="/shop"
-              onClick={() => setMenuOpen(false)}
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-full"
-            >
-              Shop
+      {open && (
+        <nav className="skye-menu">
+          {links.map((l) => (
+            <NavLink key={l.label} to={l.to} onClick={() => setOpen(false)}>
+              {l.label}
             </NavLink>
-
-          </nav>
-
-        </div>
+          ))}
+          <Link to="/shop" className="skye-shop" onClick={() => setOpen(false)}>
+            Shop
+          </Link>
+        </nav>
       )}
-
     </header>
   );
-};
-
-export default Navbar;
+}

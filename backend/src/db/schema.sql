@@ -24,15 +24,22 @@ CREATE TABLE IF NOT EXISTS orders (
   customer_name TEXT,
   customer_email TEXT,
   customer_phone TEXT,
-  status TEXT NOT NULL DEFAULT 'CREATED' CHECK (status IN ('CREATED', 'PAID', 'FAILED')),
+  customer_age TEXT,
+  customer_occupation TEXT,
+  address_line1 TEXT,
+  address_line2 TEXT,
+  city TEXT,
+  state TEXT,
+  pincode TEXT,
+  country TEXT DEFAULT 'India',
+  status TEXT NOT NULL DEFAULT 'CREATED' CHECK (status IN ('CREATED', 'PAID', 'CONFIRMED', 'SHIPPED', 'IN_TRANSIT', 'OUT_FOR_DELIVERY', 'DELIVERED', 'FAILED')),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   paid_at TIMESTAMPTZ
 );
 
 -- Commissions table
 -- period_month format: 'YYYY-MM' e.g. '2026-08'
--- Retention rule: deleted after 5th of the following month
---   e.g. June (2026-06) commissions deleted after July 5 (2026-07-05)
+-- Commission history is retained so lifetime earnings remain auditable.
 CREATE TABLE IF NOT EXISTS commissions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   affiliate_id UUID NOT NULL REFERENCES affiliates(id) ON DELETE CASCADE,

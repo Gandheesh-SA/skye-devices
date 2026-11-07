@@ -1,120 +1,109 @@
 import { Link } from "react-router-dom";
-import linkedinLogo from "../images/Social.png";
-import { HashLink } from 'react-router-hash-link';
-import indianFlag from "../images/IndianFlag.jpg"
-import instaLogo from "../images/InstaLogo.png"
+
+const columns = [
+  {
+    title: "Shop",
+    items: [
+      { label: "Skye for you", to: "/shop" },
+      { label: "Skye for business", to: "/corporate" },
+    ],
+  },
+  {
+    title: "Customer Care",
+    items: [
+      { label: "FAQ", to: "/faq" },
+      { label: "Shipping & Delivery", to: "/shipping" },
+      { label: "Cancellation & Refund", to: "/refund" },
+      { label: "Warranty Policy", to: "/warranty" },
+      { label: "How Skye works", to: "/about" },
+    ],
+  },
+  {
+    title: "Policies",
+    items: [
+      { label: "Terms & Conditions", to: "/terms_and_conditions" },
+      { label: "Privacy Policy", to: "/privacy_policy" },
+    ],
+  },
+];
+
+const css = `
+.skye-footer{--foot-gutter:24px;background:#c8000a;color:#fff;font-family:'Inter',system-ui,sans-serif;padding:0 var(--foot-gutter);display:flex;flex-direction:column;gap:0}
+.skye-foot-tagline{margin-inline:calc(var(--foot-gutter) * -1);padding:clamp(58px,8vw,100px) var(--foot-gutter);border-bottom:1px solid rgba(255,255,255,.72)}
+.skye-foot-tagline h2{max-width:950px;margin:0;font-size:clamp(32px,5vw,64px);font-weight:800;line-height:1.15;letter-spacing:-.035em;text-transform:uppercase}
+.skye-foot-top{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:34px 0 54px}
+.skye-foot-col h4{margin:0 0 10px;font-size:12px;font-weight:800}
+.skye-foot-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+.skye-foot-col a{color:#fff;text-decoration:none;font-size:11px;opacity:.95}
+.skye-foot-col a:hover{text-decoration:underline}
+.skye-social{display:flex;gap:12px;align-items:flex-start}
+.skye-social span{width:24px;height:24px;border-radius:5px;background:#fff;color:#c8000a;display:grid;place-items:center;font-size:10px;font-weight:800}
+.skye-disclaimer-row{display:flex;justify-content:center;margin-inline:calc(var(--foot-gutter) * -1);padding:0 var(--foot-gutter) 48px;text-align:center}
+.skye-disclaimer{width:100%;max-width:600px;margin:0 auto;font-size:9px;line-height:1.45;text-align:center;opacity:.88}
+.skye-foot-bottom{display:flex;flex-direction:column;gap:10px;align-items:center;margin-inline:calc(var(--foot-gutter) * -1);font-size:10px;border-top:1px solid rgba(255,255,255,.55);padding:18px var(--foot-gutter) 46px}
+.skye-made{display:flex;align-items:center;gap:8px}
+.skye-flag{width:24px;height:15px;background:linear-gradient(#ff9933 33%,#fff 33% 66%,#138808 66%)}
+@media(min-width:640px){
+  .skye-foot-top{grid-template-columns:repeat(3,1fr) auto}
+}
+@media(min-width:768px){
+  .skye-footer{--foot-gutter:48px}
+  .skye-foot-top{padding-top:42px}
+  .skye-foot-bottom{flex-direction:row;justify-content:space-between}
+}
+@media(min-width:1280px){
+  .skye-footer{--foot-gutter:80px}
+  .skye-foot-top{padding-top:46px}
+  .skye-foot-col a{font-size:12px}
+  .skye-foot-col h4{font-size:13px}
+}
+`;
+
 export default function Footer() {
   return (
-    <footer className="bg-[#1f1f1f] text-gray-300">
+    <footer className="skye-footer">
+      <style>{css}</style>
 
-      {/* ===== TOP TAGLINE ===== */}
-      <div className="border-b border-gray-700">
-        <div className="max-w-[1600px] mx-auto px-[clamp(20px,6vw,140px)] py-[clamp(80px,12vh,160px)]">
-          <h1 className="text-[clamp(32px,6vw,90px)] font-extrabold tracking-wide leading-tight text-white uppercase">
-            LESS STRESS.
-            <br />
-            MORE Focus.
-            <br />
-            BETTER SLEEP.
-          </h1>
+      <div className="skye-foot-tagline">
+        <h2>Everything looks better after a good night’s sleep.</h2>
+      </div>
+
+      <div className="skye-foot-top">
+        {columns.map((c) => (
+          <div className="skye-foot-col" key={c.title}>
+            <h4>{c.title}</h4>
+            <ul>
+              {c.items.map((i) => (
+                <li key={i.label}>
+                  <Link to={i.to}>{i.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        <div className="skye-social">
+          <a href="https://www.linkedin.com/company/skye-devices" aria-label="LinkedIn"><span>in</span></a>
+          <a href="https://www.instagram.com/skye.devices/" aria-label="Instagram"><span>ig</span></a>
         </div>
       </div>
 
-     {/* ===== SOCIAL STRIP ===== */}
-<div className="border-b border-gray-700">
-  <div className="max-w-[1600px] mx-auto px-[clamp(20px,6vw,140px)] py-[clamp(30px,5vh,70px)] flex flex-col md:flex-row justify-between items-center gap-6">
-
-    <p className="text-gray-400 text-[clamp(14px,1vw,18px)] text-center md:text-left">
-      Follow us for updates and specials
-    </p>
-
-    {/* Right Side Icons Container */}
-    <div className="flex items-center gap-6">
-      {/* LINKEDIN */}
-      <a
-        href="https://www.linkedin.com/company/skye-devices"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-3 text-blue-400 hover:text-blue-500 transition text-[clamp(14px,1vw,18px)]"
-      >
-        <img
-          src={linkedinLogo}
-          alt="LinkedIn"
-          className="w-[clamp(18px,1.2vw,24px)] h-auto"
-        />
-      </a>
-
-      {/* INSTAGRAM */}
-      <a
-        href="https://www.instagram.com/skye.devices?igsh=MXR3aHRubDYyd2V5bQ==" 
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-3 text-pink-500 hover:text-pink-600 transition text-[clamp(14px,1vw,18px)]"
-      >
-        <img
-          src={instaLogo} 
-          alt="Instagram"
-          className="w-[clamp(18px,1.2vw,24px)] h-auto"
-        />
-      </a>
-    </div>
-
-  </div>
-</div>
-
-      {/* ===== LINKS SECTION ===== */}
-      <div className="max-w-[1600px] mx-auto px-[clamp(20px,6vw,140px)] py-[clamp(60px,10vh,140px)] grid grid-cols-1 md:grid-cols-3 gap-[clamp(40px,6vw,120px)] text-[clamp(14px,1vw,18px)]">
-
-        {/* Shop */}
-        <div>
-          <h3 className="text-white text-xl font-semibold mb-6">Shop</h3>
-          <ul className="space-y-4">
-            <li><Link to="/shop" className="hover:text-white transition">Skye for you</Link></li>
-            <li><Link to="/corporate" className="hover:text-white transition">Skye for business</Link></li>
-          </ul>
-        </div>
-
-        {/* Customer Care */}
-        <div>
-          <h3 className="text-white text-xl font-semibold mb-6">Customer Care</h3>
-          <ul className="space-y-4">
-            <li><Link to="/faq" className="hover:text-white transition">FAQ</Link></li>
-            <li><Link to="/shipping" className="hover:text-white transition">Shipping & Delivery</Link></li>
-            <li><Link to="/refund" className="hover:text-white transition">Cancellation & Refund</Link></li>
-            <li><Link to="/warranty" className="hover:text-white transition">Warranty Policy</Link></li>
-            <li><HashLink smooth to="#how_it_works" className="hover:text-white transition">How Skye works</HashLink></li>
-           
-          </ul>
-        </div>
-
-        {/* Policies */}
-        <div>
-          <h3 className="text-white text-xl font-semibold mb-6">Policies</h3>
-          <ul className="space-y-4">
-            <li><Link to="/terms_and_conditions" className="hover:text-white transition">Terms & Conditions</Link></li>
-            <li><Link to="/privacy_policy" className="hover:text-white transition">Privacy Policy</Link></li>
-          </ul>
-        </div>
-
+      <div className="skye-disclaimer-row">
+        <p className="skye-disclaimer">
+          *Skye is not a medical device. It is not intended to replace medical
+          devices or professional medical care. Skye is not designed to diagnose,
+          treat, cure, mitigate, alleviate, or prevent any disease or medical
+          condition, nor to investigate, replace, or modify any physiological
+          process. If you have questions about a medical condition or your
+          health, please consult a doctor or qualified healthcare professional.
+        </p>
       </div>
 
-<div className="border-t border-gray-700">
-  <div className="max-w-[1600px] mx-auto px-[clamp(20px,6vw,140px)] py-10 text-gray-400 text-sm flex justify-between items-center">
-    {/* Left Side: Copyright */}
-    <span>© 2025 Skye Devices Private Limited. All rights reserved.</span>
-
-    {/* Right Side: Indian Logo */}
-    <div className="flex items-center gap-2">
-      <span className="text-[10px] uppercase tracking-widest">Made in</span>
-      <img 
-        src={indianFlag} 
-        alt="India Logo" 
-        className="h-6 w-auto"
-      />
-    </div>
-  </div>
-</div>
-
+      <div className="skye-foot-bottom">
+        <span>© {new Date().getFullYear()} Skye Devices Private Limited. All rights reserved.</span>
+        <span className="skye-made">
+          <i className="skye-flag" /> Made in India
+        </span>
+      </div>
     </footer>
   );
 }

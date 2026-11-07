@@ -1,5 +1,4 @@
 import workImage from "../images/about/one.png";
-import surveyImage from "../images/about/two.png";
 import prototypeImage from "../images/about/three.png";
 import deviceImage from "../images/about/four.png";
 import deviceImage1 from "../images/Device9.png";
@@ -30,7 +29,7 @@ export default function AboutPage() {
           font-weight: 500;
           letter-spacing: 0.18em;
           text-transform: uppercase;
-          color: #9b8e7e;
+          color: var(--accent);
         }
 
         .about-page h1 {
@@ -53,7 +52,7 @@ export default function AboutPage() {
         .about-page .rule {
           width: 40px;
           height: 1px;
-          background: #c8b89a;
+          background: var(--accent);
           display: block;
           margin-bottom: 32px;
         }
@@ -75,13 +74,13 @@ export default function AboutPage() {
         }
 
         .about-page .link-accent {
-          color: #b87333;
+          color: var(--accent);
           text-decoration: none;
-          border-bottom: 1px solid #b8733360;
+          border-bottom: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
           transition: border-color 0.2s;
         }
         .about-page .link-accent:hover {
-          border-color: #b87333;
+          border-color: var(--accent);
         }
 
         .about-page .split-grid {
@@ -106,6 +105,13 @@ export default function AboutPage() {
           .about-page .split-grid img {
             order: -1;
           }
+          .about-page .hero-image,
+          .about-page .split-image {
+            height: auto !important;
+            max-height: none !important;
+            aspect-ratio: auto !important;
+            object-fit: contain !important;
+          }
         }
 
         .about-page .split-image {
@@ -118,7 +124,7 @@ export default function AboutPage() {
         .about-page .section-number {
           font-family: 'DM Serif Display', serif;
           font-size: 11px;
-          color: #c8b89a;
+          color: var(--accent);
           letter-spacing: 0.1em;
           display: block;
           margin-bottom: 20px;
@@ -129,7 +135,7 @@ export default function AboutPage() {
           font-size: clamp(22px, 2.5vw, 34px);
           font-weight: 400;
           line-height: 1.5;
-          color: #1a1814;
+          color: var(--accent);
           font-style: italic;
           letter-spacing: -0.01em;
         }
@@ -138,7 +144,7 @@ export default function AboutPage() {
           font-family: 'DM Serif Display', serif;
           font-size: clamp(18px, 1.6vw, 24px);
           font-weight: 400;
-          color: #1a1814;
+          color: var(--accent);
           font-style: italic;
           line-height: 1.9;
         }
@@ -146,7 +152,7 @@ export default function AboutPage() {
         .about-page .closing-rule {
           width: 100%;
           height: 1px;
-          background: linear-gradient(to right, #c8b89a, transparent);
+          background: linear-gradient(to right, var(--accent), transparent);
           margin-bottom: 48px;
           display: block;
         }
@@ -156,8 +162,8 @@ export default function AboutPage() {
           font-size: 11px;
           letter-spacing: 0.14em;
           text-transform: uppercase;
-          color: #9b8e7e;
-          background: #ede9e3;
+          color: var(--accent);
+          background: #fff0f0;
           padding: 6px 14px;
           border-radius: 2px;
           margin-bottom: 28px;
@@ -166,7 +172,7 @@ export default function AboutPage() {
         .about-page .prototype-caption {
           font-size: 12px;
           letter-spacing: 0.08em;
-          color: #9b8e7e;
+          color: var(--accent);
           margin-top: 16px;
           text-transform: uppercase;
         }
@@ -188,7 +194,7 @@ export default function AboutPage() {
             </span>
             <h1>
               About<br />
-              <span style={{ fontStyle: "italic", color: "#9b8e7e" }}>Skye</span>
+              <span style={{ fontStyle: "italic", color: "var(--accent)" }}>Skye</span>
             </h1>
           </div>
 

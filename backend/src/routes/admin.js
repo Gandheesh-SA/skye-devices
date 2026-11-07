@@ -159,22 +159,35 @@ router.get('/affiliates', async (req, res) => {
     const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
 
     const query = `
-      SELECT 
+      SELECT
         a.id,
         a.name,
         a.email,
         a.code,
         a.is_active,
         a.created_at,
-        COUNT(DISTINCT CASE WHEN o.status = 'PAID' THEN o.id END)::int AS total_sales_count,
-        COALESCE(SUM(CASE WHEN o.status = 'PAID' THEN o.final_amount END), 0)::bigint AS total_sales_volume,
-        COUNT(DISTINCT CASE WHEN c.period_month = $1 THEN c.id END)::int AS current_month_commissions_count,
-        COALESCE(SUM(CASE WHEN c.period_month = $1 THEN c.amount END), 0)::bigint AS current_month_commission_amount,
-        COALESCE(SUM(c.amount), 0)::bigint AS lifetime_commission_amount
+        COALESCE(os.total_sales_count, 0)::int AS total_sales_count,
+        COALESCE(os.total_sales_volume, 0)::bigint AS total_sales_volume,
+        COALESCE(cs.current_month_commissions_count, 0)::int AS current_month_commissions_count,
+        COALESCE(cs.current_month_commission_amount, 0)::bigint AS current_month_commission_amount,
+        COALESCE(cs.lifetime_commission_amount, 0)::bigint AS lifetime_commission_amount
       FROM affiliates a
-      LEFT JOIN orders o ON o.affiliate_id = a.id
-      LEFT JOIN commissions c ON c.affiliate_id = a.id
-      GROUP BY a.id
+      LEFT JOIN LATERAL (
+        SELECT
+          COUNT(*)::int AS total_sales_count,
+          COALESCE(SUM(final_amount), 0)::bigint AS total_sales_volume
+        FROM orders
+        WHERE affiliate_id = a.id
+          AND status IN ('PAID', 'CONFIRMED', 'SHIPPED', 'IN_TRANSIT', 'OUT_FOR_DELIVERY', 'DELIVERED')
+      ) os ON TRUE
+      LEFT JOIN LATERAL (
+        SELECT
+          COUNT(*) FILTER (WHERE period_month = $1)::int AS current_month_commissions_count,
+          COALESCE(SUM(amount) FILTER (WHERE period_month = $1), 0)::bigint AS current_month_commission_amount,
+          COALESCE(SUM(amount), 0)::bigint AS lifetime_commission_amount
+        FROM commissions
+        WHERE affiliate_id = a.id
+      ) cs ON TRUE
       ORDER BY a.created_at DESC
     `;
 
@@ -331,8 +344,8 @@ router.get('/stats', async (req, res) => {
     const ordersRes = await pool.query(`
       SELECT 
         COUNT(*)::int AS total_orders,
-        COUNT(CASE WHEN status = 'PAID' THEN 1 END)::int AS paid_orders,
-        COALESCE(SUM(CASE WHEN status = 'PAID' THEN final_amount END), 0)::bigint AS total_revenue
+        COUNT(*) FILTER (WHERE status IN ('PAID', 'CONFIRMED', 'SHIPPED', 'IN_TRANSIT', 'OUT_FOR_DELIVERY', 'DELIVERED'))::int AS paid_orders,
+        COALESCE(SUM(final_amount) FILTER (WHERE status IN ('PAID', 'CONFIRMED', 'SHIPPED', 'IN_TRANSIT', 'OUT_FOR_DELIVERY', 'DELIVERED')), 0)::bigint AS total_revenue
       FROM orders
     `);
 

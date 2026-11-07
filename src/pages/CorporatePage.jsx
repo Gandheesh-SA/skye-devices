@@ -9,19 +9,43 @@ export default function CorporatePage() {
 
         <div className="max-w-[1200px] mx-auto px-[clamp(20px,5vw,120px)] py-[clamp(80px,10vh,140px)]">
 
-          <h1 className="text-[clamp(28px,2.8vw,44px)] font-semibold text-gray-900 mb-[clamp(30px,4vh,60px)]">
-            Corporate
-          </h1>
+          <div className="max-w-[900px] mx-auto">
+            <h1 className="text-[clamp(28px,3vw,42px)] font-extrabold text-gray-900 uppercase leading-tight">
+              Skye for <span className="text-[var(--accent)]">Corporate</span>
+            </h1>
+            <p className="mt-4 text-gray-700 text-[clamp(15px,1.15vw,18px)]">
+              Help your employees sleep better and wake up more productive.
+            </p>
+          </div>
 
-          <div className="flex justify-center">
-            <div className="w-full max-w-[900px] rounded-[28px] overflow-hidden">
+          <div className="flex justify-center mt-[clamp(48px,7vh,76px)]">
+            <div className="relative w-full max-w-[900px] rounded-[28px] overflow-hidden bg-gray-100">
               <img
                 src={corporateVideo}
-                alt="Corporate Video"
-                className="w-full object-cover"
+                alt="Skye corporate introduction"
+                className="w-full h-auto object-contain bg-gray-100"
               />
-
+              <a
+                href="https://www.youtube.com/watch?v=aWfpcAVDWN0"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Play Skye corporate introduction video"
+                className="absolute inset-0 grid place-items-center bg-black/10 transition hover:bg-black/20"
+              >
+                <span className="grid h-[clamp(64px,8vw,88px)] w-[clamp(64px,8vw,88px)] place-items-center rounded-full bg-white/95 shadow-xl transition-transform hover:scale-105">
+                  <span className="ml-1 block h-0 w-0 border-y-[14px] border-y-transparent border-l-[23px] border-l-[var(--accent)]" />
+                </span>
+              </a>
             </div>
+          </div>
+
+          <div className="flex justify-center mt-[clamp(36px,5vh,54px)]">
+            <a
+              href="mailto:contact@skyedevices.com"
+              className="inline-flex items-center justify-center bg-[var(--accent)] text-white px-9 py-3 rounded-full text-[14px] font-semibold hover:bg-[#a50008] transition"
+            >
+              Email to enquire
+            </a>
           </div>
 
           <div className="text-center mt-[clamp(60px,8vh,100px)] max-w-[720px] mx-auto">
@@ -35,15 +59,6 @@ export default function CorporatePage() {
             </p>
 
           </div>
-
-        <div className="flex justify-center mt-[clamp(30px,4vh,50px)]">
-  <a 
-    href="mailto:contact@skyedevices.com" 
-    className="inline-flex items-center justify-center bg-[#2E2E2E] text-white px-8 py-3 rounded-full text-[15px] hover:bg-black transition"
-  >
-    Email to enquire
-  </a>
-</div>
 
           <div className="mt-[clamp(80px,10vh,120px)] flex justify-center">
 

@@ -9,7 +9,6 @@ require('dotenv').config();
 const { router: checkoutRouter } = require('./routes/checkout');
 const adminRouter = require('./routes/admin');
 const webhookRouter = require('./routes/webhook');
-const { initCronJobs } = require('./cron/cleanup');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -144,7 +143,6 @@ app.use((err, req, res, next) => {
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
     console.log(`🚀 Skye Backend running on port ${PORT} [${process.env.NODE_ENV || 'development'}]`);
-    initCronJobs();
   });
 }
 

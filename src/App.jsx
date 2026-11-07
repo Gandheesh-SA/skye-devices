@@ -9,6 +9,8 @@ import ResearchPage from "./pages/ResearchPage";
 import CorporatePage from "./pages/CorporatePage";
 import FAQPage from "./pages/FAQ";
 import ShopPage from "./pages/ShopPage";
+import Products from "./pages/Products";
+import { Navigate } from "react-router-dom";
 import TermsPage from "./pages/TC";
 import PrivacyPolicy from "./pages/PP"
 import Shipping from "./pages/Shipping"
@@ -19,20 +21,24 @@ import CheckoutPage from "./pages/CheckoutPage"
 
 function AppContent() {
   const location = useLocation();
+  const isUpdatedPage = ["/", "/shop", "/products"].includes(location.pathname) || location.pathname.startsWith("/products/") || location.pathname.startsWith("/shop/");
   const isAdmin = location.pathname.startsWith("/admin");
 
   return (
     <>
       <ScrollToTop />
-      {!isAdmin && <Navbar />}
+      {!isAdmin && <Navbar key={location.pathname} variant={location.pathname === "/" ? "dark" : "light"} />}
 
-      <main className={isAdmin ? "" : "mt-[clamp(90px,10vh,140px)]"}>
+      <main className={isAdmin || isUpdatedPage ? "" : "mt-[clamp(90px,10vh,140px)]"}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/research" element={<ResearchPage />} />
           <Route path="/corporate" element={<CorporatePage />} />
           <Route path="/faq" element={<FAQPage />} />
+          <Route path="/products" element={<Navigate to="/shop" replace />} />
+          <Route path="/products/:productId" element={<Products key={location.pathname} />} />
+          <Route path="/shop/:productId" element={<Products key={location.pathname} />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/terms_and_conditions" element={<TermsPage />} />
           <Route path="/privacy_policy" element={<PrivacyPolicy />} />

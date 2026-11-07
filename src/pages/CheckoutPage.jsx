@@ -34,7 +34,7 @@ function StepIndicator({ currentStep, steps }) {
                   justifyContent: "center",
                   fontSize: "13px",
                   fontWeight: 700,
-                  backgroundColor: done ? "#3b5bdb" : active ? "#3b5bdb" : "#e5e7eb",
+                  backgroundColor: done ? "#c8000a" : active ? "#c8000a" : "#e5e7eb",
                   color: done || active ? "#fff" : "#6b7280",
                   transition: "all 0.2s",
                   flexShrink: 0,
@@ -46,7 +46,7 @@ function StepIndicator({ currentStep, steps }) {
                 style={{
                   fontSize: "11px",
                   fontWeight: active ? 700 : 500,
-                  color: active ? "#3b5bdb" : done ? "#374151" : "#9ca3af",
+                  color: active ? "#c8000a" : done ? "#374151" : "#9ca3af",
                   whiteSpace: "nowrap",
                   textAlign: "center",
                 }}
@@ -59,7 +59,7 @@ function StepIndicator({ currentStep, steps }) {
                 style={{
                   flex: 1,
                   height: "2px",
-                  backgroundColor: done ? "#3b5bdb" : "#e5e7eb",
+                  backgroundColor: done ? "#c8000a" : "#e5e7eb",
                   margin: "0 8px",
                   marginBottom: "20px",
                   transition: "background-color 0.2s",
@@ -322,7 +322,7 @@ const CheckoutPage = () => {
           email: personal.email,
           contact: personal.phone,
         },
-        theme: { color: "#3b5bdb" },
+        theme: { color: "#c8000a" },
         handler: async function (response) {
           try {
             const verifyRes = await fetch(`${apiBase}/api/orders/verify`, {
@@ -598,7 +598,7 @@ const CheckoutPage = () => {
                 style={{
                   marginTop: "8px",
                   padding: "14px 32px",
-                  backgroundColor: "#3b5bdb",
+                  backgroundColor: "#c8000a",
                   color: "#fff",
                   border: "none",
                   borderRadius: "12px",
@@ -608,8 +608,8 @@ const CheckoutPage = () => {
                   width: "100%",
                   transition: "background-color 0.15s",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#2f4ac4")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#3b5bdb")}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#a50008")}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#c8000a")}
               >
                 Continue to Address →
               </button>
@@ -645,7 +645,7 @@ const CheckoutPage = () => {
                     style={{
                       fontSize: "12px",
                       fontWeight: 800,
-                      color: "#3b5bdb",
+                      color: "#c8000a",
                       textTransform: "uppercase",
                       letterSpacing: "0.8px",
                     }}
@@ -653,7 +653,7 @@ const CheckoutPage = () => {
                     1. Location &amp; Postal Details
                   </span>
                   {pincodeLoading && (
-                    <span style={{ fontSize: "12px", color: "#3b5bdb", fontWeight: 600 }}>
+                    <span style={{ fontSize: "12px", color: "#c8000a", fontWeight: 600 }}>
                       Looking up location…
                     </span>
                   )}
@@ -685,7 +685,7 @@ const CheckoutPage = () => {
                           width: "16px",
                           height: "16px",
                           border: "2px solid #cbd5e1",
-                          borderTopColor: "#3b5bdb",
+                          borderTopColor: "#c8000a",
                           borderRadius: "50%",
                           animation: "spin 0.8s linear infinite",
                         }}
@@ -740,7 +740,7 @@ const CheckoutPage = () => {
                             fontSize: "11px",
                             padding: "3px 8px",
                             borderRadius: "6px",
-                            backgroundColor: address.area === areaName ? "#3b5bdb" : "#e0e7ff",
+                            backgroundColor: address.area === areaName ? "#c8000a" : "#e0e7ff",
                             color: address.area === areaName ? "#fff" : "#3730a3",
                             border: "none",
                             cursor: "pointer",
@@ -862,7 +862,7 @@ const CheckoutPage = () => {
                 style={{
                   marginTop: "8px",
                   padding: "14px 32px",
-                  backgroundColor: "#3b5bdb",
+                  backgroundColor: "#c8000a",
                   color: "#fff",
                   border: "none",
                   borderRadius: "12px",
@@ -872,8 +872,8 @@ const CheckoutPage = () => {
                   width: "100%",
                   transition: "background-color 0.15s",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#2f4ac4")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#3b5bdb")}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#a50008")}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#c8000a")}
               >
                 Continue to Payment →
               </button>
@@ -930,7 +930,7 @@ const CheckoutPage = () => {
                     }}
                   >
                     <span>Total</span>
-                    <span style={{ color: "#3b5bdb" }}>₹{currentPrice}</span>
+                    <span style={{ color: "#c8000a" }}>₹{currentPrice}</span>
                   </div>
                 </div>
               </div>
@@ -987,7 +987,7 @@ const CheckoutPage = () => {
                 style={{
                   marginTop: "4px",
                   padding: "15px 32px",
-                  backgroundColor: isProcessingOrder ? "#9ca3af" : "#3b5bdb",
+                  backgroundColor: isProcessingOrder ? "#9ca3af" : "#c8000a",
                   color: "#fff",
                   border: "none",
                   borderRadius: "12px",
@@ -1001,8 +1001,8 @@ const CheckoutPage = () => {
                   justifyContent: "center",
                   gap: "8px",
                 }}
-                onMouseEnter={(e) => { if (!isProcessingOrder) e.currentTarget.style.backgroundColor = "#2f4ac4"; }}
-                onMouseLeave={(e) => { if (!isProcessingOrder) e.currentTarget.style.backgroundColor = "#3b5bdb"; }}
+                onMouseEnter={(e) => { if (!isProcessingOrder) e.currentTarget.style.backgroundColor = "#a50008"; }}
+                onMouseLeave={(e) => { if (!isProcessingOrder) e.currentTarget.style.backgroundColor = "#c8000a"; }}
               >
                 {isProcessingOrder ? "Opening Razorpay…" : `Pay ₹${currentPrice} with Razorpay →`}
               </button>
@@ -1072,7 +1072,7 @@ const CheckoutPage = () => {
                     style={{
                       fontSize: "clamp(22px, 2.5vw, 28px)",
                       fontWeight: 800,
-                      color: "#3b5bdb",
+                      color: "#c8000a",
                     }}
                   >
                     ₹{currentPrice}
@@ -1108,7 +1108,7 @@ const CheckoutPage = () => {
                 style={{
                   fontSize: "clamp(22px, 2.5vw, 28px)",
                   fontWeight: 800,
-                  color: "#3b5bdb",
+                  color: "#c8000a",
                 }}
               >
                 ₹{currentPrice}
