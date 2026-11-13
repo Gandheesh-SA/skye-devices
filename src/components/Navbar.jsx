@@ -10,7 +10,9 @@ const links = [
 ];
 
 const css = `
-.skye-nav{position:fixed;transition:background .25s,padding .25s;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:20px 24px;color:#fff;font-family:'Inter',system-ui,sans-serif}
+.skye-nav{position:fixed;transition:padding .25s;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:20px 24px;background:#242424;color:#fff;font-family:'Inter',system-ui,sans-serif}
+.skye-nav.home-nav{position:absolute;background:transparent}
+.skye-nav.home-nav.scrolled{position:fixed;background:#242424}
 .skye-nav.scrolled{background:rgba(20,20,20,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding-top:12px;padding-bottom:12px}
 .skye-logo{display:flex;flex-direction:column;line-height:1;text-decoration:none;color:#fff}
 .skye-logo b{font-size:26px;font-weight:800;letter-spacing:.02em}
@@ -23,8 +25,8 @@ const css = `
 .skye-menu{position:absolute;top:100%;left:0;right:0;background:rgba(20,20,20,.95);display:flex;flex-direction:column;gap:18px;padding:24px}
 .skye-menu a{color:#fff;text-decoration:none;font-weight:600;font-size:16px}
 .skye-menu a.skye-shop{align-self:flex-start;font-size:14px}
-.skye-nav.light{background:#fff;color:#1a1a1a;box-shadow:0 1px 0 rgba(0,0,0,.08)}
-.skye-nav.light .skye-logo,.skye-nav.light .skye-links a,.skye-nav.light .skye-burger,.skye-nav.light .skye-menu a{color:#1a1a1a}
+.skye-nav.light{background:#242424;color:#fff;box-shadow:0 1px 0 rgba(0,0,0,.2)}
+.skye-nav.light .skye-logo,.skye-nav.light .skye-links a,.skye-nav.light .skye-burger,.skye-nav.light .skye-menu a{color:#fff}
 .skye-nav.light .skye-menu{background:#fff;box-shadow:0 8px 16px rgba(0,0,0,.08)}
 .skye-nav.light .skye-links a.skye-shop,.skye-nav.light .skye-menu a.skye-shop{color:#fff}
 @media(min-width:768px){
@@ -38,7 +40,7 @@ const css = `
 }
 `;
 
-export default function Navbar({ variant = "dark" }) {
+export default function Navbar({ variant = "dark", home = false }) {
   const light = variant === "light";
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -51,7 +53,7 @@ export default function Navbar({ variant = "dark" }) {
   }, []);
 
   return (
-    <header className={`skye-nav${light ? " light" : scrolled || open ? " scrolled" : ""}`}>
+    <header className={`skye-nav${home ? " home-nav" : ""}${light ? " light" : scrolled || open ? " scrolled" : ""}`}>
       <style>{css}</style>
 
       <Link to="/" className="skye-logo" aria-label="Skye Devices home">

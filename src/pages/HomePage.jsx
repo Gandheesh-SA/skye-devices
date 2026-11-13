@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
-import silverImage from "../images/home/Skye Website HM Page Silver.png";
+import silverImage from "../images/shop/MainImage.png";
 import redImage from "../images/home/HM Page Red from Skye Website.png";
 import scrollingImage from "../images/home/Can't Stop Scrolling - Skye Website.jpg";
 
@@ -124,9 +124,9 @@ const css = `
 .video-sec .stage::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.27);pointer-events:none}
 .stage-video{position:absolute;inset:0;object-fit:contain;object-position:center;background:#111}
 .video-caption{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:1;color:#fff;font-size:clamp(14px,2.4vw,24px);text-align:center;width:min(80%,520px);line-height:1.5;pointer-events:none}
-.quote{background:var(--red);color:#fff;text-align:center;padding:clamp(42px,6vw,80px) 24px;display:flex;flex-direction:column;gap:18px;align-items:center;min-height:210px;justify-content:center}
-.quote p{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(14px,2vw,20px);max-width:560px}
-.quote b{font-family:'Playfair Display',serif;font-size:clamp(16px,2.4vw,24px)}
+.quote{background:var(--red);color:#fff;text-align:center;padding:clamp(28px,4vw,48px) 24px;display:flex;flex-direction:column;gap:12px;align-items:center;min-height:150px;justify-content:center}
+.quote p{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(14px,1.7vw,18px);max-width:620px;color:#fff4d6}
+.quote b{font-family:'Playfair Display',serif;font-size:clamp(16px,2vw,22px);color:#fff}
 .quote-content{display:grid;gap:18px;animation:quoteReveal .7s ease both}
 @keyframes quoteReveal{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @media (prefers-reduced-motion:reduce){.quote-content{animation:none}}

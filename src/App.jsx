@@ -27,9 +27,9 @@ function AppContent() {
   return (
     <>
       <ScrollToTop />
-      {!isAdmin && <Navbar key={location.pathname} variant={location.pathname === "/" ? "dark" : "light"} />}
+      {!isAdmin && <Navbar key={location.pathname} variant={location.pathname === "/" ? "dark" : "light"} home={location.pathname === "/"} />}
 
-      <main key={location.pathname} className="page-transition">
+      <main key={location.pathname} className={`page-transition${location.pathname === "/" ? "" : " page-content"}`}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
