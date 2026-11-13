@@ -1,16 +1,20 @@
 import PurchaseOptions from "../components/PurchaseOptions";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import Footer from "../components/Footer";
-import silverImage1 from "../images/products/Scroll Image 1 Silver from Skye Website.png";
-import silverImage2 from "../images/products/Scroll Image 2 Silver.png";
+import silverImage1 from "../images/shop/MainImage.png";
+import silverImage2 from "../images/new_silver.jpeg";
 import silverImage3 from "../images/products/Scroll Image 3 Silver.png";
 import silverVideo from "../images/products/Scroll Video Silver.mp4";
-import redImage1 from "../images/products/Scroll Image 1 Red from Skye Website.png";
+import silverHeroImage from "../images/home/Skye Website HM Page Silver.png";
+import redImage1 from "../images/home/HM Page Red from Skye Website.png";
 import redImage2 from "../images/products/Scroll Image 2 Red from Skye Website.png";
 import redImage3 from "../images/products/Scroll Image 3 Red from Skye Website.png";
 import redVideo from "../images/products/Scroll Video RED from Skye Website.mp4";
-import specsImage from "../images/products/specs.png";
+import redHeroImage from "../images/home/HM Page Red from Skye Website.png";
+import easeSleepImage1 from "../images/Ease into Sleep Product Page.jpg";
+import easeSleepImage2 from "../images/Ease into Sleep Product Page.jpeg";
+import easeSleepImage3 from "../images/Ease into Sleep Product Page (1).jpg";
 
 const products = {
   silver: {
@@ -21,6 +25,7 @@ const products = {
       { type: "image", src: silverImage2, alt: "Silver Skye device held while selecting a breathing mode" },
       { type: "image", src: silverImage3, alt: "Silver Skye product and packaging" },
       { type: "video", src: silverVideo, alt: "Silver Skye product demonstration video" },
+      { type: "image", src: silverHeroImage, alt: "Silver Skye breathing device hero view" },
     ],
   },
   red: {
@@ -31,6 +36,7 @@ const products = {
       { type: "image", src: redImage2, alt: "Red Skye device held while selecting a breathing mode" },
       { type: "image", src: redImage3, alt: "Red Skye product and packaging" },
       { type: "video", src: redVideo, alt: "Red Skye product demonstration video" },
+      { type: "image", src: redHeroImage, alt: "Red Skye breathing device hero view" },
     ],
   },
 };
@@ -45,13 +51,18 @@ const delivery = [
 
 const reviews = [
   {
-    title: "Love it!",
-    text: "I've struggled with falling asleep for a long time. Been using Headspace sleep audios for ages, but sometimes they actually make my mind wander more.",
-    name: "Barath",
+    title: "Finally, something without a screen",
+    text: "I was tired of using the Calm App to help me sleep, only to end up scrolling for another 45 minutes while trying to open the app. This device doesn’t need a phone.",
+    name: "Godson Samuel",
   },
-  { title: "", text: "", name: "" },
-  { title: "", text: "", name: "" },
-  { title: "", text: "", name: "" },
+  { title: "A thoughtful little gadget", text: "Got interested after seeing Skye on LinkedIn. I love products that solve everyday problems without adding another app to my phone.", name: "Pavithra" },
+  { title: "Better than another sleep app", text: "I've downloaded several sleep apps over the years. The problem was that I would open my phone to go through the routine in the app to fall asleep but end up scrolling my Instagram. This happens every time, but with Skye, it's different.", name: "Asha" },
+  { title: "Still building the habit", text: "I use it for a few days and then sometimes forget. I wish there was a reminder feature. The product itself is nice, but I am not consistent.", name: "Ashmitha Chandra" },
+  { title: "I was sceptical at first", text: "I wasn't sure how much difference following vibrations could make. But I appreciate having a simple breathing guide instead of having to follow instructions on my phone.", name: "Niyathi" },
+  { title: "Small enough to travel with", text: "I travel quite frequently for work and stay in hotels mostly. Falling asleep in a new place was always a struggle for me. Skye helps, and it's very easy to carry along.", name: "Dharshana" },
+  { title: "Not an instant fix", text: "I wouldn't say it's a magic solution for sleep. But it gives me a structured way to relax before bed, and that's something I appreciate.", name: "Bala" },
+  { title: "The red one looks fantastic", text: "Bought the red version and absolutely love how it looks. It's compact, beautifully made and something I actually enjoy keeping on my bedside table.", name: "Karan" },
+  { title: "Bought it for myself, now gifting it", text: "I like the idea behind Skye, and I've been into guided breathing for a few years now. Never knew guided breathing through vibrations and pauses could be so intuitive.", name: "Varun" },
 ];
 
 const css = `
@@ -62,8 +73,8 @@ const css = `
 /* section 1: hero */
 .pdp-hero{min-height:100vh;min-height:100svh;padding-top:96px;display:grid;grid-template-columns:1fr;align-items:center;gap:32px}
 .pdp-gallery{display:flex;flex-direction:column;gap:16px}
-.pdp-main{width:100%;aspect-ratio:1/1;border-radius:0 0 28px 0;overflow:hidden;background:#ece9e5}
-.pdp-media{width:100%;height:100%;display:block;object-fit:contain;background:#ece9e5}
+.pdp-main{width:100%;aspect-ratio:710/743;border-radius:0 0 28px 0;overflow:hidden;background:transparent}
+.pdp-media{width:100%;height:100%;display:block;object-fit:cover;background:transparent}
 .pdp-thumbs{display:flex;gap:12px;padding:0 20px}
 .pdp-thumb{position:relative;width:68px;height:68px;padding:0;border:2px solid transparent;border-radius:10px;overflow:hidden;cursor:pointer;background:#ece9e5;opacity:.72;transition:border-color .2s,opacity .2s,transform .2s}
 .pdp-thumb.on{border-color:var(--red)}
@@ -104,11 +115,11 @@ const css = `
 .acc-body ul{padding-left:22px;display:flex;flex-direction:column;gap:2px}
 .acc-body a{color:#1a5fb4;text-decoration:underline}
 .acc-body .links{display:flex;flex-direction:column}
-.sleep-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,3vw,48px);padding:8px 0 16px}
+.sleep-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,4vw,72px);padding:8px 0 16px}
 .sleep-step{text-align:center}
-.sleep-step img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;margin-bottom:20px}
-.sleep-step h3{margin:0 0 12px;font-size:14px;line-height:1.35}
-.sleep-step p{font-size:13px;line-height:1.45}
+.sleep-step img{display:block;width:min(100%,246px);aspect-ratio:1;object-fit:cover;border-radius:8px;margin:0 auto 26px}
+.sleep-step h3{margin:0 auto 18px;font-size:clamp(16px,1.5vw,20px);line-height:1.35;max-width:260px}
+.sleep-step p{font-size:clamp(16px,1.5vw,20px) !important;line-height:1.45;max-width:280px;margin:0 auto}
 .guided-copy{display:grid;gap:20px}
 .guided-copy strong{font-weight:700}
 .pdp-reviews{padding:clamp(70px,9vw,120px) 0 clamp(90px,10vw,140px);background:#fafafa;overflow:hidden}
@@ -116,7 +127,12 @@ const css = `
 .pdp-reviews h2{font-size:clamp(28px,4vw,48px);font-weight:800;text-transform:uppercase}
 .pdp-reviews h2 span{color:var(--red)}
 .pdp-reviews-head p{margin-top:10px;font-size:14px;color:#5d5d5d}
-.pdp-review-track{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px max(20px,calc((100vw - 1200px)/2 + 80px)) 18px;scrollbar-width:thin;scrollbar-color:var(--red) transparent}
+.pdp-review-track{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px max(20px,calc((100vw - 1200px)/2 + 80px)) 18px;scrollbar-width:none}
+.pdp-review-track::-webkit-scrollbar{display:none}
+.pdp-review-track-wrap{position:relative;display:flex;align-items:center;padding-bottom:58px}
+.pdp-review-arrow{position:absolute;z-index:2;width:40px;height:40px;border:0;border-radius:50%;background:#fff;color:var(--red);box-shadow:0 6px 18px rgba(0,0,0,.18);font-size:30px;line-height:1;cursor:pointer;display:grid;place-items:center}
+.pdp-review-arrow{top:auto;bottom:8px}
+.pdp-review-arrow-left{left:calc(50% - 48px)}.pdp-review-arrow-right{right:calc(50% - 48px)}
 .pdp-review-card{flex:0 0 min(78vw,300px);min-height:300px;display:flex;flex-direction:column;gap:14px;padding:28px;border:2px solid var(--red);background:#fff;scroll-snap-align:start}
 .pdp-review-stars{color:var(--red);letter-spacing:.18em}
 .pdp-review-card h3{margin:0;font-size:15px}
@@ -125,7 +141,7 @@ const css = `
 
 @media(min-width:768px){
   .pdp-hero{grid-template-columns:1.1fr 1fr;gap:48px;padding-top:110px}
-  .pdp-main{max-height:none;aspect-ratio:1/1}
+  .pdp-main{max-height:none;aspect-ratio:710/743}
   .pdp-info{padding:0 48px 0 0}
   .pdp-acc-sec{padding:72px 48px 96px}
 }
@@ -162,6 +178,7 @@ function Accordion({ title, children, defaultOpen = true }) {
 
 export default function Product() {
   const { productId } = useParams();
+  const reviewsTrackRef = useRef(null);
   const product = products[productId];
   const [active, setActive] = useState(0);
 
@@ -224,7 +241,7 @@ export default function Product() {
             <br />
             Hold Skye → Breathe along → Ease into sleep <em>zzz</em>
           </p>
-          <PurchaseOptions />
+          <PurchaseOptions productId={productId} />
           <ul className="pdp-list">
             {delivery.map((d) => (
               <li key={d}>{d}</li>
@@ -254,6 +271,24 @@ export default function Product() {
 
       {/* 2. Details */}
       <section className="pdp-acc-sec">
+        <Accordion title="Ease into sleep (3 steps)">
+        <div className="sleep-steps-section">
+          <div className="sleep-steps">
+            {[
+              { title: "Get comfortable in bed.", text: "Turn on Skye and choose a breathing mode.", image: easeSleepImage1 },
+              { title: "Follow the vibrations and pauses.", text: "Inhale and exhale with the vibrations. Hold your breath with the pauses.", image: easeSleepImage2 },
+              { title: "Slow down and ease into sleep.", text: "Keep following the rhythm until your session ends.", image: easeSleepImage3 },
+            ].map((step) => (
+              <div className="sleep-step" key={step.title}>
+                <img src={step.image} alt={step.title} />
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        </Accordion>
+
         <Accordion title="Product Specifications">
           <p>
             Skye is a simple, screen-free way to relax, reset, and feel calmer
@@ -281,22 +316,6 @@ export default function Product() {
               <li>1 × Skye breathing guide</li>
               <li>1 × Quick start guide</li>
             </ul>
-          </div>
-        </Accordion>
-
-        <Accordion title="Ease into sleep (3 steps)">
-          <div className="sleep-steps">
-            {[
-              { title: "Get comfortable in bed.", text: "Turn on Skye and choose a breathing mode." },
-              { title: "Follow the vibrations and pauses.", text: "Inhale and exhale with the vibrations. Hold your breath with the pauses." },
-              { title: "Slow down and ease into sleep.", text: "Keep following the rhythm until your session ends." },
-            ].map((step) => (
-              <div className="sleep-step" key={step.title}>
-                <img src={specsImage} alt="Skye device features and specifications" />
-                <h3>{step.title}</h3>
-                <p>{step.text}</p>
-              </div>
-            ))}
           </div>
         </Accordion>
 
@@ -348,7 +367,9 @@ export default function Product() {
           <h2 id="pdp-reviews-title">It Just <span>Works</span></h2>
           <p>Used by 1000+ users every day before sleep.</p>
         </div>
-        <div className="pdp-review-track">
+        <div className="pdp-review-track-wrap">
+          <button className="pdp-review-arrow pdp-review-arrow-left" type="button" aria-label="Previous testimonial" onClick={() => reviewsTrackRef.current?.scrollBy({ left: -320, behavior: "smooth" })}>‹</button>
+          <div className="pdp-review-track" ref={reviewsTrackRef}>
           {reviews.map((review, index) => (
             <article className="pdp-review-card" key={index}>
               <div className="pdp-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
@@ -357,6 +378,8 @@ export default function Product() {
               {review.name && <small>{review.name}</small>}
             </article>
           ))}
+          </div>
+          <button className="pdp-review-arrow pdp-review-arrow-right" type="button" aria-label="Next testimonial" onClick={() => reviewsTrackRef.current?.scrollBy({ left: 320, behavior: "smooth" })}>›</button>
         </div>
       </section>
 

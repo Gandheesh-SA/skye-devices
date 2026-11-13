@@ -31,7 +31,7 @@ const ProductDetail = () => {
   const [couponError, setCouponError] = useState("");
   const [isValidating, setIsValidating] = useState(false);
 
-  const basePrice = 4100;
+  const basePrice = 3490;
   const currentPrice = appliedCoupon ? basePrice - appliedCoupon.discountAmount : basePrice;
 
 

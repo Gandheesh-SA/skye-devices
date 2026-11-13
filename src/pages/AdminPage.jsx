@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { createPortal } from "react-dom";
 import logo from "../images/Logo.png";
 
@@ -154,7 +154,9 @@ function OrderStatusDropdown({ currentStatus, orderId, isUpdating, onSelect }) {
 }
 
 const AdminPage = () => {
-  const [token, setToken] = useState(localStorage.getItem("skye_admin_token") || "");
+  const [authenticated, setAuthenticated] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
+  const [csrfToken, setCsrfToken] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -180,10 +182,45 @@ const AdminPage = () => {
   const [exportLoading, setExportLoading] = useState(false);
   const [exportResult, setExportResult] = useState(null); // { message, sheetUrl, isError }
 
-  const authHeaders = {
+  const authHeaders = useMemo(() => ({
     "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-  };
+    ...(csrfToken ? { "X-CSRF-Token": csrfToken } : {}),
+  }), [csrfToken]);
+
+  const clearSession = useCallback(() => {
+    setAuthenticated(false);
+    setCsrfToken("");
+    setStats(null);
+    setAffiliates([]);
+    setOrders([]);
+    setCommissions([]);
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    async function restoreSession() {
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/session`, {
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (active) {
+          setCsrfToken(data.csrfToken || "");
+          setAuthenticated(Boolean(data.authenticated));
+        }
+      } catch {
+        // An unavailable or expired session is handled by showing the login form.
+      } finally {
+        if (active) setCheckingSession(false);
+      }
+    }
+    restoreSession();
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -192,6 +229,7 @@ const AdminPage = () => {
     try {
       const res = await fetch(`${API_BASE}/api/admin/login`, {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password: passwordInput }),
       });
@@ -211,8 +249,8 @@ const AdminPage = () => {
 
       if (!res.ok) throw new Error(data.error || `Login failed (${res.status})`);
       
-      setToken(data.token);
-      localStorage.setItem("skye_admin_token", data.token);
+      setCsrfToken(data.csrfToken);
+      setAuthenticated(true);
       setPasswordInput("");
     } catch (err) {
       setError(err.message);
@@ -221,29 +259,32 @@ const AdminPage = () => {
     }
   };
 
-  const handleLogout = () => {
-    setToken("");
-    localStorage.removeItem("skye_admin_token");
-    setStats(null);
-    setAffiliates([]);
-    setOrders([]);
-    setCommissions([]);
+  const handleLogout = async () => {
+    try {
+      await fetch(`${API_BASE}/api/admin/logout`, {
+        method: "POST",
+        credentials: "include",
+        headers: authHeaders,
+      });
+    } finally {
+      clearSession();
+    }
   };
 
-  const fetchDashboardData = async () => {
-    if (!token) return;
+  const fetchDashboardData = useCallback(async () => {
+    if (!authenticated) return;
     setLoading(true);
     setError("");
     try {
       const [statsRes, affRes, ordRes, commRes] = await Promise.all([
-        fetch(`${API_BASE}/api/admin/stats`, { headers: authHeaders }),
-        fetch(`${API_BASE}/api/admin/affiliates`, { headers: authHeaders }),
-        fetch(`${API_BASE}/api/admin/orders`, { headers: authHeaders }),
-        fetch(`${API_BASE}/api/admin/commissions`, { headers: authHeaders }),
+        fetch(`${API_BASE}/api/admin/stats`, { credentials: "include", headers: authHeaders }),
+        fetch(`${API_BASE}/api/admin/affiliates`, { credentials: "include", headers: authHeaders }),
+        fetch(`${API_BASE}/api/admin/orders`, { credentials: "include", headers: authHeaders }),
+        fetch(`${API_BASE}/api/admin/commissions`, { credentials: "include", headers: authHeaders }),
       ]);
 
       if (statsRes.status === 401 || statsRes.status === 403) {
-        handleLogout();
+        clearSession();
         throw new Error("Session expired. Please log in again.");
       }
 
@@ -261,13 +302,13 @@ const AdminPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [authenticated, authHeaders, clearSession]);
 
   useEffect(() => {
-    if (token) {
+    if (authenticated) {
       fetchDashboardData();
     }
-  }, [token]);
+  }, [authenticated, fetchDashboardData]);
 
   const handleCreateAffiliate = async (e) => {
     e.preventDefault();
@@ -276,6 +317,7 @@ const AdminPage = () => {
     try {
       const res = await fetch(`${API_BASE}/api/admin/affiliates`, {
         method: "POST",
+        credentials: "include",
         headers: authHeaders,
         body: JSON.stringify(newAffiliate),
       });
@@ -298,6 +340,7 @@ const AdminPage = () => {
     try {
       const res = await fetch(`${API_BASE}/api/admin/affiliates/${affiliate.id}`, {
         method: "PATCH",
+        credentials: "include",
         headers: authHeaders,
         body: JSON.stringify({ is_active: !affiliate.is_active }),
       });
@@ -320,6 +363,7 @@ const AdminPage = () => {
     try {
       const res = await fetch(`${API_BASE}/api/admin/orders/${orderId}/status`, {
         method: "PATCH",
+        credentials: "include",
         headers: authHeaders,
         body: JSON.stringify({ status: newStatus }),
       });
@@ -351,6 +395,7 @@ const AdminPage = () => {
     try {
       const res = await fetch(`${API_BASE}/api/admin/export-sheets`, {
         method: "POST",
+        credentials: "include",
         headers: authHeaders,
         // Send all orders (not just filtered) so every month tab is complete
         body: JSON.stringify({ orders }),
@@ -368,7 +413,15 @@ const AdminPage = () => {
   };
 
   // ─── LOGIN VIEW ─────────────────────────────────────────────────────────────
-  if (!token) {
+  if (checkingSession) {
+    return (
+      <div className="min-h-[70vh] grid place-items-center bg-gray-50 text-sm font-medium text-gray-600">
+        Verifying secure session…
+      </div>
+    );
+  }
+
+  if (!authenticated) {
     return (
       <div className="min-h-[70vh] flex items-center justify-center px-4 py-16 bg-gray-50">
         <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-lg border border-gray-200">

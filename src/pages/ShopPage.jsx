@@ -8,7 +8,7 @@ const products = [
     id: "silver",
     finish: "Silver",
     name: "Skye — Sleep or Scroll",
-    price: "₹4,100",
+    price: "₹3,490",
     image: silverImage,
     imageAlt: "Silver Skye breathing device held in one hand",
     theme: "silver",
@@ -17,7 +17,7 @@ const products = [
     id: "red",
     finish: "Red",
     name: "Skye — Sleep or Scroll",
-    price: "₹4,100",
+    price: "₹3,990",
     image: redImage,
     imageAlt: "Red Skye breathing device held in one hand",
     theme: "red",
@@ -66,11 +66,15 @@ const css = `
 .shop-trial strong{color:var(--red)}
 .shop-benefits{padding:clamp(70px,8vw,110px) clamp(20px,6vw,88px);background:#fff}
 .shop-benefit-grid{width:min(100%,1250px);margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:0}
-.shop-benefit{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:12px clamp(20px,3vw,44px);border-right:1px solid #dedede}
+.shop-benefit{display:grid;grid-template-columns:auto 1fr;gap:16px;padding:14px clamp(18px,3vw,40px);border-right:1px solid #dedede;animation:benefitIn .6s ease both}
+.shop-benefit:nth-child(2){animation-delay:.12s}.shop-benefit:nth-child(3){animation-delay:.24s}
 .shop-benefit:last-child{border-right:0}
-.shop-benefit-icon{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:#fff0f0;color:var(--red);font-size:13px;font-weight:800}
-.shop-benefit h3{font-size:15px;font-weight:800}
-.shop-benefit p{margin-top:7px!important;color:#707070;font-size:13px;line-height:1.5}
+.shop-benefit-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#fff0f0;color:var(--red);font-size:12px;font-weight:800;transition:transform .25s ease}
+.shop-benefit:hover .shop-benefit-icon{transform:translateY(-3px) scale(1.08)}
+.shop-benefit h3{font-size:16px;font-weight:800}
+.shop-benefit p{margin-top:7px!important;color:#707070;font-size:14px!important;line-height:1.45}
+@keyframes benefitIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.shop-benefit{animation:none}.shop-benefit-icon{transition:none}}
 @media(max-width:820px){
   .shop-hero{padding-top:130px}
   .shop-grid{grid-template-columns:1fr}

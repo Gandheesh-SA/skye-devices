@@ -1,10 +1,43 @@
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const { promisify } = require('util');
 const pool = require('../db/index');
-const { adminAuth } = require('../middleware/auth');
+const {
+  adminAuth,
+  requireCsrf,
+  createAdminSession,
+  setAdminCookie,
+  clearAdminCookie,
+} = require('../middleware/auth');
 const { sendStatusUpdateEmail } = require('../services/emailService');
 const { google } = require('googleapis');
+const scrypt = promisify(crypto.scrypt);
+
+function safeEqual(left, right) {
+  const leftBuffer = Buffer.from(left);
+  const rightBuffer = Buffer.from(right);
+  return leftBuffer.length === rightBuffer.length && crypto.timingSafeEqual(leftBuffer, rightBuffer);
+}
+
+async function verifyAdminPassword(password) {
+  const storedHash = process.env.ADMIN_PASSWORD_HASH || '';
+  if (storedHash) {
+    const [algorithm, saltEncoded, hashEncoded] = storedHash.split('$');
+    if (algorithm !== 'scrypt' || !saltEncoded || !hashEncoded) {
+      throw new Error('ADMIN_PASSWORD_HASH has an invalid format');
+    }
+    const salt = Buffer.from(saltEncoded, 'base64url');
+    const expected = Buffer.from(hashEncoded, 'base64url');
+    const derived = await scrypt(password, salt, expected.length);
+    return expected.length === derived.length && crypto.timingSafeEqual(expected, derived);
+  }
+
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('ADMIN_PASSWORD_HASH is required in production');
+  }
+  return Boolean(process.env.ADMIN_PASSWORD) && safeEqual(password, process.env.ADMIN_PASSWORD);
+}
 
 // ─── Google Sheets Helper ─────────────────────────────────────────────────────
 function getSheetsClient() {
@@ -123,34 +156,41 @@ function formatOrderRow(o) {
 router.post('/login', async (req, res) => {
   try {
     const { password } = req.body;
-    if (!password) {
+    res.set('Cache-Control', 'no-store');
+    if (typeof password !== 'string' || password.length < 1 || password.length > 256) {
       return res.status(400).json({ error: 'Password is required' });
     }
 
-    if (!process.env.ADMIN_PASSWORD) {
-      console.error('[Admin Login] ADMIN_PASSWORD environment variable is not configured');
-      return res.status(500).json({ error: 'Server misconfiguration' });
+    if (!(await verifyAdminPassword(password))) {
+      console.warn(`[Admin Login] Failed attempt from ${req.ip}`);
+      return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    if (password.trim() !== process.env.ADMIN_PASSWORD.trim()) {
-      return res.status(401).json({ error: 'Invalid password' });
-    }
-
-    const token = jwt.sign(
-      { role: 'admin', timestamp: Date.now() },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
-    );
-
-    return res.json({ token, message: 'Authentication successful' });
+    const { token, csrfToken } = createAdminSession();
+    setAdminCookie(res, token);
+    console.info(`[Admin Login] Successful login from ${req.ip}`);
+    return res.json({ csrfToken, expiresIn: 7200, message: 'Authentication successful' });
   } catch (err) {
     console.error('[Admin Login]', err.message);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: 'Authentication is not configured correctly' });
   }
 });
 
 // All routes below require admin authentication
 router.use(adminAuth);
+
+router.get('/session', (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  return res.json({ authenticated: true, csrfToken: req.admin.csrf });
+});
+
+router.post('/logout', requireCsrf, (req, res) => {
+  clearAdminCookie(res);
+  res.set('Cache-Control', 'no-store');
+  return res.json({ success: true });
+});
+
+router.use(requireCsrf);
 
 // ─── GET /api/admin/affiliates ────────────────────────────────────────────────
 router.get('/affiliates', async (req, res) => {

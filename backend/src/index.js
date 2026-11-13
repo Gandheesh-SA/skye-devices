@@ -23,7 +23,18 @@ const allowedOrigins = [
   'https://www.skyedevices.com',
   'http://localhost:5173',
   'http://localhost:3000',
-].filter(Boolean);
+].filter(Boolean).map((origin) => origin.replace(/\/$/, ''));
+
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  if (process.env.NODE_ENV === 'production') {
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  }
+  next();
+});
 
 app.use(
   cors({
@@ -32,7 +43,6 @@ app.use(
       if (
         !origin ||
         allowedOrigins.includes(origin) ||
-        origin.endsWith('.vercel.app') ||
         process.env.NODE_ENV !== 'production'
       ) {
         callback(null, true);
@@ -72,7 +82,17 @@ const strictLimiter = rateLimit({
   message: { error: 'Too many attempts, please slow down.' },
 });
 
+const adminLoginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  skipSuccessfulRequests: true,
+  message: { error: 'Too many login attempts. Please try again in 15 minutes.' },
+});
+
 app.use('/api', generalLimiter);
+app.use('/api/admin/login', adminLoginLimiter);
 app.use('/api/validate-code', strictLimiter);
 app.use('/api/orders/create', strictLimiter);
 
@@ -89,41 +109,6 @@ app.get('/health', (req, res) => {
 app.use('/api', checkoutRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/webhook', webhookRouter);
-
-// ─── Test Email (admin-only, dev helper) ─────────────────────────────────────
-app.post('/api/admin/test-email', async (req, res) => {
-  const { adminPassword, to } = req.body;
-  if (!adminPassword || adminPassword !== process.env.ADMIN_PASSWORD) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-  if (!to) {
-    return res.status(400).json({ error: '"to" email address is required' });
-  }
-  try {
-    const { sendOrderConfirmationEmail } = require('./services/emailService');
-    const sent = await sendOrderConfirmationEmail({
-      customerName: 'Test User',
-      customerEmail: to,
-      orderId: 'order_TEST123',
-      paymentId: 'pay_TEST456',
-      amount: 410000,
-      address: {
-        addressLine1: '123 Test Street',
-        city: 'Chennai',
-        state: 'Tamil Nadu',
-        pincode: '600001',
-        country: 'India',
-      },
-    });
-    if (sent) {
-      return res.json({ success: true, message: `Test email sent to ${to}` });
-    } else {
-      return res.status(500).json({ success: false, message: 'Email transport failed. Check SMTP_PASS in .env' });
-    }
-  } catch (err) {
-    return res.status(500).json({ success: false, error: err.message });
-  }
-});
 
 // ─── 404 Handler ─────────────────────────────────────────────────────────────
 app.use((req, res) => {

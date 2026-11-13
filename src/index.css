@@ -1,12 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
-:root { --accent: #c8000a; }
+:root {
+  --accent: #c8000a;
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 48px;
+  --space-6: 64px;
+  --space-section: clamp(64px, 8vw, 112px);
+}
+body, button, input, textarea, select { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+body { line-height: 1.5; }
+:root { --type-heading: clamp(30px, 3.2vw, 44px); --type-subheading: clamp(20px, 2vw, 28px); --type-body: 16px; }
+:where(.faq-page, .about-new, .similar-page, .shop, .pdp) h1 { font-size: var(--type-heading) !important; }
+:where(.faq-page, .about-new, .similar-page, .shop, .pdp) h2 { font-size: var(--type-subheading) !important; }
+:where(.faq-page, .about-new, .similar-page, .shop, .pdp) p { font-size: var(--type-body) !important; }
+:where(.faq-page, .about-new, .similar-page, .shop, .pdp) h1,
+:where(.faq-page, .about-new, .similar-page, .shop, .pdp) h2,
+:where(.faq-page, .about-new, .similar-page, .shop, .pdp) h3 { line-height: 1.15; letter-spacing: -0.02em; }
+:where(.faq-page, .about-new, .similar-page, .shop, .pdp) p { line-height: 1.6; }
 img, video, iframe { max-width: 100%; }
 img, video { display: block; }
 video { height: auto; }
+.page-transition { animation: pageEnter .42s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes pageEnter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .page-transition { animation: none; } }
  .purchase-options { display: flex; flex-direction: column; gap: 24px; width: 100%; max-width: 480px; min-width: 0; font-family: inherit; }
 .purchase-price { display: grid; gap: 8px; }
 .purchase-price-line { display: flex; align-items: baseline; flex-wrap: wrap; gap: 12px; }
-.purchase-amount { color: var(--accent); font-size: clamp(26px, 2.8vw, 38px); font-weight: 800; line-height: 1.2; }
+.purchase-amount { color: var(--accent); font-size: clamp(26px, 2.8vw, 40px) !important; font-weight: 800; line-height: 1.1; }
 .purchase-price-line del { color: #6b7280; }
 .purchase-discount { color: var(--accent); background: #fff1f2; border-radius: 4px; padding: 4px 8px; font-size: 12px; font-weight: 600; }
 .purchase-tax { color: #6b7280; font-size: 13px; line-height: 1.5; }
@@ -18,7 +41,10 @@ video { height: auto; }
 .purchase-applied { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border: 1px solid #fecdd3; border-radius: 8px; background: #fff1f2; color: var(--accent); font-size: 13px; }
 .purchase-applied button { background: transparent; color: var(--accent); padding: 0; text-decoration: underline; }
 .purchase-coupon .purchase-error { margin-top: 8px; font-size: 13px; color: var(--accent); }
-.purchase-batches { display: grid; gap: 8px; }
+.purchase-batches { display: grid; gap: 8px; padding: 14px; border: 1px solid #d9dadd; border-radius: 16px; background: #f7f7f8; }
+.purchase-batches-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 2px 2px 6px; color: #202124; }
+.purchase-batches-heading span { font-size: 13px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+.purchase-batches-heading small { color: #777b83; font-size: 11px; }
 .purchase-batch { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 12px; min-height: 44px; padding: 12px 14px; border: 1px solid #c5c7ca; border-left: 3px solid #8e9298; border-radius: 8px; background: linear-gradient(145deg, #f8f8f8, #dfe1e3); color: #55585d; font-size: 12px; }
 .purchase-batch-label { display: flex; align-items: center; gap: 8px; text-transform: uppercase; }
 .purchase-sold-out { border: 1px solid #c5c7ca; border-radius: 4px; padding: 2px 6px; background: linear-gradient(145deg, #f4f4f4, #c9cbce); color: #55585d; font-size: 10px; font-weight: 700; }
@@ -26,6 +52,7 @@ video { height: auto; }
 .purchase-batch-active { background: var(--accent); border-color: var(--accent); color: #fff; }
 .purchase-batch-active .purchase-batch-date { font-weight: 700; text-transform: uppercase; }
 .purchase-batch-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+@media (max-width:420px){ .purchase-batches-heading{align-items:flex-start;flex-direction:column;gap:2px} }
 .purchase-order { align-self: flex-start; border: 0; border-radius: 999px; padding: 14px 32px; background: var(--accent); color: #fff; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
 .purchase-order:hover, .purchase-coupon button:not(:disabled):hover { background: #a50008; }
 .purchase-applied button:hover { color: #fff; }

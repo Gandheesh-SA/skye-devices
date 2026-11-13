@@ -5,67 +5,57 @@ import Footer from "../components/Footer";
 const shippingData = [
   {
     title: "Shipping Coverage",
-    content: `We currently ship within India. International shipping is not available at this time.`
+    content: `We currently ship only within India. International shipping is not available at this time, and orders requiring international delivery cannot be accepted or fulfilled.`
   },
   {
-    title: "Order Confirmation",
-    content: `After you place an order, you’ll receive an email confirming the purchase details. This confirms receipt of your order and triggers processing.`
+    title: "Order Confirmation and Processing",
+    content: `Once you place an order, you will receive an email confirming your purchase details. This confirms receipt of your order and allows us to begin processing it. Orders are processed promptly, and we aim to dispatch available products as soon as possible after order confirmation.`
   },
   {
-    title: "Stock Availability",
-    content: `All orders depend on stock availability. If an item is unavailable after purchase, we’ll contact you promptly to offer a refund or replacement. We will not leave you guessing.`
+    title: "Product Availability",
+    content: `All orders are subject to stock availability. If a product becomes unavailable after an order is placed, we will contact you promptly to discuss an appropriate solution, including a replacement or full refund, as applicable. We will keep you informed and ensure you are not left waiting without an update.`
   },
   {
-    title: "Shipping Fees",
-    content: `We do not charge shipping fees for deliveries within India. The price displayed at checkout is the final payable amount.`
+    title: "Shipping Fees and Taxes",
+    content: `We currently offer free shipping on all deliveries within India. All applicable taxes are included in the product prices displayed on our website. There are no additional shipping fees, hidden duties, or handling charges for standard domestic deliveries.`
   },
   {
     title: "Dispatch & Delivery Timelines",
-    content: `Orders typically dispatch within 7-10 business days of confirmation.
-
-Delivery timelines vary by location, usually between 1-3 business days after dispatch.
-
-Delivery estimates are provided in good faith. If a delay occurs, we’ll help track and resolve it with our delivery partners.`
+    content: `Orders are typically dispatched within 1–2 business days of order confirmation. Once dispatched, delivery usually takes an additional 1–3 business days, depending on your location and courier availability. These timelines are estimates and may vary due to logistics conditions or other unforeseen circumstances. Once your Skye is shipped, we will share the tracking details via email so you can follow its delivery. If a significant delay occurs, we will do our best to keep you informed and assist in coordinating with our delivery partners.`
   },
   {
-    title: "Delivery Attempts, RTO & Undelivered Orders",
-    content: `Courier partners may attempt delivery more than once if you are unavailable. If the courier returns the shipment to us (RTO), we’ll reach out to arrange a reshipment or refund based on your preference.
-
-For reshipment, we may verify address details for accuracy to avoid repeated delivery issues. If Cash on Delivery (COD) is introduced in the future, we may limit COD eligibility for customers who repeatedly refuse orders. This helps keep operations fair for all buyers.`
+    title: "Delivery Attempts and Undelivered Orders",
+    content: `Our courier partners may make multiple delivery attempts if you are unavailable at the time of delivery. If a shipment is returned to us as Return to Origin (RTO), we will contact you to arrange a suitable resolution, such as reshipment or a refund, depending on the circumstances and applicable policies. Before reshipping, we may verify your delivery address to avoid repeated delivery issues. If Cash on Delivery (COD) is introduced in the future, we may restrict COD availability for customers with repeated instances of refusing or failing to accept deliveries.`
   },
   {
-    title: "Address Accuracy & Changes",
-    content: `To ensure smooth delivery, please provide accurate and complete address information. We’re unable to modify delivery addresses after an order is placed. If an incorrect address leads to non-delivery, refunds or replacements may not be available.`
+    title: "Address Accuracy and Changes",
+    content: `Please ensure that your delivery address, phone number, and other contact details are accurate and complete when placing your order. Since orders are processed promptly after confirmation, we may not be able to accommodate delivery address changes once an order has entered processing or been dispatched. If you notice an error, contact us as soon as possible, and we will check whether a change is still possible. If an incorrect or incomplete address results in a failed delivery, we will review the situation and work with you towards an appropriate resolution, subject to applicable law and our Returns & Refunds Policy.`
   },
   {
-    title: "Courier Handling & Damaged Shipments",
-    content: `We package products securely and work with reliable courier partners. If your package arrives damaged or tampered with, please notify us within 48 hours with photographs or short video evidence. This helps us investigate and support you faster. We review claims fairly and in good faith. If verified, we will replace or refund the affected product at no additional cost to you.`
+    title: "Damaged or Tampered Shipments",
+    content: `We take care to package every Skye securely and work with reliable delivery partners. If your package arrives visibly damaged, opened, or tampered with, please notify us within 48 hours of delivery by emailing contact@skyedevices.com with your order details, photographs of the package and damage, and an unboxing video showing the package being opened. This helps us investigate the issue and assist you promptly. Once verified, we will arrange a replacement or refund, as appropriate, at no additional cost, in accordance with applicable law.`
   },
   {
-    title: "Transfer of Risk & Title",
-    content: `Risk of loss or damage transfers to you once the product is delivered to the address provided at checkout. Title to the product transfers once full payment has been received and delivery is completed. If you believe the courier’s delivery confirmation is inaccurate, contact us and we will investigate in coordination with the courier.`
+    title: "Warranty and Product Condition",
+    content: `Every Skye purchased directly from skyedevices.com comes with a one-year warranty against defects in materials and workmanship, starting from the date of delivery. If your device develops a covered defect during the warranty period under normal usage conditions, we will assess the issue and arrange a repair or replacement in accordance with our Warranty Policy. Damage caused by misuse, accidents, unauthorized repairs, modifications, or improper handling may not be covered. Warranty claims are handled directly by Skye Devices. Please refer to our separate Warranty Policy for complete coverage details, exclusions, and claim procedures. This policy does not affect your statutory consumer rights.`
   },
   {
-    title: "Warranty & Product Condition",
-    content: `All Skye devices are covered by a product warranty as described in our Warranty Policy. If your device experiences a defect within the warranty period under normal usage conditions, we will repair or replace it based on our assessment, at no extra cost.
-
-Damage caused by misuse, unauthorized repairs, or non-standard operating conditions may not be covered, but we will review such cases fairly and offer reasonable options where possible. Warranty claims are handled directly by us. You will not be redirected to third-party manufacturers.`
+    title: "Delivery Responsibility",
+    content: `Risk of loss or damage to the product transfers to you once it has been successfully delivered to the address provided at checkout, subject to applicable law. Ownership of the product transfers once full payment has been received and delivery is completed. If you believe a courier's delivery confirmation is inaccurate or you have not received your package despite it being marked as delivered, please contact us. We will investigate the matter in coordination with our delivery partner.`
   },
   {
-    title: "Delays & Force Majeure",
-    content: `If events outside our reasonable control impact shipping (courier disruptions, extreme weather, strikes, regulatory events, wars, etc.), delivery may take longer than expected. We’ll support you with updates and tracking information wherever possible.`
-  },
-  {
-    title: "Taxes & Charges",
-    content: `All applicable taxes within India are already included in product prices. There are no hidden duties or handling charges.`
+    title: "Delays and Circumstances Beyond Our Control",
+    content: `Occasionally, circumstances beyond our reasonable control may affect dispatch or delivery. These may include extreme weather, natural disasters, courier disruptions, labor strikes, supplier delays, government restrictions, regulatory events, or other unforeseen circumstances. While such events may extend delivery timelines, we will make reasonable efforts to minimize delays, share available tracking information, and keep affected customers informed.`
   },
   {
     title: "Customer Support",
-    content: `If you need help with shipping, delivery, or the status of your order, you can reach us at:
+    content: `If you have questions or need assistance with shipping, delivery, tracking, or the status of your order, please contact us and we will respond promptly and resolve delivery-related concerns with transparency and fairness.
 
-contact@skyedevices.com.
-
-We respond promptly and aim to resolve issues with transparency and fairness.`
+Skye Devices Private Limited
+Email: contact@skyedevices.com
+Address: 82, Arunachalam Street,
+Chintadripet, Chennai – 600002,
+Tamil Nadu, India.`
   }
 ];
 
@@ -80,18 +70,20 @@ export default function ShippingDeliveryPage() {
     <>
       <section className="bg-white">
         <div className="max-w-[900px] mx-auto px-[clamp(20px,5vw,120px)] py-[clamp(80px,10vh,140px)]">
-          <h1 className="text-[clamp(28px,2.8vw,44px)] font-semibold text-gray-900 mb-2">
-            Shipping & Delivery Policy
+          <h1 className="text-[clamp(28px,2.8vw,44px)] font-extrabold uppercase text-gray-900 mb-2">
+            <span className="text-[var(--accent)]">Shipping</span> and Delivery
           </h1>
 
           <p className="text-gray-500 mb-6">
-            Effective Date: 01 June 2026
+            Effective Date: 1 November 2026
           </p>
 
           <p className="text-gray-600 text-[clamp(15px,1vw,17px)] leading-relaxed mb-12">
             At Skye Devices, we aim to make your buying and delivery experience
-            simple, transparent, and reliable. This Shipping & Delivery Policy
-            explains how we process and fulfill orders placed on{" "}
+            simple, transparent, and reliable. We want the journey from placing
+            your order to receiving your Skye to be just as thoughtful as the
+            product itself. This Shipping & Delivery Policy explains how we
+            process, dispatch, and deliver orders placed on{" "}
             <a
               href="https://www.skyedevices.com"
               target="_blank"

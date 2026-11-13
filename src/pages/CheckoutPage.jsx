@@ -123,7 +123,7 @@ const CheckoutPage = () => {
   const navigate = useNavigate();
 
   // Inherit coupon/price state from ProductDetail navigate()
-  const { appliedCoupon = null, currentPrice = 4100, basePrice = 4100 } =
+  const { appliedCoupon = null, currentPrice = 3490, basePrice = 3490, productId = "silver" } =
     location.state || {};
 
   const [step, setStep] = useState(1);
@@ -286,6 +286,7 @@ const CheckoutPage = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          productId,
           affiliateCode: appliedCoupon?.code || null,
           customerName: personal.name.trim(),
           customerEmail: personal.email.trim(),
@@ -332,6 +333,7 @@ const CheckoutPage = () => {
                 razorpayOrderId: response.razorpay_order_id,
                 razorpayPaymentId: response.razorpay_payment_id,
                 razorpaySignature: response.razorpay_signature,
+                productId,
                 affiliateCode: appliedCoupon?.code || null,
                 customerName: personal.name.trim(),
                 customerEmail: personal.email.trim(),
@@ -344,9 +346,6 @@ const CheckoutPage = () => {
                 state: address.state.trim(),
                 pincode: address.pincode.trim(),
                 country: address.country.trim(),
-                baseAmount: basePrice * 100,
-                discountAmount: (appliedCoupon?.discountAmount || 0) * 100,
-                finalAmount: currentPrice * 100,
               }),
             });
 

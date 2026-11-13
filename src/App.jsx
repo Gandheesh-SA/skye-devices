@@ -6,7 +6,6 @@ import ScrollToTop from './components/ScrollToTop';
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import ResearchPage from "./pages/ResearchPage";
-import CorporatePage from "./pages/CorporatePage";
 import FAQPage from "./pages/FAQ";
 import ShopPage from "./pages/ShopPage";
 import Products from "./pages/Products";
@@ -18,6 +17,7 @@ import Refund from "./pages/Refund"
 import Warranty from "./pages/Warranty"
 import AdminPage from "./pages/AdminPage"
 import CheckoutPage from "./pages/CheckoutPage"
+import SimilarPage from "./pages/SimilarPage"
 
 function AppContent() {
   const location = useLocation();
@@ -29,12 +29,12 @@ function AppContent() {
       <ScrollToTop />
       {!isAdmin && <Navbar key={location.pathname} variant={location.pathname === "/" ? "dark" : "light"} />}
 
-      <main className={isAdmin || isUpdatedPage ? "" : "mt-[clamp(90px,10vh,140px)]"}>
+      <main key={location.pathname} className="page-transition">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/similar-idea" element={<SimilarPage />} />
           <Route path="/research" element={<ResearchPage />} />
-          <Route path="/corporate" element={<CorporatePage />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/products" element={<Navigate to="/shop" replace />} />
           <Route path="/products/:productId" element={<Products key={location.pathname} />} />

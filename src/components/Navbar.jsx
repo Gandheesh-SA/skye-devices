@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 const links = [
+  { label: "Home", to: "/" },
   { label: "About", to: "/about" },
   { label: "Research", to: "/research" },
-  { label: "Corporate", to: "/corporate" },
+  { label: "Similar", to: "/similar-idea" },
   { label: "FAQ", to: "/faq" },
 ];
 

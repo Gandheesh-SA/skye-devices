@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function PurchaseOptions() {
+export default function PurchaseOptions({ productId = "silver" }) {
   const navigate = useNavigate();
   const [couponCode, setCouponCode] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [couponError, setCouponError] = useState("");
   const [isValidating, setIsValidating] = useState(false);
 
-  const basePrice = 4100;
+  const basePrice = productId === "red" ? 3990 : 3490;
   const currentPrice = appliedCoupon ? basePrice - appliedCoupon.discountAmount : basePrice;
 
 
@@ -95,26 +95,9 @@ export default function PurchaseOptions() {
         {couponError && <p className="purchase-error" id="coupon-error" role="alert">{couponError}</p>}
       </div>
 
-      <div className="purchase-batches" aria-label="Production batches">
-        {[
-          { name: "Batch 1", date: "Jan, 2026" },
-          { name: "Batch 2", date: "Jun, 2026" },
-          { name: "Batch 3", date: "Ships September 2026", active: true },
-        ].map((batch) => (
-          <div className={`purchase-batch${batch.active ? " purchase-batch-active" : ""}`} key={batch.name}>
-            <div className="purchase-batch-label">
-              {batch.active && <span className="purchase-batch-dot" aria-hidden="true" />}
-              <strong>{batch.name}</strong>
-              {!batch.active && <span className="purchase-sold-out">Sold Out</span>}
-            </div>
-            <span className="purchase-batch-date">{batch.date}</span>
-          </div>
-        ))}
-      </div>
-
       <button
         className="purchase-order"
-        onClick={() => navigate("/checkout", { state: { appliedCoupon, currentPrice, basePrice } })}
+        onClick={() => navigate("/checkout", { state: { appliedCoupon, currentPrice, basePrice, productId } })}
       >
         Order Now – Rs. {currentPrice}
       </button>

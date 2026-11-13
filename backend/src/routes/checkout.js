@@ -4,7 +4,7 @@ const pool = require('../db/index');
 const razorpayService = require('../services/razorpayService');
 const { sendCommissionEmail, sendOrderConfirmationEmail } = require('../services/emailService');
 
-const BASE_AMOUNT = 410000;   // ₹4,100 in paise
+const PRODUCT_PRICES = { silver: 349000, red: 399000 };
 const DISCOUNT_AMOUNT = 50000; // ₹500 in paise
 const COMMISSION_AMOUNT = 50000; // ₹500 in paise
 const PAID_STATUSES = ['PAID', 'CONFIRMED', 'SHIPPED', 'IN_TRANSIT', 'OUT_FOR_DELIVERY', 'DELIVERED'];
@@ -175,6 +175,7 @@ router.post('/orders/create', async (req, res) => {
   try {
     const {
       affiliateCode,
+      productId = 'silver',
       customerName,
       customerEmail,
       customerPhone,
@@ -190,8 +191,12 @@ router.post('/orders/create', async (req, res) => {
 
     let affiliateId = null;
     let affiliateCodeUsed = null;
+    const baseAmount = PRODUCT_PRICES[productId];
+    if (!baseAmount) {
+      return res.status(400).json({ error: 'Invalid product selection' });
+    }
     let discountAmount = 0;
-    let finalAmount = BASE_AMOUNT;
+    let finalAmount = baseAmount;
 
     // Validate affiliate code if provided
     if (affiliateCode && affiliateCode.trim() !== '') {
@@ -209,7 +214,7 @@ router.post('/orders/create', async (req, res) => {
       affiliateId = affResult.rows[0].id;
       affiliateCodeUsed = affResult.rows[0].code.toUpperCase();
       discountAmount = DISCOUNT_AMOUNT;
-      finalAmount = BASE_AMOUNT - DISCOUNT_AMOUNT;
+      finalAmount = baseAmount - DISCOUNT_AMOUNT;
     }
 
     // Create Razorpay order (with metadata in notes)
@@ -241,7 +246,7 @@ router.post('/orders/create', async (req, res) => {
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, 'CREATED')`,
       [
         rzpOrder.id, affiliateId, affiliateCodeUsed,
-        BASE_AMOUNT, discountAmount, finalAmount,
+        baseAmount, discountAmount, finalAmount,
         customerName || null, customerEmail || null, customerPhone || null,
         customerAge || null, customerOccupation || null,
         addressLine1 || null, addressLine2 || null, city || null, state || null,

@@ -5,19 +5,15 @@ import Footer from "../components/Footer";
 const warrantyData = [
   {
     title: "Warranty Coverage",
-    content: `Skye devices are covered by a limited hardware warranty for a period of 12 months from the date of delivery. If the product exhibits a defect in materials or workmanship during the warranty period under normal consumer use, we will repair or replace the device at no additional cost to you.`
+    content: `Every Skye device purchased directly from www.skyedevices.com is covered by a limited hardware warranty for 12 months from the date of delivery. If the product develops a defect in materials or workmanship during this period under normal consumer use, we will repair or replace the device at no additional cost, subject to the terms of this policy.`
   },
   {
     title: "Dead on Arrival (DOA) — 48 Hours",
-    content: `If your device is non-functional upon delivery (Dead on Arrival), you must notify us within 48 hours of receipt. Verified DOA cases will be eligible for replacement at no extra cost. Claims submitted after the 48-hour period will be evaluated under standard warranty rules.`
+    content: `If your Skye device is non-functional upon delivery, please notify us within 48 hours of receiving it by emailing contact@skyedevices.com. Once the issue is verified, we will arrange a replacement at no additional cost. Any issues reported after this period will be assessed under the standard warranty coverage. This reporting period does not limit any rights available to you under applicable consumer protection laws.`
   },
   {
     title: "Scope of Coverage",
-    content: `This warranty covers defects arising from:
-• Manufacturing and assembly faults
-• Component-level failures under normal usage
-• Electrical and functional failures not caused by misuse
-• Material or workmanship defects that impair intended use`
+    content: `This warranty covers manufacturing and assembly faults, component-level failures under normal usage, electrical or functional failures not caused by misuse, and defects in materials or workmanship that affect the intended functioning of the device.`
   },
   {
     title: "Intended Use Environment",
@@ -26,81 +22,62 @@ const warrantyData = [
 Exposure to extreme or prolonged environmental conditions (e.g., high heat, freezing temperatures, high humidity, heavy dust, impact trauma, or water ingress) may fall outside intended use. If a defect is directly attributable to such extreme exposure, it may not be covered under warranty.`
   },
   {
-    title: "Battery & Power Handling",
-    content: `If your Skye device includes a rechargeable battery, the following apply:
-• Battery performance degradation over time is expected and not considered a defect
-• Damage due to use of incompatible chargers, power adapters, or cables is excluded
-• Battery swelling or leakage caused by misuse, overcharging, or non-standard storage is excluded
-• Battery replacement, if necessary, will follow serviceability rules applicable at the time of claim`
+    title: "Battery and Power Handling",
+    content: `If your Skye device includes a rechargeable battery, some reduction in battery performance over time is considered normal and is not treated as a manufacturing defect. Damage caused by incompatible chargers, power adapters, or cables is not covered. Battery swelling or leakage resulting from misuse, overcharging, or non-standard storage is also excluded. Where battery replacement is necessary, it will be handled based on the serviceability and parts availability at the time of the claim.`
   },
   {
-    title: "Exclusions",
-    content: `This warranty does not cover:
-• Accidental damage (drops, impact, water, spills, crushing, etc.)
-• Improper handling or storage
-• Unauthorized modifications, tampering, or disassembly
-• Use with non-approved accessories or power sources
-• Cosmetic wear that does not affect performance
-• Damage due to fire, pests, surges, moisture, or natural events
-• Commercial or industrial use beyond intended consumer use
-• Normal wear and tear consistent with usage`
+    title: "Warranty Exclusions",
+    content: `This warranty does not cover damage caused by accidents, drops, impacts, water, spills, crushing, improper handling or storage, unauthorised modifications, tampering or disassembly, or the use of non-approved accessories or power sources. It also excludes cosmetic wear that does not affect the device's functionality, damage caused by fire, pests, power surges, moisture or natural events, commercial or industrial use beyond the intended consumer use, and normal wear and tear associated with regular usage.`
   },
   {
-    title: "Spare Parts & Serviceability Disclosure",
-    content: `Where available, spare parts and components may be offered for repair or replacement during the warranty period. Serviceability depends on parts availability, production cycles, and component sourcing.
+    title: "Spare Parts and Serviceability",
+    content: `Where available, spare parts and components may be used for repair or replacement during the warranty period. Serviceability will depend on parts availability, component sourcing, and the feasibility of repair at the time of the claim.
 
-If spare parts are unavailable due to discontinuation or other supply constraints, we may offer a device replacement or refund in accordance with this policy. Nothing in this section obligates us to maintain indefinite spare part availability beyond reasonable consumer warranty norms in India.`
+If the required spare parts are unavailable due to discontinuation or other supply constraints, we may offer a replacement device or refund, as appropriate under this policy and applicable law. We do not guarantee indefinite availability of individual spare parts beyond reasonable warranty and consumer protection obligations.`
   },
   {
     title: "How to Make a Warranty Claim",
-    content: `To initiate a claim, email contact@skyedevices.com with:
-• Order number and purchase date
-• Description of the issue
-• Photo or video evidence (if applicable)
-
-We may request additional information for verification.`
+    content: `To initiate a warranty claim, please email contact@skyedevices.com with your order number, purchase date, and a description of the issue. You may also include photographs or videos showing the problem, where applicable. We may request additional information or evidence to help us assess and verify the claim.`
   },
   {
     title: "Warranty Claim Logistics & Shipping",
-    content: `For warranty claims, customers will be required to ship the product to us for inspection. If the issue is covered under warranty, we will reimburse reasonable shipping costs and repair or replace the product at no additional charge.
+    content: `If a device needs to be returned for inspection or servicing, we will share the necessary instructions. For issues confirmed to be covered under warranty, we will arrange or reimburse reasonable shipping costs and carry out the repair or replacement at no additional charge.
 
-If inspection determines the issue is not covered under warranty, return shipping charges may apply, and we may offer repair options at a reasonable cost. We approach warranty claims in good faith and aim to keep the process simple, fair, and transparent for our customers.`
+If the inspection determines that the issue is not covered under warranty, return shipping charges may apply. Where feasible, we may also offer paid repair options and inform you of the applicable costs before proceeding. We aim to handle every claim in good faith and keep the process simple, fair, and transparent.`
   },
   {
     title: "Inspection & Verification",
-    content: `We may request the device be returned for inspection. If the issue is confirmed as warranty-eligible, we will proceed with repair or replacement. If not eligible, we will notify you and offer paid repair options (if feasible) without obligation.`
+    content: `We may request that the device be returned to us for inspection to determine the cause of the issue and whether it qualifies for warranty coverage. Once the assessment is complete, we will inform you of the outcome. If the issue is covered, we will proceed with the applicable remedy. If it is not covered, we may offer paid repair options, where feasible, without any obligation to do so.`
   },
   {
     title: "Remedy: Repair, Replacement, or Refund",
-    content: `For valid claims, we will, at our discretion:
-• Repair the device, or
-• Replace with a new or refurbished unit of equal performance
-
-If neither repair nor replacement is practical, we may offer a refund. These remedies constitute our full obligation under this warranty.`
+    content: `For valid warranty claims, we will assess the issue and determine the appropriate remedy. Depending on the nature of the defect and the feasibility of servicing, this may include repairing the device or replacing it with a new or refurbished unit of equivalent functionality and performance. If neither repair nor replacement is reasonably practical, we may offer a refund, subject to applicable law.`
   },
   {
     title: "Warranty Period for Repaired or Replaced Units",
-    content: `Repaired or replaced devices remain covered for the balance of the original 12-month warranty. The warranty period does not renew or extend.`
+    content: `Any repaired or replacement device will remain covered for the remaining duration of the original 12-month warranty period. Repair or replacement does not restart, renew, or extend the original warranty period, unless required by applicable law.`
   },
   {
     title: "Transfer of Warranty",
-    content: `This warranty applies only to the original purchaser and is non-transferable.`
+    content: `This warranty applies only to the original purchaser and is non-transferable. Proof of purchase may be required when making a warranty claim.`
   },
   {
     title: "Limitation of Liability",
-    content: `To the maximum extent allowed by law, Skye Devices is not liable for indirect, incidental, punitive, or consequential losses. Our liability is strictly limited to repair, replacement, or refund of the device.`
+    content: `To the maximum extent permitted under applicable law, Skye Devices shall not be liable for indirect, incidental, punitive, or consequential losses arising from the use of, or inability to use, the device. Our liability under this limited warranty is restricted to the applicable repair, replacement, or refund remedy described in this policy. Nothing in this section excludes or limits liability where such exclusion or limitation is not permitted by law.`
   },
   {
     title: "Consumer Law Rights",
-    content: `Nothing in this policy limits any rights you may have under applicable consumer protection laws in India. Where consumer law provides additional remedies, those rights apply in addition to this warranty.`
+    content: `This warranty is provided in addition to your rights under applicable consumer protection laws in India. Nothing in this policy is intended to exclude, restrict, or limit any statutory rights or remedies available to you. Where applicable law provides additional or stronger protections, those rights will prevail.`
   },
   {
     title: "Customer Support",
-    content: `For warranty queries or claims, contact:
+    content: `If you have any warranty-related questions, claims, or need assistance, please contact us and we will handle all warranty claims fairly, promptly, and transparently.
 
-contact@skyedevices.com
-
-We aim to handle all claims fairly, promptly, and transparently.`
+Skye Devices Private Limited
+Email: contact@skyedevices.com
+Address: 82, Arunachalam Street,
+Chintadripet, Chennai – 600002,
+Tamil Nadu, India.`
   }
 ];
 
@@ -115,18 +92,19 @@ export default function WarrantyPolicyPage() {
     <>
       <section className="bg-white">
         <div className="max-w-[900px] mx-auto px-[clamp(20px,5vw,120px)] py-[clamp(80px,10vh,140px)]">
-          <h1 className="text-[clamp(28px,2.8vw,44px)] font-semibold text-gray-900 mb-2">
-            Warranty Policy
+          <h1 className="text-[clamp(28px,2.8vw,44px)] font-extrabold uppercase text-gray-900 mb-2">
+            <span className="text-[var(--accent)]">Warranty</span> Policy
           </h1>
 
           <p className="text-gray-500 mb-6">
-            Effective Date: 01 June 2026
+            Effective Date: 1 November 2026
           </p>
 
           <p className="text-gray-600 text-[clamp(15px,1vw,17px)] leading-relaxed mb-12">
             At Skye Devices, we stand behind the quality of our hardware. This
-            Warranty Policy explains how we support you if your Skye device
-            develops a manufacturing or functional defect under normal use.
+            Warranty Policy explains the coverage provided if your Skye device
+            develops a manufacturing or functional defect under normal use, and
+            how you can get support from us.
           </p>
 
           <div className="space-y-6">
