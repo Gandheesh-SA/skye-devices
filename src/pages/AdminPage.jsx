@@ -198,11 +198,14 @@ const AdminPage = () => {
 
   useEffect(() => {
     let active = true;
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 6000);
     async function restoreSession() {
       try {
         const res = await fetch(`${API_BASE}/api/admin/session`, {
           credentials: "include",
           headers: { "Content-Type": "application/json" },
+          signal: controller.signal,
         });
         if (!res.ok) return;
         const data = await res.json();
@@ -213,12 +216,15 @@ const AdminPage = () => {
       } catch {
         // An unavailable or expired session is handled by showing the login form.
       } finally {
+        window.clearTimeout(timeout);
         if (active) setCheckingSession(false);
       }
     }
     restoreSession();
     return () => {
       active = false;
+      controller.abort();
+      window.clearTimeout(timeout);
     };
   }, []);
 
@@ -226,12 +232,15 @@ const AdminPage = () => {
     e.preventDefault();
     setError("");
     setLoading(true);
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 10000);
     try {
       const res = await fetch(`${API_BASE}/api/admin/login`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password: passwordInput }),
+        signal: controller.signal,
       });
       
       let data = {};
@@ -253,8 +262,9 @@ const AdminPage = () => {
       setAuthenticated(true);
       setPasswordInput("");
     } catch (err) {
-      setError(err.message);
+      setError(err.name === "AbortError" ? "Backend did not respond. Restart the backend server and try again." : err.message);
     } finally {
+      window.clearTimeout(timeout);
       setLoading(false);
     }
   };

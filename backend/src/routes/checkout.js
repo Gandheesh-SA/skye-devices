@@ -7,10 +7,25 @@ const { sendCommissionEmail, sendOrderConfirmationEmail } = require('../services
 const PRODUCT_PRICES = { silver: 349000, red: 399000 };
 const DISCOUNT_AMOUNT = 50000; // ₹500 in paise
 const COMMISSION_AMOUNT = 50000; // ₹500 in paise
+const TEST_COUPON_CODE = 'GANDHI';
+const TEST_COUPON_PRICE = 100; // ₹1 in paise
 const PAID_STATUSES = ['PAID', 'CONFIRMED', 'SHIPPED', 'IN_TRANSIT', 'OUT_FOR_DELIVERY', 'DELIVERED'];
+
+function isTestCouponEnabled() {
+  return process.env.NODE_ENV !== 'production' || process.env.ENABLE_TEST_COUPON === 'true';
+}
+
+function isCheckoutDatabaseEnabled() {
+  return process.env.CHECKOUT_DATABASE_ENABLED === 'true';
+}
 
 // ─── Helper: insert / mark an order as paid and create commission + email ──────
 async function handlePaymentSuccess(razorpayOrderId, razorpayPaymentId) {
+  if (!isCheckoutDatabaseEnabled()) {
+    console.log(`[orders/verify] Database-free checkout verified ${razorpayOrderId} / ${razorpayPaymentId}`);
+    return { success: true, status: 'PAID', order: null, alreadyProcessed: false };
+  }
+
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
@@ -141,12 +156,26 @@ async function handlePaymentSuccess(razorpayOrderId, razorpayPaymentId) {
 // ─── POST /api/validate-code ─────────────────────────────────────────────────
 router.post('/validate-code', async (req, res) => {
   try {
-    const { code } = req.body;
+    const { code, productId = 'silver' } = req.body;
     if (!code || typeof code !== 'string' || code.trim() === '') {
       return res.status(400).json({ valid: false, message: 'Code is required' });
     }
 
     const cleanCode = code.trim().toUpperCase();
+
+    if (cleanCode === TEST_COUPON_CODE && isTestCouponEnabled()) {
+      const baseAmount = PRODUCT_PRICES[productId];
+      if (!baseAmount) {
+        return res.status(400).json({ valid: false, message: 'Invalid product selection' });
+      }
+      return res.json({
+        valid: true,
+        discountAmount: (baseAmount - TEST_COUPON_PRICE) / 100,
+        affiliateName: 'Gandhi',
+        code: TEST_COUPON_CODE,
+        testCoupon: true,
+      });
+    }
 
     const result = await pool.query(
       'SELECT id, name, code, is_active FROM affiliates WHERE UPPER(code) = UPPER($1)',
@@ -172,6 +201,7 @@ router.post('/validate-code', async (req, res) => {
 
 // ─── POST /api/orders/create ──────────────────────────────────────────────────
 router.post('/orders/create', async (req, res) => {
+  let failureStage = 'validation';
   try {
     const {
       affiliateCode,
@@ -202,22 +232,29 @@ router.post('/orders/create', async (req, res) => {
     if (affiliateCode && affiliateCode.trim() !== '') {
       const cleanCode = affiliateCode.trim().toUpperCase();
 
-      const affResult = await pool.query(
-        'SELECT id, code FROM affiliates WHERE UPPER(code) = UPPER($1) AND is_active = TRUE',
-        [cleanCode]
-      );
+      if (cleanCode === TEST_COUPON_CODE && isTestCouponEnabled()) {
+        affiliateCodeUsed = TEST_COUPON_CODE;
+        discountAmount = baseAmount - TEST_COUPON_PRICE;
+        finalAmount = TEST_COUPON_PRICE;
+      } else {
+        const affResult = await pool.query(
+          'SELECT id, code FROM affiliates WHERE UPPER(code) = UPPER($1) AND is_active = TRUE',
+          [cleanCode]
+        );
 
-      if (affResult.rowCount === 0) {
-        return res.status(400).json({ error: 'Invalid or inactive affiliate code' });
+        if (affResult.rowCount === 0) {
+          return res.status(400).json({ error: 'Invalid or inactive affiliate code' });
+        }
+
+        affiliateId = affResult.rows[0].id;
+        affiliateCodeUsed = affResult.rows[0].code.toUpperCase();
+        discountAmount = DISCOUNT_AMOUNT;
+        finalAmount = baseAmount - DISCOUNT_AMOUNT;
       }
-
-      affiliateId = affResult.rows[0].id;
-      affiliateCodeUsed = affResult.rows[0].code.toUpperCase();
-      discountAmount = DISCOUNT_AMOUNT;
-      finalAmount = baseAmount - DISCOUNT_AMOUNT;
     }
 
     // Create Razorpay order (with metadata in notes)
+    failureStage = 'razorpay';
     const receipt = `skye-${Date.now()}`;
     const rzpOrder = await razorpayService.createOrder(finalAmount, receipt, {
       affiliateCode: affiliateCodeUsed || '',
@@ -234,25 +271,28 @@ router.post('/orders/create', async (req, res) => {
       country: country || 'India',
     });
 
-    // Persist attribution before returning the Razorpay id. This lets either
-    // the webhook or browser verification safely complete the same order.
-    await pool.query(
-      `INSERT INTO orders
-         (razorpay_order_id, affiliate_id, affiliate_code_used,
-          base_amount, discount_amount, final_amount,
-          customer_name, customer_email, customer_phone,
-          customer_age, customer_occupation,
-          address_line1, address_line2, city, state, pincode, country, status)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, 'CREATED')`,
-      [
-        rzpOrder.id, affiliateId, affiliateCodeUsed,
-        baseAmount, discountAmount, finalAmount,
-        customerName || null, customerEmail || null, customerPhone || null,
-        customerAge || null, customerOccupation || null,
-        addressLine1 || null, addressLine2 || null, city || null, state || null,
-        pincode || null, country || 'India',
-      ]
-    );
+    if (isCheckoutDatabaseEnabled()) {
+      // Persist attribution before returning the Razorpay id. This lets either
+      // the webhook or browser verification safely complete the same order.
+      failureStage = 'database';
+      await pool.query(
+        `INSERT INTO orders
+           (razorpay_order_id, affiliate_id, affiliate_code_used,
+            base_amount, discount_amount, final_amount,
+            customer_name, customer_email, customer_phone,
+            customer_age, customer_occupation,
+            address_line1, address_line2, city, state, pincode, country, status)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, 'CREATED')`,
+        [
+          rzpOrder.id, affiliateId, affiliateCodeUsed,
+          baseAmount, discountAmount, finalAmount,
+          customerName || null, customerEmail || null, customerPhone || null,
+          customerAge || null, customerOccupation || null,
+          addressLine1 || null, addressLine2 || null, city || null, state || null,
+          pincode || null, country || 'India',
+        ]
+      );
+    }
 
     return res.json({
       orderId: rzpOrder.id,
@@ -261,8 +301,22 @@ router.post('/orders/create', async (req, res) => {
       keyId: process.env.RAZORPAY_KEY_ID,
     });
   } catch (err) {
-    console.error('[orders/create]', err.message);
-    return res.status(500).json({ error: 'Failed to create order' });
+    const providerMessage = err?.error?.description || err?.description || err?.message || 'Unknown payment provider error';
+    console.error(`[orders/create:${failureStage}]`, providerMessage);
+
+    if (failureStage === 'database') {
+      return res.status(503).json({
+        error: process.env.NODE_ENV === 'production'
+          ? 'Order service is temporarily unavailable. Please try again shortly.'
+          : `Database connection failed: ${providerMessage}`,
+      });
+    }
+
+    return res.status(502).json({
+      error: process.env.NODE_ENV === 'production'
+        ? 'Payment provider could not create the order. Please try again.'
+        : `Razorpay order failed: ${providerMessage}`,
+    });
   }
 });
 

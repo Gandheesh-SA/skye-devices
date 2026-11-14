@@ -28,7 +28,7 @@ export default function PurchaseOptions({ productId = "silver" }) {
       const res = await fetch(`${apiBase}/api/validate-code`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: cleanCode }),
+        body: JSON.stringify({ code: cleanCode, productId }),
       });
 
       const data = await res.json();

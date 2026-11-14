@@ -2,6 +2,33 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import MainImage from "../images/shop/MainImage.png";
 
+const CHECKOUT_TIMEOUT_MS = 15000;
+
+async function fetchCheckoutJson(url, options, timeoutMessage) {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), CHECKOUT_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(url, { ...options, signal: controller.signal });
+    const contentType = response.headers.get("content-type") || "";
+    const data = contentType.includes("application/json")
+      ? await response.json()
+      : { error: `Server returned an unexpected response (${response.status})` };
+
+    return { response, data };
+  } catch (error) {
+    if (error.name === "AbortError") {
+      throw new Error(timeoutMessage);
+    }
+    if (error instanceof TypeError) {
+      throw new Error("Cannot reach the payment server. Make sure the backend is running and try again.");
+    }
+    throw error;
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
 // ─── Indian States ─────────────────────────────────────────────────────────────
 const INDIAN_STATES = [
   "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
@@ -282,7 +309,7 @@ const CheckoutPage = () => {
 
     try {
       const apiBase = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
-      const res = await fetch(`${apiBase}/api/orders/create`, {
+      const { response: res, data: orderData } = await fetchCheckoutJson(`${apiBase}/api/orders/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -300,9 +327,8 @@ const CheckoutPage = () => {
           pincode: address.pincode.trim(),
           country: address.country.trim(),
         }),
-      });
+      }, "The payment server took too long to respond. Please try again.");
 
-      const orderData = await res.json();
       if (!res.ok || !orderData.orderId) {
         throw new Error(orderData.error || "Failed to initiate payment. Please try again.");
       }
@@ -326,7 +352,7 @@ const CheckoutPage = () => {
         theme: { color: "#c8000a" },
         handler: async function (response) {
           try {
-            const verifyRes = await fetch(`${apiBase}/api/orders/verify`, {
+            const { response: verifyRes, data: verifyData } = await fetchCheckoutJson(`${apiBase}/api/orders/verify`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -347,9 +373,8 @@ const CheckoutPage = () => {
                 pincode: address.pincode.trim(),
                 country: address.country.trim(),
               }),
-            });
+            }, "Payment was received, but confirmation is taking longer than expected. Please contact support before paying again.");
 
-            const verifyData = await verifyRes.json();
             if (verifyRes.ok && verifyData.success) {
               setOrderSuccess({
                 orderId: response.razorpay_order_id,
